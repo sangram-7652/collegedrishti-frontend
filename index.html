@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="preconnect" href="https://www.chatbase.co" />
+    <title>
+      CollegeDrishti – Top Online & Distance Education Guide | UGC-Approved
+      Universities
+    </title>
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-NQDFRS97");
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <meta
+      name="description"
+      content="Explore top UGC-approved online and distance universities in India with CollegeDrishti. Compare courses, fees, and get expert admission guidance for online MBA, MCA, BCA & more."
+    />
+    <meta
+      name="keywords"
+      content="online universities, distance education, UGC approved universities, online MBA, online MCA, online BCA, College Drishti"
+    />
+    <!-- Favicon / Logo -->
+    <link rel="icon" type="image/png" href="/logo.png" />
+
+    <!-- Organization Schema for Google -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "College Drishti",
+        "url": "https://collegedrishti.com",
+        "logo": "https://collegedrishti.com/logo.png"
+      }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script>
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          const script = document.createElement("script");
+          script.async = true;
+          script.src =
+            "https://www.googletagmanager.com/gtag/js?id=G-9HN294ZR5C";
+
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+
+          window.gtag = gtag;
+
+          gtag("js", new Date());
+          gtag("config", "G-9HN294ZR5C");
+        }, 3000);
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NQDFRS97"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div id="root"></div>
+
+    <!-- Chatbase Script START -->
+    <script>
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          (function () {
+            if (
+              !window.chatbase ||
+              window.chatbase("getState") !== "initialized"
+            ) {
+              window.chatbase = (...args) => {
+                if (!window.chatbase.q) {
+                  window.chatbase.q = [];
+                }
+                window.chatbase.q.push(args);
+              };
+
+              window.chatbase = new Proxy(window.chatbase, {
+                get(target, prop) {
+                  if (prop === "q") {
+                    return target.q;
+                  }
+                  return (...args) => target(prop, ...args);
+                },
+              });
+            }
+
+            const script = document.createElement("script");
+            script.src = "https://www.chatbase.co/embed.min.js";
+            script.id = "HEmWgKy2LmbLiQ7g1ua5A";
+            script.domain = "www.chatbase.co";
+            script.async = true;
+
+            document.body.appendChild(script);
+          })();
+        }, 5000); // load after 5 sec
+      });
+    </script>
+    <!-- Chatbase Script END -->
+
+    <script type="module" src="/src/main.jsx"></script>
+
+     
+  </body>
+</html>

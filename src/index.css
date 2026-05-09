@@ -1,0 +1,336 @@
+/* ===== GOOGLE FONT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ===== TAILWIND ===== */
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "@tailwindcss/typography";
+
+/* ===== BASE ===== */
+body {
+  overflow-x: hidden;
+  background-color: white;
+  color: black;
+  font-family: 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h2, h3 {
+  scroll-margin-top: 120px;
+}
+
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+footer {
+  position: relative;
+  z-index: 10;
+}
+
+#loader {
+  display: none;
+}
+
+/* ===== SCROLLBAR HIDE ===== */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ===================================================== */
+/* ===== HERO SECTION RESPONSIVE ===== */
+/* ===================================================== */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .hero-section {
+    padding-top: 100px;
+    flex-direction: column-reverse;
+  }
+
+  .hero-section .hero-image {
+    height: 300px;
+    width: 100%;
+  }
+
+  .hero-section .hero-image img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .hero-section .hero-content {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .hero-section .hero-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero-section .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-section .hero-buttons button {
+    padding: 12px 20px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .hero-section {
+    padding-top: 100px;
+  }
+
+  .hero-section .hero-image {
+    height: 450px;
+  }
+
+  .hero-section .hero-content {
+    text-align: left;
+  }
+
+  .hero-section .hero-content h2 {
+    font-size: 2.5rem;
+  }
+}
+
+/* ===================================================== */
+/* ===== COURSE CONTENT (EDITOR OUTPUT - FINAL FIX) ===== */
+/* ===================================================== */
+
+.course-content {
+  width: 100%;
+}
+
+
+/* ✅ ONLY TABLE SCROLL */
+
+.course-content table {
+  border-collapse: collapse;
+}
+
+/* WRAPPER SCROLL */
+.course-content .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* HIDE SCROLLBAR */
+.course-content .table-wrapper::-webkit-scrollbar {
+  display: none;
+}
+.course-content .table-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.table-wrapper table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+}
+
+/* BORDER */
+.course-content table,
+.course-content th,
+.course-content td {
+  border: 1px solid #e5e7eb;
+}
+
+/* CELL */
+.course-content th,
+.course-content td {
+  padding: 12px;
+  text-align: left;
+}
+
+/* DEFAULT HEADER (only if no inline style) */
+.course-content th:not([style]) {
+  background-color: #f3f4f6;
+}
+
+/* DEFAULT ROW */
+.course-content tr:nth-child(even) td:not([style]) {
+  background-color: #f9fafb;
+}
+
+
+
+/* IMAGE */
+.course-content img {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  display: block;
+  margin: 12px 0;
+}
+
+/* LIST */
+.course-content ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.course-content ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+/* LINK FIX (CLICKABLE + STYLE) */
+.course-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+
+.course-content h1,
+.course-content h2,
+.course-content h3 {
+  display: block;
+  width: 100%;
+}
+
+.course-content h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 16px 0;
+}
+
+.course-content h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 14px 0;
+}
+
+.course-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 12px 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+
+/* ======================================= */
+/* 🔥 FINAL RESPONSIVE FIX (IMPORTANT) */
+/* ======================================= */
+
+/* FORCE EVERYTHING INSIDE CONTENT */
+.course-content * {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* FIX DIV OVERFLOW (VERY IMPORTANT) */
+.course-content div {
+  width: 100% !important;
+}
+
+/* TEXT BREAK (LONG TEXT FIX) */
+.course-content {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* IMAGE ALREADY GOOD BUT EXTRA SAFE */
+.course-content img {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  display: block;
+}
+
+/* 🔥 IFRAME FIX (MOST MISSED THING) */
+.course-content iframe {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+}
+
+/* 🔥 VIDEO FIX */
+.course-content video {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* FIX TABLE TEXT OVERFLOW */
+.course-content td,
+.course-content th {
+  word-break: break-word;
+}
+
+/* ===================================================== */
+/* ===== CHATBASE CLEAN PROFESSIONAL FIX ===== */
+/* ===================================================== */
+
+/* ✅ ONLY bubble position (safe) */
+#chatbase-bubble,
+#chatbase-bubble-button {
+  bottom: 90px !important;
+  right: 20px !important;
+  z-index: 999999 !important;
+}
+
+/* ✅ size control (safe method) */
+#chatbase-bubble-button {
+  transform: scale(0.85) !important;
+  transform-origin: bottom right !important;
+}
+
+/* ❌ REMOVE old aggressive styles */
+/* (no border-radius on all children) */
+
+
+/* 📱 MOBILE FIX */
+@media (max-width: 768px) {
+  #chatbase-bubble,
+  #chatbase-bubble-button {
+    bottom: 120px !important;
+    right: 20px !important;
+  }
+
+  #chatbase-bubble-button {
+    transform: scale(0.75) !important;
+  }
+}

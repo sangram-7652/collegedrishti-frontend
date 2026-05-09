@@ -1,0 +1,268 @@
+
+.success-heading {
+  text-align: center;
+  margin-bottom: 32px; /* slider se gap */
+}
+
+.success-heading h2 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;          /* SemiBold */
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: 0;
+  color: #0056D2;            /* exact blue */
+}
+
+
+
+.success-wrapper {
+  padding: 70px 0;
+  text-align: center;
+  background: #fff;
+  margin-top: 1rem !important;
+}
+
+.success-wrapper h2 {
+  color: #0b5ed7;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+/* SLIDE */
+.slide-item {
+  padding: 0 10px;
+}
+
+.slide-card {
+  position: relative;
+  border-radius: 40px;
+  overflow: hidden;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.slide-card img {
+  width: 100%;
+  height: 300px;
+  border-radius: 40px;
+}
+
+/* SIDE SLIDE EFFECT */
+.slick-slide {
+  opacity: 0.35;
+  transform: scale(0.85);
+  transition: all 0.4s ease;
+}
+
+.slick-center {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+/* ARROWS */
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 21.21px; /* width */
+  height: 45.68px; /* height */
+  background: #d1d1d1;
+  border-radius: 999px; /* cylindrical / pill shape */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px; /* adjust icon size */
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* Left Arrow */
+.custom-arrow.left {
+  left: 175px;
+}
+
+/* Right Arrow */
+.custom-arrow.right {
+  right: 175px;
+}
+
+/* DOTS */
+.slick-dots {
+  bottom: -35px;
+}
+
+.slick-dots li button:before {
+  font-size: 10px;
+  color: #2563eb;
+}
+
+/* PLAY BUTTON */
+.play-btn {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-btn span {
+  width: 56px;
+  height: 56px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-btn svg {
+  color: #2563eb;
+  font-size: 22px;
+}
+
+/* RINGS */
+.play-btn::before,
+.play-btn::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.play-btn::before {
+  inset: -12px;
+}
+
+.play-btn::after {
+  inset: -24px;
+  opacity: 0.5;
+}
+
+/* MODAL */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9998;
+}
+
+
+.video-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  background: #000;
+  z-index: 9999;
+  border-radius: 16px;
+}
+
+
+.video-modal iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+@media (max-width: 768px) {
+  .slick-slide {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+
+  .slide-card img {
+    height: 206px;
+    border-radius: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-arrow {
+    width: 15px;
+    height: 40px;
+    font-size: 22px;
+  }
+
+  .custom-arrow.left {
+    left: -6px;
+  }
+
+  .custom-arrow.right {
+    right: -6px;
+  }
+
+  .slide-card img {
+    height: 204px;
+    border-radius: 24px;
+  }
+
+  /* Remove side blur/scaling */
+  .slick-slide {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+}
+/* CAPSULE NAVIGATION BUTTONS */
+.capsule-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 64px;
+  height: 38px;
+  padding: 0 18px;
+  background: #e5e7eb; /* light gray */
+  border-radius: 999px; /* capsule */
+  border: none;
+  font-size: 26px;
+  font-weight: 400;
+  color: #111827;
+  cursor: pointer;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.capsule-arrow:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* LEFT / RIGHT POSITION */
+.capsule-arrow.left {
+  left: 24px;
+}
+
+.capsule-arrow.right {
+  right: 24px;
+}
+
+@media (max-width: 1024px) {
+  .custom-arrow {
+    width: 15px;
+    height: 40px;
+    font-size: 22px;
+  }
+
+  .custom-arrow.left {
+    left: -6px;
+  }
+
+  .custom-arrow.right {
+    right: -6px;
+  }
+
+  .slide-card img {
+    height: 260px;
+    border-radius: 25px;
+  }
+}

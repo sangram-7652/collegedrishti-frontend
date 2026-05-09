@@ -1,0 +1,81 @@
+/* Full-width bottom bar (no floating pill) */
+.mobile-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #eaeaea;
+  z-index: 9999;
+  height: 65px;   
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 8px 10px 10px;  /* small height */
+}
+
+/* Item */
+.footer-item {
+  flex: 1;
+  text-decoration: none;
+}
+
+.item-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  padding-top: 12px;
+}
+
+/* Small chip above icon (attached feel) */
+.mini-chip {
+  position: absolute;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  background: #0b5cff;
+  border-radius: 6px; /* slight rounding, not full pill */
+  line-height: 1.4;
+  top: -16px;          
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap; 
+  pointer-events: none;
+}
+
+/* Icon */
+.icon-box {
+  width: 36px;          /* smaller icon box */
+  height: 36px;
+  display: grid;
+  place-items: center;
+}
+
+.icon-box img {
+  width: 22px;
+  height: 22px;
+}
+
+/* Active */
+.icon-box.active {
+  transform: translateY(-6px);
+  margin-top: 2px;
+}
+
+.footer-item .active-text {
+  color: #0b5cff;
+  font-weight: 600;
+}
+
+/* Label */
+.footer-item span {
+  font-size: 11px;
+  color: #111;
+}
