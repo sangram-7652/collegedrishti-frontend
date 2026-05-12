@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import api from "../api/axios";
 import FeeIcon from "../assets/fee icon.png";
 import { PhoneCall } from "lucide-react";
 
-const UniversityFee = ({ universityId }) => {
+const UniversityFee = ({ slug: slugProp }) => {
+  const { slug: slugFromRoute } = useParams();
+  const slug = (slugProp || slugFromRoute || "").trim();
 
   const [fees, setFees] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,19 +45,22 @@ const UniversityFee = ({ universityId }) => {
   };
 
   useEffect(() => {
-    if (!universityId) {
-      setLoading(false); // ADD THIS
+    if (!slug) {
+      setFees([]);
+      setLoading(false);
       return;
     }
 
+    setLoading(true);
     api
-      .get(`/university-fees/${universityId}`)
+      .get(`/university/${encodeURIComponent(slug)}/fees`)
       .then((res) => {
-        setFees(res.data || []);
+        const list = res?.data?.success ? res.data?.data?.fees : null;
+        setFees(Array.isArray(list) ? list : []);
       })
-      .catch((err) => console.log("Fee API Error:", err))
+      .catch(() => setFees([]))
       .finally(() => setLoading(false));
-  }, [universityId]);
+  }, [slug]);
 
 
   return (
@@ -72,6 +78,14 @@ const UniversityFee = ({ universityId }) => {
 
 
         <div className="mt-6 space-y-6">
+          {loading && (
+            <p className="text-sm text-gray-500">Loading fee structure…</p>
+          )}
+          {!loading && fees.length === 0 && (
+            <p className="text-sm text-gray-500">
+              Fee details are not available for this university yet.
+            </p>
+          )}
           {fees.map((fee, idx) => (
             <div key={idx} className="flex flex-col md:flex-row gap-4 md:gap-6">
 
@@ -91,7 +105,13 @@ const UniversityFee = ({ universityId }) => {
                     { label: "Fee Type", value: fee.fee_type },
                     { label: "Course Fee", value: fee.total_fees },
                     { label: "Loan Amount", value: fee.loan_amount },
-                    { label: "Tenure (Monthly)", value: fee.tenure_months + " mo." },
+                    {
+                      label: "Tenure (Monthly)",
+                      value:
+                        fee.tenure_months != null && fee.tenure_months !== ""
+                          ? `${fee.tenure_months} mo.`
+                          : "-",
+                    },
                     { label: "Advance EMI", value: fee.advance_emi },
                     { label: "Monthly EMI", value: fee.monthly_emi },
                     { label: "Total Interest", value: fee.total_interest },

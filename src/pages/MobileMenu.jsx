@@ -427,7 +427,7 @@ const MobileMenu = () => {
           <div className="px-4 pb-4 mt-2">
             <div className="flex items-center gap-3">
               <a
-                href="https://www.facebook.com/share/19fJ4pK5HA/"
+                href="https://www.facebook.com/p/College-Drishti-100092356802108/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center"
@@ -440,7 +440,7 @@ const MobileMenu = () => {
               </a>
 
               <a
-                href="https://youtube.com/@collegedrishti"
+                href="https://www.youtube.com/@collegedrishti"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 bg-red-600 rounded-md flex items-center justify-center"
@@ -453,7 +453,7 @@ const MobileMenu = () => {
               </a>
 
               <a
-                href="https://www.linkedin.com/"
+                href="https://www.linkedin.com/company/college-drishti-yv/"
                 className="w-8 h-8 bg-blue-800 rounded-md flex items-center justify-center"
               >
                 <img
@@ -464,7 +464,7 @@ const MobileMenu = () => {
               </a>
 
               <a
-                href="https://www.instagram.com/college_drishti"
+                href="https://www.instagram.com/college_drishti/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-md flex items-center justify-center bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600"

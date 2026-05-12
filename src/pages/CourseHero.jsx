@@ -16,6 +16,7 @@ export default function CourseHero({ course }) {
 
   if (!course) return null;
 
+
   const handleDownloadBrochure = () => {
     const doc = new jsPDF();
 
@@ -148,17 +149,27 @@ export default function CourseHero({ course }) {
       </div>
 
       {/* Right: Image */}
-      <div className="w-full md:w-1/2 relative">
-        <img
-          src={`https://api.collegedrishti.com/${course.banner_image}`}
-          alt={course.sub_name}
-          className="w-full rounded-r-3xl object-cover"
-        />
+   {/* Right: Image */}
+<div className="w-full md:w-1/2 relative h-[350px] md:h-[450px]">
+  <img
+    src={
+      course.banner_image
+        ? `http://127.0.0.1:8000/${course.banner_image}`
+        : course.image
+        ? `http://127.0.0.1:8000/${course.image}`
+        : "https://via.placeholder.com/600x400?text=No+Image"
+    }
+    alt={course.sub_name || "Course"}
+    className="w-full h-full rounded-r-3xl object-cover"
+    onError={(e) => {
+      console.log("IMAGE FAILED:", e.target.src);
+    }}
+  />
 
-        <div className="absolute top-3 right-3 bg-blue-600 text-white px-4 py-1 text-xs font-medium rounded-full shadow">
-          {course.emi_available ? "EMI Available" : "Featured"}
-        </div>
-      </div>
+  <div className="absolute top-3 right-3 bg-blue-600 text-white px-4 py-1 text-xs font-medium rounded-full shadow">
+    {course.emi_available ? "EMI Available" : "Featured"}
+  </div>
+</div>
     </section>
   );
 }

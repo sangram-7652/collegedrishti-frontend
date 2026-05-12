@@ -66,7 +66,8 @@ const Section4 = ({ courseSlug }) => {
         setLoading(false);
       }
     };
-
+    
+  
     if (courseSlug) fetchFees();
   }, [courseSlug]);
 
@@ -180,11 +181,11 @@ const Section4 = ({ courseSlug }) => {
         </div>
 
         {/* View More */}
-        <div className="text-center mt-6">
+        {/* <div className="text-center mt-6">
           <span className="text-blue-600 text-sm font-medium underline cursor-pointer">
             View More
           </span>
-        </div>
+        </div> */}
 
         {/* CTA */}
         <div className="mt-6 text-center">

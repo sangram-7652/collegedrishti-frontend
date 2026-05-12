@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from "../pages/Header";
 import MobileMenu from "../pages/MobileMenu";
-import Section1 from "../Suggest/Section1";
 import CTASection from "../pages/CTASection";
 import FAQSection from "../pages/FAQSection";
 import Footer from "./Footer";
@@ -14,9 +13,7 @@ import { createPortal } from "react-dom";
 const SuggestedUniversity = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [stepData, setStepData] = useState([]); // Changed from null to []
-  const [refreshKey, setRefreshKey] = useState(0); // Added for force re-render
-  console.log("🚀 ~ SuggestedUniversity ~ stepData:", stepData)
+  const [stepData, setStepData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({
     course: null,
     subCourse: null,
@@ -90,117 +87,150 @@ const SuggestedUniversity = () => {
   //   fetchStepData();
   // }, []);
 
-  useEffect(() => {
-    // When currentStep changes, fetch new data if needed
-    if (currentStep > 1) {
-      fetchStepData();
-    }
-  }, [currentStep]); // Added selectedOptions to dependencies
-
-
+  const extractStepItems = (res) => {
+    const body = res?.data;
+    if (!body) return [];
+    if (Array.isArray(body.data)) return body.data;
+    if (Array.isArray(body.data?.data)) return body.data.data;
+    if (Array.isArray(body)) return body;
+    return [];
+  };
 
   const fetchStepData = async () => {
     setLoading(true);
 
     try {
-      let url = "";
+      let path = "";
+      let params = undefined;
 
       switch (currentStep) {
         case 1:
-          url = "/courses";
+          path = "/courses";
           break;
-        case 2:
-          if (!selectedOptions.course?.value) {
+        case 2: {
+          const courseId = selectedOptions.course?.value;
+          if (courseId == null || courseId === "") {
+            console.log("[Suggest Flow] Step 2 skipped — no Step 1 course_id yet", {
+              selectedDegree: selectedOptions.course,
+            });
             setStepData([]);
             return;
           }
-          url = `/subcourse/${selectedOptions.course.value}`;
+          path = "/course-filter";
+          params = { course_id: courseId };
+          console.log("[Suggest Flow] Step 2 — loading sub-courses for degree", {
+            selectedDegreeFromStep1: {
+              label: selectedOptions.course?.label,
+              value: selectedOptions.course?.value,
+            },
+            filterField: "course_id (matches DB course.course_id; label e.g. PG Courses is display only)",
+            apiRequest: { path, params },
+          });
           break;
-        case 3:
-          if (!selectedOptions.subCourse?.value) {
+        }
+        case 3: {
+          const subId = selectedOptions.subCourse?.value;
+          if (subId == null || subId === "") {
             setStepData([]);
             return;
           }
-          url = `/specialize/${selectedOptions.course.value}/${selectedOptions.subCourse.value}`;
+          path = "/suggest/specializations";
+          params = { sub_id: subId };
+          console.log("[Suggest Flow] Step 3 request", { path, params });
           break;
-        case 4:
-          if (!selectedOptions.specialization?.value) {
+        }
+        case 4: {
+          const sid = selectedOptions.specialization?.value;
+          if (sid == null || sid === "") {
             setStepData([]);
             return;
           }
-          url = `/step4/${selectedOptions.specialization.value}`;
+          path = "/suggest/step4-options";
+          params = { id: sid };
           break;
-        case 5:
-          if (!selectedOptions.workingStatus?.value) {
+        }
+        case 5: {
+          const id = selectedOptions.workingStatus?.value;
+          if (id == null || id === "") {
             setStepData([]);
             return;
           }
-          url = `/step5/${selectedOptions.workingStatus.value}`;
+          path = "/suggest/step5-options";
+          params = { id };
           break;
-        case 6:
-          if (!selectedOptions.courseFees?.value) {
+        }
+        case 6: {
+          const id = selectedOptions.courseFees?.value;
+          if (id == null || id === "") {
             setStepData([]);
             return;
           }
-          url = `/step6/${selectedOptions.courseFees.value}`;
+          path = "/suggest/step6-options";
+          params = { id };
           break;
-        case 7:
-          if (!selectedOptions.emiOption?.value) {
+        }
+        case 7: {
+          const id = selectedOptions.emiOption?.value;
+          if (id == null || id === "") {
             setStepData([]);
             return;
           }
-          url = `/step7/${selectedOptions.emiOption.value}`;
+          path = "/suggest/step7-options";
+          params = { id };
           break;
-        case 8:
-          if (!selectedOptions.step7?.value) {
+        }
+        case 8: {
+          const id = selectedOptions.step7?.value;
+          if (id == null || id === "") {
             setStepData([]);
             return;
           }
-          url = `/step8/${selectedOptions.step7.value}`;
+          path = "/suggest/step8-options";
+          params = { id };
           break;
-        case 9:
-          if (!selectedOptions.step8?.value) {
+        }
+        case 9: {
+          const id = selectedOptions.step8?.value;
+          if (id == null || id === "") {
             setStepData([]);
             return;
           }
-          url = `/step9/${selectedOptions.step8.value}`;
+          path = "/suggest/step9-options";
+          params = { id };
           break;
+        }
         default:
           return;
       }
 
-      console.log("Calling API:", url);
+      const res = await api.get(path, params ? { params } : undefined);
+      let items = extractStepItems(res);
 
-      const res = await api.get(url);
-
-      let items = [];
-
-      // ⭐ FIX 1 → If API returns object with {data:[...]}
-      if (Array.isArray(res.data?.data)) {
-        items = res.data.data;
-      }
-      // ⭐ FIX 2 → If API returns direct array [...]
-      else if (Array.isArray(res.data)) {
-        items = res.data;
-      }
-      // ⭐ FIX 3 → If API returns nothing → safe empty []
-      else {
-        items = [];
+      if (currentStep === 2 && items.length === 0 && params?.course_id != null) {
+        console.warn("[Suggest Flow] Step 2 — /course-filter returned 0 rows; fallback GET /courses/:id");
+        const res2 = await api.get(`/courses/${params.course_id}`);
+        items = extractStepItems(res2);
       }
 
-      console.log("Step", currentStep, "data:", items);
+      console.log("[Suggest Flow] API response", {
+        step: currentStep,
+        path,
+        params,
+        itemCount: items.length,
+        sample: items[0] ?? null,
+        rawSuccess: res?.data?.success,
+        rawMessage: res?.data?.message,
+      });
+
       setStepData(items);
-
     } catch (err) {
-      console.log("Error fetching step data", err);
+      console.error("[Suggest Flow] fetchStepData error", err?.response?.status, err?.response?.data || err);
       setStepData([]);
     } finally {
       setLoading(false);
     }
   };
 
-
-  // Load step data
   useEffect(() => {
     fetchStepData();
   }, [currentStep, selectedOptions]);
@@ -213,9 +243,15 @@ const SuggestedUniversity = () => {
     };
     setSelectedOptions(updatedOptions);
 
-    // ✅ DEBUG: Console mein check karo
-    console.log("Selected option:", step, value, label);
-    console.log("Updated options:", updatedOptions);
+    if (step === "course") {
+      console.log("[Suggest Flow] Step 1 degree selected (stored for Step 2 course_id filter)", {
+        label,
+        value,
+        hint: "value is course_id from /api/courses — Step 2 uses this as course_id, not the label text",
+      });
+    } else {
+      console.log("[Suggest Flow] option selected", { step, value, label });
+    }
 
     // ✅ Agar last step (9) par hain, toh directly popup open karo
     if (currentStep === stepDetails.length) {
@@ -420,81 +456,127 @@ const SuggestedUniversity = () => {
   };
 
   const handleSave = async () => {
+    const mobileDigits = String(formData.phone || "")
+      .replace(/\D/g, "")
+      .slice(0, 10);
+
+    const payload = {
+      student_name: formData.name?.trim() || "",
+      email: (formData.email || "").trim() || undefined,
+      mobile: mobileDigits,
+      dob: formData.dob || undefined,
+      gender: formData.gender || undefined,
+      step1name: selectedOptions.course?.label || "",
+      step2name: selectedOptions.subCourse?.label || "",
+      step3name: selectedOptions.specialization?.label || "",
+      step4name: selectedOptions.workingStatus?.label || "",
+      step5name: selectedOptions.courseFees?.label || "",
+      step6name: selectedOptions.emiOption?.label || "",
+      step7name: selectedOptions.step7?.label || "",
+      step8name: selectedOptions.step8?.label || "",
+      step9name: selectedOptions.step9?.label || "",
+    };
+
+    if (mobileDigits.length !== 10) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
     try {
+      console.log("[Suggest wizard] submit payload", payload);
 
+      localStorage.setItem("selectedCourseId", String(selectedOptions.course?.value ?? ""));
+      localStorage.setItem("selectedCourseName", selectedOptions.course?.label ?? "");
 
-      const payload = {
-        student_name: formData.name,
-        email: formData.email,
-        mobile: formData.phone,
-        dob: formData.dob,
-        gender: formData.gender,
-        step1name: selectedOptions.course?.label || '',
-        step2name: selectedOptions.subCourse?.label || '',
-        step3name: selectedOptions.specialization?.label || '',
-        step4name: selectedOptions.workingStatus?.label || '',
-        step5name: selectedOptions.courseFees?.label || '',
-        step6name: selectedOptions.emiOption?.label || '',
-        step7name: selectedOptions.step7?.label || '',
-        step8name: selectedOptions.step8?.label || '',
-        step9name: selectedOptions.step9?.label || '',
-      };
-
-      // ✅ ADD THIS
-      localStorage.setItem("selectedCourseId", selectedOptions.course?.value);
-      localStorage.setItem("selectedCourseName", selectedOptions.course?.label);
-
-      // Submit the form (this will trigger OTP to be sent)
-      const response = await api.post('suggest/addsuggestform', payload);
-      console.log("Form submitted, OTP should be sent:", response);
-      // const { mobile } = response.data.data;
+      const response = await api.post("/suggest/addsuggestform", payload);
+      console.log("[Suggest wizard] submit response", response.status, response.data);
 
       const expirationDate = new Date();
       expirationDate.setTime(expirationDate.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-      document.cookie = `mobile=${encodeURIComponent(formData.phone)}; expires=${expirationDate.toUTCString()}; path=/`;
+      document.cookie = `mobile=${encodeURIComponent(mobileDigits)}; expires=${expirationDate.toUTCString()}; path=/`;
       document.cookie = `name=${encodeURIComponent(formData.name)}; expires=${expirationDate.toUTCString()}; path=/`;
 
-      // Open OTP verification popup
-      setPopupOpen(false);   // 👈 ye line ADD karo
+      setPopupOpen(false);
       setOtpPopupOpen(true);
-
     } catch (error) {
-      console.error("Error submitting form:", error);
-      alert('Failed to submit form. Please try again.');
+      const status = error?.response?.status;
+      const data = error?.response?.data;
+      const msg =
+        data?.message ||
+        (data?.errors && typeof data.errors === "object"
+          ? Object.values(data.errors).flat().join(" ")
+          : null);
+      console.error("[Suggest wizard] submit error", status, data);
+      alert(msg || "Failed to submit form. Please try again.");
     }
   };
 
   const handleVerifyOtp = async () => {
-    try {
-      // Verify OTP with your backend
-      const verifyResponse = await api.get('varify', {
-        params: {
-          mobile: formData.phone,
-          otp: otp
-        }
-      });
-      // if (verifyResponse.data.success) {
+    const mobileDigits = String(formData.phone || "")
+      .replace(/\D/g, "")
+      .slice(0, 10);
 
-      // Close OTP popup and navigate
+    try {
+      console.log("[Suggest wizard] verify OTP request", { mobile: mobileDigits, otpLen: otp?.length });
+
+      const verifyResponse = await api.post("/send-verify", {
+        mobile: mobileDigits,
+        otp,
+      });
+
+      console.log("[Suggest wizard] verify OTP response", verifyResponse.status, verifyResponse.data);
+
+      const wizard = {
+        course_id: localStorage.getItem("selectedCourseId") || "",
+        degree_label: selectedOptions.course?.label || "",
+        sub_course_label: selectedOptions.subCourse?.label || "",
+        specialization: selectedOptions.specialization?.label || "",
+        career_goal: selectedOptions.workingStatus?.label || "",
+        budget_range: selectedOptions.courseFees?.label || "",
+        learning_mode: selectedOptions.step7?.label || "",
+        university_type: selectedOptions.step8?.label || "",
+        location_preference: selectedOptions.step9?.label || "",
+        step1name: selectedOptions.course?.label || "",
+        step2name: selectedOptions.subCourse?.label || "",
+        step3name: selectedOptions.specialization?.label || "",
+        step4name: selectedOptions.workingStatus?.label || "",
+        step5name: selectedOptions.courseFees?.label || "",
+        step6name: selectedOptions.emiOption?.label || "",
+        step7name: selectedOptions.step7?.label || "",
+        step8name: selectedOptions.step8?.label || "",
+        step9name: selectedOptions.step9?.label || "",
+      };
+      localStorage.setItem("suggestWizardCriteria", JSON.stringify(wizard));
+
       setOtpPopupOpen(false);
-      setPopupOpen(false); // Close the form popup
+      setPopupOpen(false);
       resetFormAndSelections();
-      // navigate('/Comparisonpage');
-      await fetchStepData(); // optional safe
-      navigate('/Comparisonpage');
-      // } else {
-      //   setOtpError('Invalid OTP. Please try again.');
-      // }
+      await fetchStepData();
+      navigate("/recommendations");
     } catch (error) {
-      console.error("Error verifying OTP:", error);
-      setOtpError('Error verifying OTP. Please try again.');
+      const data = error?.response?.data;
+      const msg =
+        data?.message ||
+        (data?.errors && typeof data.errors === "object"
+          ? Object.values(data.errors).flat().join(" ")
+          : null);
+      console.error("[Suggest wizard] verify OTP error", error?.response?.status, data);
+      setOtpError(msg || "Error verifying OTP. Please try again.");
     }
   };
 
   const handleResendOtp = async () => {
+    const mobileDigits = String(formData.phone || "")
+      .replace(/\D/g, "")
+      .slice(0, 10);
+
     try {
-      await api.get(`resendotp/${formData.phone}`);
+      console.log("[Suggest wizard] resend OTP", { mobile: mobileDigits });
+
+      await api.get("/send-mobile", {
+        params: { mobile: mobileDigits },
+      });
       setOtp('');
       setOtpError('');
       setCanResendOtp(false);
@@ -513,8 +595,10 @@ const SuggestedUniversity = () => {
       }, 1000);
 
     } catch (error) {
-      console.error("Error resending OTP:", error);
-      setOtpError('Failed to resend OTP. Please try again.');
+      const data = error?.response?.data;
+      const msg = data?.message || "Failed to resend OTP. Please try again.";
+      console.error("[Suggest wizard] resend OTP error", error?.response?.status, data);
+      setOtpError(msg);
     }
   };
   const resetFormAndSelections = () => {

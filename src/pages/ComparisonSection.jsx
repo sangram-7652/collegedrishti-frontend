@@ -397,7 +397,8 @@ const ComparisonSection = ({
   onAddUniversity,
   onRemoveUniversity,
   onCompare,
-  courseData
+  courseData,
+  compareLoading = false,
 }) => {
 
   // ✅ All courses extract
@@ -454,7 +455,7 @@ const ComparisonSection = ({
         {selectedUniversities.map((u) => (
           <div
             key={u.id}
-            className="relative bg-white rounded-xl shadow-lg border border-gray-200 p-5 w-[240px] flex flex-col items-center transition hover:shadow-xl"
+            className="relative bg-white rounded-xl shadow-lg border border-gray-200 p-5 w-full max-w-[240px] flex flex-col items-center transition hover:shadow-xl"
           >
             {/* ❌ Remove Button */}
             <button
@@ -526,7 +527,7 @@ const ComparisonSection = ({
             ))}
           </select>
         )} */}
-        <div className="w-[240px] border-2 border-dashed border-gray-300 rounded-xl p-5 flex flex-col items-center justify-center bg-white shadow-sm">
+        <div className="w-full max-w-[240px] border-2 border-dashed border-gray-300 rounded-xl p-5 flex flex-col items-center justify-center bg-white shadow-sm">
 
           <div className="text-3xl text-gray-400 mb-2">＋</div>
 
@@ -551,17 +552,13 @@ const ComparisonSection = ({
 
       {selectedUniversities.length >= 2 && (
         <button
-          onClick={() => onCompare(selectedSubCourse)}
-          className="mt-10 bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-full text-lg font-semibold shadow-md"
+          type="button"
+          onClick={() => onCompare()}
+          disabled={compareLoading}
+          className="mt-10 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white px-10 py-3 rounded-full text-lg font-semibold shadow-md"
         >
-          Compare Universities
+          {compareLoading ? "Preparing comparison…" : "Compare Universities"}
         </button>
-        // <button
-        //   onClick={onCompare}
-        //   className="mt-10 bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-full text-lg font-semibold shadow-md"
-        // >
-        //   Compare Universities
-        // </button>
       )}
     </section>
   );

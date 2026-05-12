@@ -3,10 +3,11 @@
 import React, { useState } from "react";
 import loginImage from "../assets/explaining.png";
 import { CheckCircle2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
 const Signup = () => {
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     student_name: "",
@@ -65,11 +66,19 @@ const Signup = () => {
 
       const res = await api.post("/signup", payload);
 
+      const data = res?.data ?? {};
+      const successFlag = data.success;
+      const ok =
+        successFlag === true ||
+        successFlag === 1 ||
+        successFlag === "1" ||
+        (typeof data.message === "string" &&
+          data.message.toLowerCase().includes("lead saved"));
 
-      if (res.data.success) {
-        alert("Signup Successful 🎉");
+      if (ok) {
+        navigate("/login", { replace: true });
       } else {
-        alert(res.data.message || "Signup failed");
+        alert(data.message || "Signup failed");
       }
 
     } catch (err) {

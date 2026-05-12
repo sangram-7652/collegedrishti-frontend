@@ -332,6 +332,7 @@
 
 
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../api/axios";
 import Cookies from "js-cookie";
 
@@ -348,51 +349,91 @@ import MobileFooterNav from "./MobileFooterNav";
 
 const ComparisonPage = () => {
   const selectedCourseId = localStorage.getItem("selectedCourseId");
-  const selectedCourseName = localStorage.getItem("selectedCourseName");
   const [allUniversities, setAllUniversities] = useState([]);
   const [selected, setSelected] = useState([]);
   const [comparisonData, setComparisonData] = useState(null);
   const [courseData, setCourseData] = useState([]);
-
-  // ✅ Universities
-  const fetchAllUniversities = async () => {
-    const res = await api.get("/universities");
-    setAllUniversities(res.data.data || []);
-  };
-
-  // ✅ Suggested
-  const fetchSuggested = async () => {
-    const name = Cookies.get("name");
-    const mobile = Cookies.get("mobile");
-
-    const res = await api.post("/findsuggests", { name, mobile, course_id: selectedCourseId });
-
-    const suggested = res.data?.data?.universities || [];
-
-    // ✅ filter only valid admin universities
-    const filtered = suggested
-      .filter((s) => allUniversities.some((u) => u.id === s.id))
-      .filter((v, i, arr) => arr.findIndex(x => x.id === v.id) === i);
-
-    setSelected(filtered.slice(0, 3));
-  };
-
-  // ✅ Courses
-  const fetchCourses = async () => {
-    const res = await api.get("/courses");
-    setCourseData(res.data.data || []);
-  };
+  const [initLoading, setInitLoading] = useState(true);
+  const [initError, setInitError] = useState("");
+  const [compareLoading, setCompareLoading] = useState(false);
+  const [compareError, setCompareError] = useState("");
 
   useEffect(() => {
-    fetchAllUniversities();
-    fetchCourses();
+    let cancelled = false;
+
+    const applyRecommendationOrSuggested = async (uniList) => {
+      const raw = localStorage.getItem("recommendationTopIds");
+      if (raw) {
+        try {
+          const ids = JSON.parse(raw);
+          if (Array.isArray(ids) && ids.length) {
+            const picked = ids
+              .map((id) => uniList.find((u) => Number(u.id) === Number(id)))
+              .filter(Boolean);
+            if (picked.length) {
+              setSelected(picked.slice(0, 4));
+              return;
+            }
+          }
+        } catch {
+          /* ignore */
+        }
+      }
+
+      const name = Cookies.get("name");
+      const mobile = Cookies.get("mobile");
+      if (!name || !mobile) {
+        return;
+      }
+
+      try {
+        const res = await api.post("/findsuggests", {
+          name,
+          mobile,
+          course_id: selectedCourseId,
+        });
+        const suggested = res.data?.data?.universities || [];
+        const filtered = suggested
+          .filter((s) => uniList.some((u) => u.id === s.id))
+          .filter((v, i, arr) => arr.findIndex((x) => x.id === v.id) === i);
+        setSelected(filtered.slice(0, 3));
+      } catch {
+        /* optional: cookie suggests */
+      }
+    };
+
+    (async () => {
+      setInitLoading(true);
+      setInitError("");
+      try {
+        const [uRes, cRes] = await Promise.all([
+          api.get("/universities"),
+          api.get("/courses"),
+        ]);
+        if (cancelled) {
+          return;
+        }
+        const uniList = uRes.data?.data || [];
+        setAllUniversities(uniList);
+        setCourseData(cRes.data?.data || []);
+        await applyRecommendationOrSuggested(uniList);
+      } catch (e) {
+        if (!cancelled) {
+          setInitError(
+            "We could not load universities. Check your connection and try again."
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setInitLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
-
-  useEffect(() => {
-    if (allUniversities.length > 0) {
-      fetchSuggested();
-    }
-  }, [allUniversities]);
 
   const onAdd = (u) => {
     if (selected.find((x) => x.id === u.id)) return;
@@ -409,18 +450,20 @@ const ComparisonPage = () => {
   const ids = selected.map((u) => u.id);
 
   const onCompare = async () => {
+    setCompareLoading(true);
+    setCompareError("");
     try {
-      const ids = selected.map(u => Number(u.id));
+      const ids = selected.map((u) => Number(u.id));
 
       const res = await api.post("/compare", {
-        universityIds: ids
+        universityIds: ids,
       });
 
-      const filtered = (res.data.universitys || []).filter(u =>
+      const filtered = (res.data.universitys || []).filter((u) =>
         ids.includes(Number(u.id))
       );
 
-      const selectedCourseName = localStorage.getItem("selectedCourseName");
+      const courseName = localStorage.getItem("selectedCourseName");
 
       const merged = await Promise.all(
         filtered.map(async (u) => {
@@ -429,51 +472,80 @@ const ComparisonPage = () => {
 
             const feesArray = feeRes.data?.data?.fees || [];
 
-            console.log("👉 Fees array:", feesArray);
-
-            // ✅ match course properly
-            const matchedCourse = feesArray.find(f =>
-              f.course_name?.toLowerCase().includes(
-                selectedCourseName?.toLowerCase()
-              )
+            const matchedCourse = feesArray.find((f) =>
+              f.course_name?.toLowerCase().includes(courseName?.toLowerCase())
             );
-
-            console.log("👉 Matched:", matchedCourse);
 
             return {
               ...u,
-              fees: matchedCourse?.total_fees || "N/A"
+              fees: matchedCourse?.total_fees || "N/A",
             };
-
           } catch (err) {
             return { ...u, fees: "N/A" };
           }
         })
       );
 
-      console.log("🔥 FINAL DATA:", merged);
-
       setComparisonData(merged);
-
     } catch (err) {
-      console.log("ERROR:", err);
+      setCompareError("Comparison request failed. Please try again.");
+    } finally {
+      setCompareLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-8">
 
-      <div className="hidden md:block"><Header /></div>
-      <div className="block md:hidden"><MobileMenu /></div>
+      <div className="hidden md:block">
+        <Header />
+      </div>
+      <div className="block md:hidden">
+        <MobileMenu />
+      </div>
 
-      <ComparisonSection
-        allUniversities={allUniversities}
-        selectedUniversities={selected}
-        onAddUniversity={onAdd}
-        onRemoveUniversity={onRemove}
-        onCompare={onCompare}
-        courseData={courseData}
-      />
+      <div className="max-w-4xl mx-auto mb-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between px-1">
+        <p className="text-sm text-slate-600">
+          Finished the questionnaire? View ranked picks first, then compare in detail.
+        </p>
+        <Link
+          to="/recommendations"
+          className="text-sm font-semibold text-blue-600 hover:underline shrink-0"
+        >
+          View recommendations
+        </Link>
+      </div>
+
+      {initLoading && (
+        <div className="flex flex-col items-center justify-center py-20 gap-3">
+          <div className="h-10 w-10 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin" />
+          <p className="text-slate-600 text-sm">Loading universities…</p>
+        </div>
+      )}
+
+      {initError && !initLoading && (
+        <div className="max-w-xl mx-auto text-center text-red-600 text-sm mb-6 px-2">
+          {initError}
+        </div>
+      )}
+
+      {compareError && !initLoading && (
+        <div className="max-w-xl mx-auto text-center text-red-600 text-sm mb-4 px-2">
+          {compareError}
+        </div>
+      )}
+
+      {!initLoading && (
+        <ComparisonSection
+          allUniversities={allUniversities}
+          selectedUniversities={selected}
+          onAddUniversity={onAdd}
+          onRemoveUniversity={onRemove}
+          onCompare={onCompare}
+          courseData={courseData}
+          compareLoading={compareLoading}
+        />
+      )}
 
       {comparisonData && comparisonData.length > 0 && (
         <ComparisonTable universities={comparisonData} />

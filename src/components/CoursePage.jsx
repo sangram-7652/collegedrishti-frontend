@@ -22,39 +22,98 @@ const FAQSection = lazy(() => import("../pages/FAQSection"));
 
 import Footer from "./Footer";
 import MobileFooterNav from "./MobileFooterNav";
+import { LogIn } from "lucide-react";
 
 const CoursePage = () => {
   const { slug } = useParams();
 
-  // ✅ API call (React Query handle करेगा)
+  /* ================= FETCH COURSE ================= */
+
   const fetchCourse = async () => {
     const response = await api.get(`/course/${slug}`);
-    return response.data.data;
+    return response.data;
   };
 
-  // ✅ React Query
- const { data } = useQuery({
-  queryKey: ["coursepage", slug],
-  queryFn: fetchCourse,
-  staleTime: 10 * 60 * 1000,
-  retry: 2, // auto retry
-  refetchOnWindowFocus: false, // unnecessary reload stop
-  placeholderData: {
-    course: {},
-    specializations: [],
-    universities: []
+  /* ================= QUERY ================= */
+
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["coursepage", slug],
+    queryFn: fetchCourse,
+    staleTime: 10 * 60 * 1000,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
+
+  /* ================= DATA ================= */
+
+  const course = data?.data || null;
+
+  const specializations =
+    data?.specializations ||
+    data?.data?.specializations ||
+    [];
+
+  const universities =
+    data?.universities ||
+    data?.data?.universities ||
+    [];
+  /* ================= LOADING ================= */
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center">
+          <div className="w-14 h-14 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+
+          <p className="text-lg font-semibold text-gray-700">
+            Loading Course...
+          </p>
+        </div>
+      </div>
+    );
   }
-});
 
-  // ✅ data
-  const course = data?.course || {};
-const specializations = data?.specializations || [];
-const universities = data?.universities || [];
+  /* ================= ERROR ================= */
 
- 
+  if (isError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center px-4">
+          <h2 className="text-2xl font-bold text-red-500 mb-2">
+            Failed to Load Course
+          </h2>
+
+          <p className="text-gray-500">
+            {error?.message || "Something went wrong"}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  /* ================= NO COURSE ================= */
+
+  if (!course) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <h2 className="text-2xl font-bold text-gray-700">
+          Course Not Found
+        </h2>
+      </div>
+    );
+  }
+
+  /* ================= PAGE ================= */
+
   return (
     <main className="bg-white text-gray-900 animate-fadeIn">
-      {/* Header */}
+      {/* ================= HEADER ================= */}
+
       <div className="hidden md:block">
         <Header />
       </div>
@@ -63,83 +122,92 @@ const universities = data?.universities || [];
         <MobileMenu />
       </div>
 
-      {/* ✅ ABOUT */}
+      {/* ================= HERO ================= */}
+
       <div id="about" className="scroll-mt-24">
         <CourseHero course={course} />
       </div>
 
-      <section className="w-full font-sans overflow-x-hidden">
+      {/* ================= MAIN CONTENT ================= */}
 
+      <section className="w-full font-sans overflow-x-hidden">
+        {/* INFO */}
         <InfoWithPodcast data={course} />
 
-        {/* ✅ COURSES */}
+        {/* COURSES */}
         <div id="courses" className="scroll-mt-24">
-          <Suspense fallback={<div className="h-20 bg-white"></div>}>
+          <Suspense fallback={<div className="h-20 bg-white" />}>
             <Section3 course={course} />
           </Suspense>
         </div>
 
-        {/* ✅ FEES */}
+        {/* FEES */}
         <div id="fees" className="scroll-mt-24">
-          <Suspense fallback={<div className="h-20 bg-white"></div>}>
+          <Suspense fallback={<div className="h-20 bg-white" />}>
             <Section4 courseSlug={slug} />
           </Suspense>
         </div>
 
-        {/* ✅ PLACEMENTS */}
+        {/* PLACEMENTS */}
         <div id="placements" className="scroll-mt-24">
-          <Suspense fallback={<div className="h-20 bg-white"></div>}>
+          <Suspense fallback={<div className="h-20 bg-white" />}>
             <Section5 universities={universities} />
           </Suspense>
         </div>
 
-        {/* ✅ SPECIALIZATION */}
-        <Suspense fallback={<div className="h-20 bg-white"></div>}>
-          <Section6 course={course} specializations={specializations} />
+        {/* SPECIALIZATIONS */}
+        <Suspense fallback={<div className="h-20 bg-white" />}>
+          <Section6
+            course={course}
+            specializations={specializations}
+          />
         </Suspense>
 
-        {/* ✅ REVIEWS */}
+        {/* REVIEWS */}
         <div id="reviews" className="scroll-mt-24">
-          <Suspense fallback={<div className="h-20 bg-white"></div>}>
+          <Suspense fallback={<div className="h-20 bg-white" />}>
             <Section7 course={course} />
           </Suspense>
         </div>
 
-        {/* ✅ ADMISSIONS */}
+        {/* ADMISSIONS */}
         <div id="admissions" className="scroll-mt-24">
-          <Suspense fallback={<div className="h-20 bg-white"></div>}>
+          <Suspense fallback={<div className="h-20 bg-white" />}>
             <Section8 course={course} />
           </Suspense>
         </div>
 
-        {/* ✅ APPROVALS */}
+        {/* APPROVALS */}
         <div id="approvals" className="scroll-mt-24">
-          <Suspense fallback={<div className="h-20 bg-white"></div>}>
-            <Section9 course={course} />
+          <Suspense fallback={<div className="h-20 bg-white" />}>
+            <Section9 data={universities} />
           </Suspense>
         </div>
 
-        <Suspense fallback={<div className="h-20 bg-white"></div>}>
+        {/* EXTRA SECTIONS */}
+        <Suspense fallback={<div className="h-20 bg-white" />}>
           <Section10 course={course} />
         </Suspense>
 
-        <Suspense fallback={<div className="h-20 bg-white"></div>}>
+        <Suspense fallback={<div className="h-20 bg-white" />}>
           <Section11 course={course} />
         </Suspense>
 
-        <Suspense fallback={<div className="h-20 bg-white"></div>}>
+        {/* CTA */}
+        <Suspense fallback={<div className="h-20 bg-white" />}>
           <CTASection course={course} />
         </Suspense>
 
-        <Suspense fallback={<div className="h-20 bg-white"></div>}>
+        {/* FAQ */}
+        <Suspense fallback={<div className="h-20 bg-white" />}>
           <FAQSection subCourseId={course?.sub_co_id} />
         </Suspense>
-
       </section>
+
+      {/* ================= FOOTER ================= */}
 
       <Footer />
       <MobileFooterNav />
-
     </main>
   );
 };

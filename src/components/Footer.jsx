@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getCoursesWithSubCourses } from "../api/courseCache";
+
 import fb from "../assets/facebook.svg";
 import yt from "../assets/youtube.svg";
 import ig from "../assets/instagram.svg";
@@ -8,8 +9,11 @@ import li from "../assets/linkedin.svg";
 
 const Footer = () => {
   const navigate = useNavigate();
+
   const [courseData, setCourseData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  /* ================= FETCH ================= */
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -25,6 +29,8 @@ const Footer = () => {
     fetchCourses();
   }, []);
 
+  /* ================= COURSES ================= */
+
   const popularSubCourses = useMemo(() => {
     return courseData
       .flatMap((course) =>
@@ -32,149 +38,314 @@ const Footer = () => {
           id: sub.id,
           name: sub.sub_name,
           slug: sub.slug,
-        })),
+        }))
       )
       .slice(0, 8);
   }, [courseData]);
 
+  /* ================= UI ================= */
+
   return (
-    <footer className="bg-black text-white pt-4 px-4 pb-32 md:pb-6 w-full relative z-0">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-4 sm:grid-cols-2 gap-8 text-sm">
-        <div>
-          <h5 className="font-semibold mb-4">Popular Courses</h5>
-          <ul className="space-y-2 text-gray-300">
-            {loading && <li className="text-gray-500">Loading...</li>}
+    <footer className="relative overflow-hidden bg-[#050816] text-white">
+      
+      {/* Background Glow */}
+      <div className="absolute top-0 left-0 w-[350px] h-[350px] bg-blue-600/10 blur-3xl rounded-full" />
 
-            {!loading && popularSubCourses.length === 0 && (
-              <li className="text-gray-500">No courses</li>
-            )}
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-16 pb-10">
 
-            {!loading &&
-              popularSubCourses.map((sub) => (
+        {/* ================= TOP SECTION ================= */}
+
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            lg:grid-cols-4
+            gap-10
+            pb-12
+            border-b border-white/10
+          "
+        >
+          {/* ================= POPULAR COURSES ================= */}
+
+          <div>
+            <h5 className="text-lg font-bold mb-5 text-white">
+              Popular Courses
+            </h5>
+
+            <ul className="space-y-3">
+              {loading && (
+                <li className="text-gray-500 text-sm">
+                  Loading...
+                </li>
+              )}
+
+              {!loading &&
+                popularSubCourses.map((sub) => (
+                  <li
+                    key={sub.id}
+                    onClick={() =>
+                      navigate(`/coursepage/${sub.slug}`)
+                    }
+                    className="
+                      text-gray-400
+                      text-sm
+                      cursor-pointer
+                      hover:text-white
+                      transition-all
+                      duration-300
+                      hover:translate-x-1
+                    "
+                  >
+                    {sub.name}
+                  </li>
+                ))}
+            </ul>
+          </div>
+
+          {/* ================= CATEGORIES ================= */}
+
+          <div>
+            <h5 className="text-lg font-bold mb-5 text-white">
+              Popular Categories
+            </h5>
+
+            <ul className="space-y-3">
+              {[
+                "Technology",
+                "IT & Software",
+                "Art & Design",
+                "Marketing",
+                "Finance",
+                "PG Courses",
+                "Diploma",
+                "Business Analyst",
+              ].map((item, index) => (
                 <li
-                  key={sub.id}
-                  onClick={() => navigate(`/coursepage/${sub.slug}`)}
-                  className="cursor-pointer hover:text-white transition">
-                  {sub.name}
+                  key={index}
+                  className="
+                    text-gray-400
+                    text-sm
+                    cursor-pointer
+                    hover:text-white
+                    transition-all
+                    duration-300
+                    hover:translate-x-1
+                  "
+                >
+                  {item}
                 </li>
               ))}
-          </ul>
+            </ul>
+          </div>
+
+          {/* ================= COMPANY ================= */}
+
+          <div>
+            <h5 className="text-lg font-bold mb-5 text-white">
+              Company
+            </h5>
+
+            <ul className="space-y-3">
+              {[
+                {
+                  label: "About Us",
+                  link: "/AboutUs",
+                },
+                {
+                  label: "Refund Policy",
+                  link: "/refund",
+                },
+                {
+                  label: "Terms & Conditions",
+                  link: "/terms",
+                },
+                {
+                  label: "Privacy Policy",
+                  link: "/privacy-policy",
+                },
+                {
+                  label: "Disclaimer",
+                  link: "/disclaimer",
+                },
+                {
+                  label: "Blogs",
+                  link: "/blogs",
+                },
+              ].map((item, index) => (
+                <li key={index}>
+                  <Link
+                    to={item.link}
+                    className="
+                      text-gray-400
+                      text-sm
+                      hover:text-white
+                      transition-all
+                      duration-300
+                    "
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+
+              <li className="text-gray-400 text-sm hover:text-white transition cursor-pointer">
+                Careers
+              </li>
+
+              <li className="text-gray-400 text-sm hover:text-white transition cursor-pointer">
+                Customer Support
+              </li>
+            </ul>
+          </div>
+
+          {/* ================= COMMUNITY ================= */}
+
+          <div>
+            <h5 className="text-lg font-bold mb-5 text-white">
+              Community
+            </h5>
+
+            <ul className="space-y-3 mb-6">
+              <li className="text-gray-400 text-sm hover:text-white transition cursor-pointer">
+                Placements
+              </li>
+
+              <li className="text-gray-400 text-sm hover:text-white transition cursor-pointer">
+                Student Success
+              </li>
+
+              <li className="text-gray-400 text-sm hover:text-white transition cursor-pointer">
+                Alumni Network
+              </li>
+            </ul>
+
+            {/* ================= SOCIALS ================= */}
+
+            <div className="flex items-center gap-3">
+              {[
+                {
+                  icon: fb,
+                  link: "https://www.facebook.com/share/19fJ4pK5HA/",
+                  alt: "facebook",
+                },
+                {
+                  icon: yt,
+                  link: "https://youtube.com/@collegedrishti",
+                  alt: "youtube",
+                },
+                {
+                  icon: li,
+                  link: "https://www.linkedin.com/",
+                  alt: "linkedin",
+                },
+                {
+                  icon: ig,
+                  link: "https://www.instagram.com/college_drishti",
+                  alt: "instagram",
+                },
+              ].map((social, index) => (
+                <a
+                  key={index}
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    w-11 h-11
+                    rounded-full
+                    bg-white/5
+                    border border-white/10
+                    flex items-center justify-center
+                    hover:bg-blue-600
+                    hover:border-blue-600
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                  "
+                >
+                  <img
+                    src={social.icon}
+                    alt={social.alt}
+                    className="w-5 h-5"
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div>
-          <h5 className="font-semibold mb-2">Popular Categories</h5>
-          <ul className="space-y-2 text-gray-300">
-            <li>Technology</li>
-            <li>IT & Software</li>
-            <li>Art & Design</li>
-            <li>Marketing</li>
-            <li>Finance</li>
-            <li>PG Course</li>
-            <li>Diploma</li>
-            <li>Business Analyst</li>
-            <li>All Categories</li>
-          </ul>
+        {/* ================= BOTTOM ================= */}
+
+        <div
+          className="
+            pt-8
+            flex
+            flex-col
+            md:flex-row
+            items-center
+            justify-between
+            gap-4
+          "
+        >
+          {/* Logo + Text */}
+          <div>
+            <h3 className="text-xl font-bold mb-1">
+              College Drishti
+            </h3>
+
+            <p className="text-gray-500 text-sm">
+              Empowering learners with future-ready education.
+            </p>
+          </div>
+
+          {/* Bottom Links */}
+          <div
+            className="
+              flex
+              flex-wrap
+              items-center
+              justify-center
+              gap-5
+              text-sm
+              text-gray-400
+            "
+          >
+            <Link
+              to="/privacy-policy"
+              className="hover:text-white transition"
+            >
+              Privacy
+            </Link>
+
+            <Link
+              to="/terms"
+              className="hover:text-white transition"
+            >
+              Terms
+            </Link>
+
+            <Link
+              to="/refund"
+              className="hover:text-white transition"
+            >
+              Refund
+            </Link>
+
+            <Link
+              to="/disclaimer"
+              className="hover:text-white transition"
+            >
+              Disclaimer
+            </Link>
+          </div>
         </div>
 
-        <div>
-          <h5 className="font-semibold mb-2">About Company</h5>
-          <ul className="space-y-2 text-gray-300">
-            <li>
-              <Link to="/AboutUs" className="hover:text-white">
-                About us
-              </Link>
-            </li>
-            <li>
-              <Link to="/refund" className="hover:text-white">
-                Refund Policy
-              </Link>
-            </li>
-            <li>Careers</li>
-            <li>
-              <Link to="/terms" className="hover:text-white">
-                Terms & Conditions
-              </Link>
-            </li>
-            <li>
-              <Link to="/privacy-policy" className="hover:text-white">
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link to="/disclaimer" className="hover:text-white">
-                Disclaimer
-              </Link>
-            </li>
-            <li>
-              <Link to="/blogs" className="hover:text-white">
-                Blogs
-              </Link>
-            </li>
-            <li>Help</li>
-            <li>Customer Support</li>
-          </ul>
+        {/* Copyright */}
+        <div className="mt-8 pt-6 border-t border-white/10 text-center">
+          <p className="text-gray-500 text-sm">
+            © 2026 College Drishti. All rights reserved.
+          </p>
         </div>
-
-        <div>
-          <h5 className="font-semibold mb-2">Community</h5>
-          <ul className="space-y-2 text-gray-300">
-            <li>Placements</li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto mt-8 text-gray-400 text-xs">
-        <div className="flex justify-start items-center gap-3 sm:gap-4 mb-6 pb-4 flex-wrap">
-          {/* Facebook */}
-          <a
-            href="https://www.facebook.com/share/19fJ4pK5HA/"
-            target="_blank"
-            rel="noopener noreferrer">
-            <img
-              src={fb}
-              alt="facebook"
-              className="w-6 h-6 sm:w-7 sm:h-7 hover:scale-110 transition duration-200"
-            />
-          </a>
-
-          {/* YouTube */}
-          <a
-            href="https://youtube.com/@collegedrishti"
-            target="_blank"
-            rel="noopener noreferrer">
-            <img
-              src={yt}
-              alt="youtube"
-              className="w-6 h-6 sm:w-7 sm:h-7 hover:scale-110 transition duration-200"
-            />
-          </a>
-
-          {/* LinkedIn */}
-          <a
-            href="https://www.linkedin.com/"
-            target="_blank"
-            rel="noopener noreferrer">
-            <img
-              src={li}
-              alt="linkedin"
-              className="w-6 h-6 sm:w-7 sm:h-7 hover:scale-110 transition duration-200"
-            />
-          </a>
-
-          {/* Instagram */}
-          <a
-            href="https://www.instagram.com/college_drishti"
-            target="_blank"
-            rel="noopener noreferrer">
-            <img
-              src={ig}
-              alt="instagram"
-              className="w-6 h-6 sm:w-7 sm:h-7 hover:scale-110 transition duration-200"
-            />
-          </a>
-        </div>
-
-        <p>©2026 College Dristhi. All rights reserved.</p>
       </div>
     </footer>
   );

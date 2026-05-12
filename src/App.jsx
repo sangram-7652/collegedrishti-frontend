@@ -16,7 +16,7 @@ import GlobalPopup from "./components/GlobalPopup";
 
 
 /* ===== LAZY IMPORTS (VERY IMPORTANT) ===== */
-const Login = lazy(() => import("./components/Login"));
+import Login from "./components/Login";
 const Signup = lazy(() => import("./components/Signup"));
 // const Dashboard = lazy(() => import("./components/Dashboard"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard")); //user details
@@ -24,6 +24,7 @@ const CourseFilter = lazy(() => import("./components/CourseFilter"));
 const CoursePage = lazy(() => import("./components/CoursePage"));
 const UniversityPage = lazy(() => import("./components/UniversityPage"));
 const Comparisonpage = lazy(() => import("./components/Comparisonpage"));
+const RecommendationResults = lazy(() => import("./pages/RecommendationResults"));
 const SuggestedUniversity = lazy(() => import("./components/SuggestedUniversity"));
 const BlogPage = lazy(() => import("./pages/Blogpage"));
 const Blogdetail = lazy(() => import("./pages/Blogdetail"));
@@ -73,6 +74,7 @@ const App = () => {
           <Route path="/coursepage/:slug" element={<CoursePage />} />
           <Route path="/university/:slug" element={<UniversityPage />} />
           <Route path="/Comparisonpage" element={<Comparisonpage />} />
+          <Route path="/recommendations" element={<RecommendationResults />} />
           <Route path="/SuggestedUniversity" element={<SuggestedUniversity />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<Blogdetail />} />

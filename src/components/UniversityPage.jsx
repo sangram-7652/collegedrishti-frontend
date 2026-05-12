@@ -1,12 +1,11 @@
-
+// UniversityPage.jsx
 
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+
 import Header from "../pages/Header";
 import UniversityHighlight from "../pages/UniversityHighlight";
 import InfoWithPodcast from "../pages/InfoWithPodcast";
-
-// import Podcast from "../pages/Podcast";
 import AboutUniversity from "../pages/AboutUniversity";
 import UniversityFee from "../pages/UniversityFee";
 import AdvantageSection from "../pages/AdvantageSection";
@@ -18,51 +17,142 @@ import Section11 from "../pages/Section11";
 import CTASection from "../pages/CTASection";
 import FAQSection from "../pages/FAQSection";
 import Footer from "./Footer";
-import MobileFooterNav from './MobileFooterNav';
+import MobileFooterNav from "./MobileFooterNav";
 import MobileMenu from "../pages/MobileMenu";
-import api from '../api/axios';
 
-
+import api from "../api/axios";
 
 const UniversityPage = () => {
   const { slug } = useParams();
+
   const [universityData, setUniversityData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const university =
+    universityData && typeof universityData === "object"
+      ? universityData.university ?? universityData
+      : {};
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  useEffect(() => {
+    if (!slug) return;
+
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : "";
+    const path = `/university/${slug}`;
+
+    if (!loading && !university?.id) {
+      document.title = "University not found | College Drishti";
+      let meta = document.querySelector('meta[name="description"]');
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", "description");
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute(
+        "content",
+        "The university you are looking for could not be found."
+      );
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement("link");
+        canonical.setAttribute("rel", "canonical");
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute("href", `${origin}${path}`);
+      return;
+    }
+
+    if (!university?.name) return;
+
+    const plain =
+      (university.details_plain && String(university.details_plain)) || "";
+    const desc =
+      (plain && `${plain.slice(0, 155)}${plain.length > 155 ? "…" : ""}`) ||
+      `${university.name} — online programs, fees, placements, and admissions on College Drishti.`;
+
+    document.title = `${university.name} | College Drishti`;
+
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.setAttribute("name", "description");
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute("content", desc);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", `${origin}${path}`);
+  }, [slug, loading, university?.id, university?.name, university?.details_plain]);
 
   useEffect(() => {
-  if (!slug) return;
+    if (!slug) return;
 
-  const fetchData = async () => {
-    try {
-      const res = await api.get(`/university-page/${slug}`);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get(`/university/${encodeURIComponent(slug)}`);
 
-      if (res.data.success) {
-        setUniversityData(res.data.data);
-      } else {    
+        if (res.data.success) {
+          setUniversityData(res.data.data);
+        } else {
+          setUniversityData({});
+        }
+      } catch (err) {
+        console.error("API error:", err);
         setUniversityData({});
+      } finally {
+        setLoading(false);
       }
+    };
 
-    } catch (err) {
-      console.error("API error:", err);
+    fetchData();
+  }, [slug]);
 
-      // silent fail
-      setUniversityData({});
-    }
-  };
+  if (loading) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center bg-white">
+        <h2 className="text-2xl font-semibold text-[#004AAD]">
+          Loading University...
+        </h2>
+      </div>
+    );
+  }
 
-  fetchData();
-}, [slug]);
-
+  if (!university?.id) {
+    return (
+      <div className="w-full font-sans overflow-x-hidden bg-white text-black min-h-screen">
+        <div className="hidden md:block">
+          <Header />
+        </div>
+        <div className="block md:hidden">
+          <MobileMenu />
+        </div>
+        <div className="flex flex-col items-center justify-center px-4 py-24">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            University not found
+          </h1>
+          <p className="text-gray-600 mt-2 text-center max-w-md">
+            No university matches “{slug}”. Check the URL or browse universities
+            from the home page.
+          </p>
+        </div>
+        <Footer />
+        <MobileFooterNav />
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full font-sans overflow-x-hidden bg-white text-black min-h-screen animate-fadeIn">
-      {/* Header */}
+    <div className="w-full font-sans overflow-x-hidden bg-white text-black min-h-screen">
       <div className="hidden md:block">
         <Header />
       </div>
@@ -71,56 +161,49 @@ const UniversityPage = () => {
         <MobileMenu />
       </div>
 
-      {/* ✅ ABOUT */}
+      <div className="scroll-mt-24">
+        <UniversityHighlight university={university} slug={slug} />
+      </div>
+
+      <InfoWithPodcast className="bg-white" data={university} />
+
       <div id="about" className="scroll-mt-24">
-        <UniversityHighlight data={universityData} />
+        <AboutUniversity className="bg-white" data={university} />
       </div>
 
-      {/* ✅ NAVIGATION */}
-      <InfoWithPodcast className="bg-white" data={universityData?.university} />
-
-      {/* ✅ ABOUT DETAILS */}
       <div id="courses" className="scroll-mt-24">
-        <AboutUniversity className="bg-white" data={universityData} />
+        <UniversityFee className="bg-white" slug={slug} />
       </div>
 
-      {/* ✅ FEES */}
-      <div id="fees" className="scroll-mt-24">
-        <UniversityFee className="bg-white" universityId={universityData?.university?.id} />
+      <div id="placements" className="scroll-mt-24">
+        <AdvantageSection className="bg-white" data={universityData} />
       </div>
 
-      {/* ✅ PLACEMENTS */}
-      <AdvantageSection className="bg-white" data={universityData} />
-
-      {/* ✅ REVIEWS */}
       <div id="reviews" className="scroll-mt-24">
         <Section7 className="bg-white" data={universityData} />
       </div>
 
-      {/* ✅ ADMISSIONS */}
       <div id="admissions" className="scroll-mt-24">
         <Section8 className="bg-white" data={universityData} />
       </div>
 
-      {/* ✅ APPROVALS */}
       <div id="approvals" className="scroll-mt-24">
-        <Section9 data={universityData} />
+        <Section9 data={university} />
       </div>
 
       <Section10 className="bg-white" data={universityData} />
-      <Section11 className="bg-white" data={universityData} />
-      <div id="placements" className="scroll-mt-24">
-        <CTASection className="bg-white" data={universityData} />
-      </div>
 
-      <FAQSection className="bg-white" universityId={universityData?.university?.id} />
+      <Section11 className="bg-white" data={universityData} />
+
+      <CTASection className="bg-white" data={universityData} />
+
+      <FAQSection className="bg-white" universityId={university.id} />
 
       <Footer />
-      <MobileFooterNav />
 
+      <MobileFooterNav />
     </div>
   );
 };
 
 export default UniversityPage;
-
