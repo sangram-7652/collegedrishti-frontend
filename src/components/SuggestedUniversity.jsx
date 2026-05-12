@@ -512,59 +512,93 @@ const SuggestedUniversity = () => {
     }
   };
 
-  const handleVerifyOtp = async () => {
-    const mobileDigits = String(formData.phone || "")
-      .replace(/\D/g, "")
-      .slice(0, 10);
+  // UPDATED handleVerifyOtp FUNCTION
+// FILE: SuggestedUniversity.jsx
 
-    try {
-      console.log("[Suggest wizard] verify OTP request", { mobile: mobileDigits, otpLen: otp?.length });
+const handleVerifyOtp = async () => {
+  const mobileDigits = String(formData.phone || "")
+    .replace(/\D/g, "")
+    .slice(0, 10);
 
-      const verifyResponse = await api.post("/send-verify", {
-        mobile: mobileDigits,
-        otp,
-      });
+  try {
+    console.log("[Suggest wizard] verify OTP request", {
+      mobile: mobileDigits,
+      otpLen: otp?.length,
+    });
 
-      console.log("[Suggest wizard] verify OTP response", verifyResponse.status, verifyResponse.data);
+    const verifyResponse = await api.post("/send-verify", {
+      mobile: mobileDigits,
+      otp,
+    });
 
-      const wizard = {
-        course_id: localStorage.getItem("selectedCourseId") || "",
-        degree_label: selectedOptions.course?.label || "",
-        sub_course_label: selectedOptions.subCourse?.label || "",
-        specialization: selectedOptions.specialization?.label || "",
-        career_goal: selectedOptions.workingStatus?.label || "",
-        budget_range: selectedOptions.courseFees?.label || "",
-        learning_mode: selectedOptions.step7?.label || "",
-        university_type: selectedOptions.step8?.label || "",
-        location_preference: selectedOptions.step9?.label || "",
-        step1name: selectedOptions.course?.label || "",
-        step2name: selectedOptions.subCourse?.label || "",
-        step3name: selectedOptions.specialization?.label || "",
-        step4name: selectedOptions.workingStatus?.label || "",
-        step5name: selectedOptions.courseFees?.label || "",
-        step6name: selectedOptions.emiOption?.label || "",
-        step7name: selectedOptions.step7?.label || "",
-        step8name: selectedOptions.step8?.label || "",
-        step9name: selectedOptions.step9?.label || "",
-      };
-      localStorage.setItem("suggestWizardCriteria", JSON.stringify(wizard));
+    console.log(
+      "[Suggest wizard] verify OTP response",
+      verifyResponse.status,
+      verifyResponse.data
+    );
 
-      setOtpPopupOpen(false);
-      setPopupOpen(false);
-      resetFormAndSelections();
-      await fetchStepData();
-      navigate("/recommendations");
-    } catch (error) {
-      const data = error?.response?.data;
-      const msg =
-        data?.message ||
-        (data?.errors && typeof data.errors === "object"
-          ? Object.values(data.errors).flat().join(" ")
-          : null);
-      console.error("[Suggest wizard] verify OTP error", error?.response?.status, data);
-      setOtpError(msg || "Error verifying OTP. Please try again.");
-    }
-  };
+    // ✅ wizard data
+    const wizard = {
+      course_id: localStorage.getItem("selectedCourseId") || "",
+      degree_label: selectedOptions.course?.label || "",
+      sub_course_label: selectedOptions.subCourse?.label || "",
+      specialization: selectedOptions.specialization?.label || "",
+      career_goal: selectedOptions.workingStatus?.label || "",
+      budget_range: selectedOptions.courseFees?.label || "",
+      learning_mode: selectedOptions.step7?.label || "",
+      university_type: selectedOptions.step8?.label || "",
+      location_preference: selectedOptions.step9?.label || "",
+
+      step1name: selectedOptions.course?.label || "",
+      step2name: selectedOptions.subCourse?.label || "",
+      step3name: selectedOptions.specialization?.label || "",
+      step4name: selectedOptions.workingStatus?.label || "",
+      step5name: selectedOptions.courseFees?.label || "",
+      step6name: selectedOptions.emiOption?.label || "",
+      step7name: selectedOptions.step7?.label || "",
+      step8name: selectedOptions.step8?.label || "",
+      step9name: selectedOptions.step9?.label || "",
+    };
+
+    localStorage.setItem(
+      "suggestWizardCriteria",
+      JSON.stringify(wizard)
+    );
+
+    // ✅ close popup
+    setOtpPopupOpen(false);
+    setPopupOpen(false);
+
+    // ✅ reset form
+    resetFormAndSelections();
+
+    // ✅ refresh
+    await fetchStepData();
+
+    // ❌ REMOVE THIS
+    // navigate("/recommendations");
+
+    // ✅ DIRECT COMPARISON PAGE
+    navigate("/Comparisonpage");
+
+  } catch (error) {
+    const data = error?.response?.data;
+
+    const msg =
+      data?.message ||
+      (data?.errors && typeof data.errors === "object"
+        ? Object.values(data.errors).flat().join(" ")
+        : null);
+
+    console.error(
+      "[Suggest wizard] verify OTP error",
+      error?.response?.status,
+      data
+    );
+
+    setOtpError(msg || "Error verifying OTP. Please try again.");
+  }
+};
 
   const handleResendOtp = async () => {
     const mobileDigits = String(formData.phone || "")

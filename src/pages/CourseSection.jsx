@@ -180,7 +180,8 @@ const CourseSection = ({ courseData = [] }) => {
             lg:gap-6
           "
         >
-          {displayedCourses.map((course) =>{            
+          {displayedCourses.map((course) =>{  
+            console.log("COURSE:", course);          
             return(
                   <div
               key={course.id}
@@ -265,20 +266,18 @@ const CourseSection = ({ courseData = [] }) => {
                   duration-500
                 "
               >
-              <img
-                  loading="lazy"
-                  decoding="async"
-                  src={`http://localhost:8000/${course.image}`}
-                  alt={course.name}
-                  className="
-                    w-full
-                    h-full
-                    object-cover
-                  "
-                  onError={(e) => {
-                    console.log("FAILED:", e.target.src);
-                  }}
-                />
+               <img
+                src={
+                  course.image
+                    ? `https://api.collegedrishti.com/${course.image
+                        .replace(/^\/+/, "")
+                        .replace(/^api\/*/, "")}`
+                    : "/default-course.png"
+                }
+                alt={course.sub_name}
+                loading="lazy"
+                className="object-contain h-8 w-8"
+              />
               </div>
 
               {/* Course Name */}

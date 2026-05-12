@@ -173,8 +173,6 @@ const Dashboard = () => {
   }, []);
 
 
-
-
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY;
@@ -421,12 +419,7 @@ const Dashboard = () => {
             <p className="text-sm md:text-lg mb-4 md:mb-6">
               And unlock all the answers you’ve been waiting for.
             </p>
-            {/* <Link to="/suggesteduniversity">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 md:py-2 px-5 md:px-6 rounded-full transition duration-300 text-sm md:text-base">
-                View Form
-              </button>
-            </Link> */}
-
+         
 
             <button
               onClick={() => setShowForm(true)}
