@@ -8,7 +8,7 @@ import MobileFooterNav from './MobileFooterNav';
 import api from '../api/axios';
 import robotImg from "../uni-image/robot.png";
 import { useNavigate } from 'react-router-dom';
-import { createPortal } from "react-dom";
+import { createPortal } from "react-dom"; 
 
 const SuggestedUniversity = () => {
   const [currentStep, setCurrentStep] = useState(1);

@@ -1,13 +1,12 @@
 import { FaStar } from "react-icons/fa";
-import { BsCheckCircle } from "react-icons/bs";
-import user1 from "../course-image/ellipse.png";
 import { useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
-import autoTable from "jspdf-autotable";
 import { useState } from "react";
 import { PlusIcon, CheckIcon } from "@heroicons/react/24/solid";
 import user33 from '../assets/user33.webp';
 import WERWER from '../assets/WERWER.webp';
+
+
 
 
 export default function CourseHero({ course }) {
@@ -153,11 +152,9 @@ export default function CourseHero({ course }) {
 <div className="w-full md:w-1/2 relative h-[350px] md:h-[450px]">
   <img
     src={
-      course.banner_image
-        ? `http://127.0.0.1:8000/${course.banner_image}`
-        : course.image
-        ? `http://127.0.0.1:8000/${course.image}`
-        : "https://via.placeholder.com/600x400?text=No+Image"
+      course.image
+        ? `https://api.collegedrishti.com/${course.image}`
+        : "/no-image.webp"
     }
     alt={course.sub_name || "Course"}
     className="w-full h-full rounded-r-3xl object-cover"
