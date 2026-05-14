@@ -1,11 +1,31 @@
 <IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
-  
-  # If a file or directory exists, serve it directly
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  
-  # Otherwise, route everything to index.html
-  RewriteRule ^ index.html [L]
+    RewriteEngine On
+    RewriteBase /
+
+    # =========================
+    # 301 Redirects
+    # =========================
+
+    RewriteRule ^courses/btech$ /coursepage/B.Tech [R=301,L]
+
+    RewriteRule ^search$ /CollegeSearchPage [R=301,L]
+
+    RewriteRule ^blog/Best-High-Paying-Degrees-After-12th-in-India$ /blog/best-high-paying-degrees-after-12th-in-india [R=301,L]
+
+    RewriteRule ^Aboutjainuniversity$ /ugc-approved-online-universities [R=301,L]
+
+    RewriteRule ^webstories$ / [R=301,L]
+
+    RewriteRule ^CoursePage$ / [R=301,L]
+
+    RewriteRule ^courses/1$ / [R=301,L]
+
+    # =========================
+    # React Routing
+    # =========================
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteRule ^ index.html [L]
 </IfModule>
