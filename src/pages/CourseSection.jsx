@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const CourseSection = ({ courseData = [] }) => {
   const navigate = useNavigate();
 
@@ -70,32 +70,12 @@ const CourseSection = ({ courseData = [] }) => {
         {/* ================= HEADER ================= */}
 
         <div className="text-center mb-10">
-          <span
-            className="
-              inline-flex items-center
-              px-4 py-1.5
-              rounded-full
-              bg-blue-50
-              text-blue-600
-              text-sm
-              font-semibold
-              mb-4
-            "
-          >
-            Explore Programs
-          </span>
-
           <h2
             className="
-              text-3xl
-              md:text-5xl
-              font-extrabold
-              text-[#111827]
-              leading-tight
-              mb-4
+             text-4xl font-semibold mb-6
             "
           >
-            Discover Trending Courses
+             Courses
           </h2>
 
           <p
@@ -108,8 +88,7 @@ const CourseSection = ({ courseData = [] }) => {
               leading-relaxed
             "
           >
-            Learn industry-demanded skills with top universities and
-            professional programs designed for your career growth.
+            In-demand Courses Across multiple Domains Top rated Courses in diverse areas 
           </p>
         </div>
 
@@ -180,150 +159,81 @@ const CourseSection = ({ courseData = [] }) => {
             lg:gap-6
           "
         >
-          {displayedCourses.map((course) =>{  
-            console.log("COURSE:", course);          
+          {displayedCourses.map((course) =>{        
             return(
-                  <div
-              key={course.id}
-              className="
-                group
-                relative
-                bg-white/90
-                backdrop-blur
-                border border-[#EEF2FF]
-                rounded-[24px]
-                overflow-hidden
-                shadow-[0_4px_20px_rgba(0,0,0,0.04)]
-                hover:shadow-[0_10px_35px_rgba(0,87,255,0.12)]
-                transition-all
-                duration-500
-                hover:-translate-y-2
-                flex flex-col
-                items-center
-                justify-between
-                px-3
-                py-5
-                min-h-[190px]
-              "
-            >
-              {/* Top Glow */}
-              <div
-                className="
-                  absolute
-                  inset-0
-                  pointer-events-none
-                  bg-gradient-to-br
-                  from-blue-50/0
-                  via-blue-50/0
-                  to-blue-100/40
-                  opacity-0
-                  group-hover:opacity-100
-                  transition
-                "
-              />
+                <div className="flex justify-center">
+  <div
+    key={course.id}
+    className="
+      relative bg-white
+      border border-[#D9D9D9]
+      rounded-[14px]
+      shadow-sm
+      transition-all duration-300
+      hover:shadow-md hover:-translate-y-1
+      flex flex-col items-center justify-between
+      pt-4 pb-3
+      w-full
+      h-[135px]
+    "
+  >
+    {course.duration && (
+      <span
+        className="
+          absolute top-0 right-0
+          bg-[#FF6E00]
+          text-white
+          text-[10px]
+          font-semibold
+          h-[22px]
+          px-[10px]
+          flex items-center
+          rounded-tr-[14px]
+          rounded-bl-[14px]
+        "
+      >
+        {course.duration}
+      </span>
+    )}
 
-              {/* Duration */}
-              {course.duration && (
-                <span
-                  className="
-                    absolute
-                    top-0
-                    right-0
-                    bg-gradient-to-r
-                    from-[#FF7A00]
-                    to-[#FF9500]
-                    text-white
-                    text-[10px]
-                    font-bold
-                    px-3
-                    py-1
-                    rounded-tr-[22px]
-                    rounded-bl-[18px]
-                    shadow-md
-                  "
-                >
-                  {course.duration}
-                </span>
-              )}
+    <img
+  src={
+    course.image
+      ? `${import.meta.env.VITE_API_BASE_URL}/${course.image
+          .replace(/^\/+/, "")
+          .replace(/^api\/*/, "")}`
+      : "/default-course.png"
+  }
+  alt={course.name}
+  loading="lazy"
+  className="object-contain h-8 w-8"
+/>
 
-              {/* Image Wrapper */}
-              <div
-                className="
-                  relative
-                  z-10
-                  w-[68px]
-                  h-[68px]
-                  rounded-2xl
-                  bg-gradient-to-br
-                  from-[#F3F7FF]
-                  to-[#EEF3FF]
-                  flex
-                  items-center
-                  justify-center
-                  mb-4
-                  group-hover:scale-110
-                  transition
-                  duration-500
-                "
-              >
-               <img
-                src={
-                  course.image
-                    ? `https://api.collegedrishti.com/${course.image
-                        .replace(/^\/+/, "")
-                        .replace(/^api\/*/, "")}`
-                    : "/default-course.png"
-                }
-                alt={course.sub_name}
-                loading="lazy"
-                className="object-contain h-8 w-8"
-              />
-              </div>
+    <h3 className="text-[12px] font-semibold text-[#1E1E1E] text-center leading-[14px] px-2">
+      {course.name || "N/A"}
+    </h3>
 
-              {/* Course Name */}
-              <h4
-                className="
-                  text-[13px]
-                  font-semibold
-                  text-center
-                  text-[#111827]
-                  leading-[18px]
-                  line-clamp-2
-                  min-h-[38px]
-                  mb-4
-                "
-              >
-                {course.name}
-              </h4>
-
-              {/* Button */}
-              <button
-                onClick={() => {
-                  if (course.slug) {
-                    navigate(`/coursepage/${course.slug}`);
-                  }
-                }}
-                className="
-                  relative
-                  z-10
-                  mt-auto
-                  bg-[#0057FF]
-                  text-white
-                  text-[11px]
-                  font-semibold
-                  px-5
-                  py-2
-                  rounded-full
-                  hover:bg-[#0047D6]
-                  transition-all
-                  duration-300
-                  shadow-md
-                  hover:shadow-blue-200
-                "
-              >
-                View Course
-              </button>
-            </div>
+    <button
+      onClick={() => {
+        if (course.slug) {
+          navigate(`/coursepage/${course.slug}`);
+        }
+      }}
+      className="
+        mt-[6px]
+        bg-[#0057FF]
+        text-white
+        text-[11px]
+        px-5 py-[4px]
+        rounded-full
+        hover:bg-[#0046c2]
+        transition
+      "
+    >
+      View
+    </button>
+  </div>
+</div>
             )
           }
            
@@ -334,32 +244,12 @@ const CourseSection = ({ courseData = [] }) => {
 
         {filteredCourses.length > LIMIT && (
           <div className="flex justify-center mt-12">
-            <button
-              onClick={() => navigate("/coursefilter")}
-              className="
-                group
-                inline-flex
-                items-center
-                gap-2
-                bg-[#0057FF]
-                text-white
-                px-7
-                py-3
-                rounded-full
-                text-sm
-                font-semibold
-                shadow-lg shadow-blue-100
-                hover:bg-[#0047D6]
-                transition-all
-                duration-300
-              "
-            >
-              Explore All Courses
-
-              <span className="group-hover:translate-x-1 transition">
-                →
-              </span>
-            </button>
+           <button
+            onClick={() => navigate("/coursefilter")}
+            className="bg-blue-600 text-white text-sm px-6 py-2 rounded-full hover:bg-blue-700 transition"
+          >
+            View All →
+          </button>
           </div>
         )}
       </div>

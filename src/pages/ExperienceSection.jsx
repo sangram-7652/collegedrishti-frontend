@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Modal from "react-modal";
@@ -7,10 +6,16 @@ import "./ExperienceSection.css";
 import { FaPlay } from "react-icons/fa";
 import ShadeWaveLoader from "../components/ShadeWaveLoader";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 Modal.setAppElement("#root");
 
 const Arrow = ({ onClick, direction }) => (
-  <div className={`custom-arrow ${direction}`} onClick={onClick}>
+  <div
+    className={`custom-arrow ${direction}`}
+    onClick={onClick}
+  >
     {direction === "left" ? "‹" : "›"}
   </div>
 );
@@ -25,11 +30,19 @@ const SuccessStories = () => {
     api
       .get("/stories")
       .then((res) => {
-        const data = Array.isArray(res.data) ? res.data : res.data?.data || [];
+        const data =
+          Array.isArray(res.data)
+            ? res.data
+            : res.data?.data || [];
+
         setSlides(data);
       })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+      .catch((err) => {
+        console.error("Stories API Error:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const settings = {
@@ -39,12 +52,18 @@ const SuccessStories = () => {
     infinite: true,
     dots: true,
     speed: 500,
-    // prevArrow: <Arrow direction="left" />,
-    // nextArrow: <Arrow direction="right" />,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: true,
+    prevArrow: <Arrow direction="left" />,
+    nextArrow: <Arrow direction="right" />,
+
     responsive: [
       {
         breakpoint: 1024,
-        settings: { centerPadding: "100px" },
+        settings: {
+          centerPadding: "100px",
+        },
       },
       {
         breakpoint: 768,
@@ -61,25 +80,35 @@ const SuccessStories = () => {
   return (
     <section className="success-wrapper">
 
-       {/* HEADING */}
-    <div className="success-heading">
-      <h2>Success Stories: Real Experiences, Real Impact!</h2>
-
-    </div>
+      {/* HEADING */}
+      <div className="success-heading">
+        <h2>
+          Success Stories: Real Experiences, Real Impact!
+        </h2>
+      </div>
 
       {loading ? (
-        <ShadeWaveLoader label="Loading success stories..." cards={3} compact />
+        <ShadeWaveLoader
+          label="Loading success stories..."
+          cards={3}
+          compact
+        />
       ) : (
         <Slider {...settings}>
           {slides.map((item) => (
             <div key={item.id} className="slide-item">
               <div className="slide-card">
-                <img src={item.image} alt="success" className="" />
+
+                <img
+                  src={item.image}
+                  alt="success story"
+                  className="story-image"
+                />
 
                 <button
                   className="play-btn"
                   onClick={() => {
-                    setVideoId(item.link); 
+                    setVideoId(item.link);
                     setOpen(true);
                   }}
                 >
@@ -87,6 +116,7 @@ const SuccessStories = () => {
                     <FaPlay />
                   </span>
                 </button>
+
               </div>
             </div>
           ))}
@@ -96,21 +126,33 @@ const SuccessStories = () => {
       {/* VIDEO MODAL */}
       <Modal
         isOpen={open}
-        onRequestClose={() => setOpen(false)}
+        onRequestClose={() => {
+          setOpen(false);
+          setVideoId("");
+        }}
         className="video-modal"
         overlayClassName="overlay"
       >
+        <button
+          className="close-btn"
+          onClick={() => {
+            setOpen(false);
+            setVideoId("");
+          }}
+        >
+          ✕
+        </button>
+
         <iframe
           src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
           allow="autoplay; encrypted-media"
           allowFullScreen
-          title="video"
+          title="Success Story Video"
         />
       </Modal>
+
     </section>
   );
 };
 
 export default SuccessStories;
-
-

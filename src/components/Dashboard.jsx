@@ -17,7 +17,7 @@ import TransactionSlider from "../pages/TransactionSlider";
 import HiringSection from "../pages/HiringSection";
 import CourseSection from "../pages/CourseSection";
 import earnImage from '../assets/earn.webp';
-import amazonLogo from '../assets/amazon.png';
+// import amazonLogo from '../assets/amazon.png';
 import CourseIcon from '../assets/course-icon.png';
 import Counsellor from '../uni-image/Expert_Counselor.png';
 import Programs from '../uni-image/Programs.png';

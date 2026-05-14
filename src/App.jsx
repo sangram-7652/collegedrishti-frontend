@@ -1,6 +1,6 @@
 // src/App.jsx
 import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route , Navigate } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import MetaPixel from "./components/MetaPixel";
 import Chatbot from "./components/Chatbot";
@@ -66,6 +66,43 @@ const App = () => {
 
       <Suspense fallback={null}>
         <Routes>
+
+          <Route
+            path="/courses/btech"
+            element={<Navigate to="/coursepage/B.Tech" replace />}
+          />
+
+          <Route
+            path="/search"
+            element={<Navigate to="/CollegeSearchPage" replace />}
+          />
+
+         <Route
+          path="/blog/Best High-Paying Degrees After 12th in India"
+            element={
+              <Navigate
+                to="/blog/best-high-paying-degrees-after-12th-in-india"
+                replace
+              />
+            }
+          />
+
+          <Route
+            path="/Aboutjainuniversity"
+            element={
+              <Navigate
+                to="/ugc-approved-online-universities"
+                replace
+              />
+            }
+          />
+
+          <Route path="/webstories" element={<Navigate to="/" replace />} />
+
+          <Route path="/CoursePage" element={<Navigate to="/" replace />} />
+
+          <Route path="/courses/1" element={<Navigate to="/" replace />} />
+
           <Route path="/" element={<Dashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/signup" element={<Signup />} />
@@ -79,6 +116,7 @@ const App = () => {
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<Blogdetail />} />
           <Route path="/Aboutjainuniversity" element={<AboutJainUniversity />} />
+          <Route path="/ugc-approved-online-universities" element={<AboutJainUniversity />} />
           <Route path="/CollegeSearchPage" element={<CollegeSearchPage />} />
           <Route path="/MentorSlider" element={<MentorSlider />} />
           <Route path="/AboutCourses" element={<AboutCourses />} />
