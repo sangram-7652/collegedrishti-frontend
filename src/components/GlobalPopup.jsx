@@ -15,8 +15,6 @@ const GlobalPopup = () => {
           // production:
           // "https://api.collegedrishti.com/api/courses"
         );
-
-        console.log("Courses API Response:", res.data); // debug
         // response ke according adjust karo
         setCourses(res.data.data || res.data);
       } catch (error) {

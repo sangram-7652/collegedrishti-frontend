@@ -98,16 +98,6 @@ export default function CourseHero({ course }) {
             • {course.enrolled || "2,500+"} enrolled
           </span>
 
-          {/* <div className="flex -space-x-2">
-            {[1, 2, 3].map((i) => (
-              <img
-                key={i}
-                src={user1}
-                alt="user"
-                className="w-7 h-7 rounded-full border-2 border-white"
-              />
-            ))}
-          </div> */}
           <div className="flex -space-x-2">
             {[WERWER, user33].map((img, idx) => (
               <img
@@ -152,8 +142,9 @@ export default function CourseHero({ course }) {
 <div className="w-full md:w-1/2 relative h-[350px] md:h-[450px]">
   <img
     src={
-      course.image
-        ? `https://api.collegedrishti.com/${course.image}`
+      course.banner_image
+
+        ? `https://api.collegedrishti.com/${course.banner_image}`
         : "/no-image.webp"
     }
     alt={course.sub_name || "Course"}

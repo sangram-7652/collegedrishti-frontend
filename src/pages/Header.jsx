@@ -24,7 +24,7 @@ const getUserFromStorage = () => {
     if (!user || user === "undefined") return null;
 
     return JSON.parse(user);
-  } catch (e) {
+  } catch  {
     localStorage.removeItem("user");
     return null;
   }

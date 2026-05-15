@@ -52,7 +52,6 @@ const CoursePage = () => {
   /* ================= DATA ================= */
 
   const course = data?.data || null;
-
   const specializations =
     data?.specializations ||
     data?.data?.specializations ||

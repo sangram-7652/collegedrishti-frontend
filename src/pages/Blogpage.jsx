@@ -59,9 +59,7 @@ const BlogLoadingState = () => (
 const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  console.log(blogs);
-  
+ 
 
   useEffect(() => {
     api

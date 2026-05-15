@@ -369,11 +369,11 @@ const MobileMenu = () => {
           {/* SOCIAL HANDLES */}
 
           <div className="mt-4 border-t pt-4">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase mb-3">
+            <h3 className="text-xs text-right font-semibold text-gray-400 uppercase mb-3">
               Follow Us
             </h3>
 
-            <div className="space-y-3">
+            <div className="flex justify-end items-center gap-2 ">
               {/* Facebook */}
               <a
                 href="https://www.facebook.com/share/19fJ4pK5HA/"
@@ -382,7 +382,6 @@ const MobileMenu = () => {
                 className="flex items-center gap-3 text-sm text-gray-700 hover:text-blue-600"
               >
                 <img src={fb} alt="facebook" className="w-5 h-5" />
-                <span>Facebook</span>
               </a>
 
               {/* Youtube */}
@@ -393,7 +392,6 @@ const MobileMenu = () => {
                 className="flex items-center gap-3 text-sm text-gray-700 hover:text-red-600"
               >
                 <img src={yt} alt="youtube" className="w-5 h-5" />
-                <span>YouTube</span>
               </a>
 
               {/* Instagram */}
@@ -404,7 +402,6 @@ const MobileMenu = () => {
                 className="flex items-center gap-3 text-sm text-gray-700 hover:text-pink-600"
               >
                 <img src={ig} alt="instagram" className="w-5 h-5" />
-                <span>Instagram</span>
               </a>
 
               {/* Linkedin */}
@@ -415,7 +412,6 @@ const MobileMenu = () => {
                 className="flex items-center gap-3 text-sm text-gray-700 hover:text-blue-700"
               >
                 <img src={li} alt="linkedin" className="w-5 h-5" />
-                <span>LinkedIn</span>
               </a>
             </div>
           </div>

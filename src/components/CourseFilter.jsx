@@ -381,9 +381,9 @@ const CoursePage = () => {
 
   // ================= HANDLERS =================
 
-  const handleViewClick = (course) => {
+  const handleViewClick = (course) => {    
     if (!course.slug) return;
-    navigate(`/coursepage/${course.slug}`);
+    navigate(`/coursepage/${course.slug.toLowerCase()}`);
   };
 
   const handleFilterChange = (type, value) => {

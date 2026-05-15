@@ -42,6 +42,8 @@ const CourseSection = ({ courseData = [] }) => {
     );
   }, [courseData]);
 
+  
+
 
   /* ================= FILTER ================= */
 
