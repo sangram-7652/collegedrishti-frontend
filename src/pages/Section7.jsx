@@ -36,7 +36,7 @@ export default function Section7() {
     }, 3500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials.length]);
 
   return (
     <section className="relative py-14 bg-gradient-to-b from-white to-[#f8fbff] overflow-hidden">

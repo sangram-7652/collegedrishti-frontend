@@ -17,17 +17,14 @@ import Manipal from '../assets/Manipal logo.webp';
 import Sharda from '../uni-image/Sharda logo.webp';
 import Uttranchal from '../uni-image/Uttranchal logo.webp';
 
-import paytmLogo from '../assets/paytm.png';
-import logo1 from '../assets/logo-jain.png';
 
-import earnImage from '../assets/earn.webp';
 import amazonLogo from '../assets/amazon.png';
 import googleLogo from '../assets/google.png';
 import oracleLogo from '../assets/oracle.png';
 import pwcLogo from '../assets/pwc.png';
 import eyLogo from '../assets/ey.png';
 import microsoftLogo from '../assets/microsoft.png';
-import CourseIcon from '../assets/course-icon.png';
+
 
 
 

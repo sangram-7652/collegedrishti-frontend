@@ -33,9 +33,7 @@ const UniversityPage = () => {
       ? universityData.university ?? universityData
       : {};
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
+  console.log("University Data:", university);
 
   useEffect(() => {
     if (!slug) return;

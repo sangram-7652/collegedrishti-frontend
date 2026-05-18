@@ -13,7 +13,7 @@ const ThankYou = () => {
         }, 5000);
 
         return () => clearTimeout(timer);
-    }, []);
+    }, [navigate]);
 
     return (
         <div className="w-full min-h-screen bg-gray-50">

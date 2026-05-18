@@ -1,7 +1,6 @@
 // src/components/CoursesDropdown.jsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import api from "../api/axios";
 
 import pgIcon from "../assets/pg.png";
 import ugIcon from "../assets/ug.png";

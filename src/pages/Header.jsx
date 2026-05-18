@@ -24,7 +24,7 @@ const getUserFromStorage = () => {
     if (!user || user === "undefined") return null;
 
     return JSON.parse(user);
-  } catch  {
+  } catch {
     localStorage.removeItem("user");
     return null;
   }
@@ -210,8 +210,8 @@ export default function Header({ showOnlySearch }) {
         const data = Array.isArray(res.data)
           ? res.data
           : Array.isArray(res.data?.data)
-          ? res.data.data
-          : [];
+            ? res.data.data
+            : [];
 
         setResults(data);
 
@@ -540,10 +540,9 @@ export default function Header({ showOnlySearch }) {
                               flex items-center justify-between
                               cursor-pointer
                               transition
-                              ${
-                                activeIndex === index
-                                  ? "bg-blue-50"
-                                  : "hover:bg-gray-50"
+                              ${activeIndex === index
+                                ? "bg-blue-50"
+                                : "hover:bg-gray-50"
                               }
                             `}
                           >
@@ -557,11 +556,10 @@ export default function Header({ showOnlySearch }) {
                                 px-2 py-1
                                 rounded-full
                                 font-medium
-                                ${
-                                  item.type ===
+                                ${item.type ===
                                   "university"
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-blue-100 text-blue-700"
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-blue-100 text-blue-700"
                                 }
                               `}
                             >
@@ -716,30 +714,20 @@ export default function Header({ showOnlySearch }) {
                   className="cursor-pointer hover:text-black transition"
                   onClick={() => {
                     if (location.pathname === "/") {
-                      const section =
-                        document.getElementById(
-                          "explore-university"
-                        );
+                      const section = document.getElementById(
+                        "explore-university"
+                      );
 
                       if (section) {
-                        const headerOffset = 150;
-
-                        const elementPosition =
-                          section.getBoundingClientRect()
-                            .top + window.scrollY;
-
-                        window.scrollTo({
-                          top:
-                            elementPosition -
-                            headerOffset,
+                        section.scrollIntoView({
                           behavior: "smooth",
+                          block: "start",
                         });
                       }
                     } else {
                       navigate("/", {
                         state: {
-                          scrollTo:
-                            "explore-university",
+                          scrollTo: "explore-university",
                         },
                       });
                     }

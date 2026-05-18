@@ -391,18 +391,19 @@ const SuggestedUniversity = () => {
                           currentStep === 7 ? 'step7' :
                             currentStep === 8 ? 'step8' : 'step9';
 
-            // ⭐⭐ YAHAN imgUrl define karo — JSX ke bahar
-            // const imgUrl = image
-            //   ? `https://api.collegedrishti.com/${image.replace(/^\/+/, '')}`
-            //   : '/default-course.png';
-
+          
             // Safe Image Logic - Invisible fallback
-            let imgUrl = null;
-            if (image && typeof image === "string" && image.trim() !== "") {
-              imgUrl = `https://api.collegedrishti.com/${image
-                .replace(/^\/+/, "")
-                .replace(/^api\/*/, "")}`;
+           let imgUrl = null;
+
+          if (image && typeof image === "string") {
+            // already full URL
+            if (image.startsWith("http")) {
+              imgUrl = image;
+            } else {
+              // relative path from API
+              imgUrl = `https://api.collegedrishti.com/${image.replace(/^\/+/, "")}`;
             }
+          }
 
 
 
@@ -424,11 +425,15 @@ const SuggestedUniversity = () => {
               >
 
                 {imgUrl && (
-                  <img
-                    src={imgUrl}
-                    alt={label}
-                    className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
-                  />
+                 <img
+                  src={imgUrl}
+                  alt={label}
+                  loading="lazy"
+                  className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
                 )}
 
 

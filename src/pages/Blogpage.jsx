@@ -63,7 +63,7 @@ const BlogPage = () => {
 
   useEffect(() => {
     api
-      .get('/blogs') // ✅ Your Laravel API
+      .get('/blogs') 
       .then((res) => {
         if (res.data.success) {
           setBlogs(res.data.data);

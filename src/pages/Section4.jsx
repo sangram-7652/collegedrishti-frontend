@@ -204,32 +204,34 @@ const Section4 = ({ courseSlug }) => {
 
       {/* Compare Bar (bottom fixed) */}
       {compareList.length >= 2 && (
-        <div className="fixed bottom-0 left-0 w-full bg-white shadow-lg border-t p-4 flex justify-between items-center z-[9999]">
-          <p className="text-sm font-medium">
-            {compareList.length} Courses selected for comparison
-          </p>
-          <button
-            onClick={() =>
-              navigate("/compare", {
-                state: {
-                  courses: compareList.map((c) => ({
-                    id: c.id,
-                    course_name: c.course_name || "N/A",
-                    university_name: c.university_name || "N/A",
-                    total_fees: c.total_fees || 0,
-                    tenure_months: c.tenure_months || "N/A",
-                    monthly_emi: c.monthly_emi || 0,
-                    total_interest: c.total_interest || "0%",
-                  })),
-                },
-              })
-            }
-            className="bg-[#FF8000] text-white px-4 py-2 rounded"
-          >
-            Compare Now
-          </button>
-        </div>
-      )}
+  <div className="fixed bottom-16 left-0 w-full bg-white shadow-lg border-t p-3 sm:p-4 flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-center z-[9999]">
+    
+    <p className="text-sm font-medium text-center sm:text-left">
+      {compareList.length} Courses selected for comparison
+    </p>
+
+    <button
+      onClick={() =>
+        navigate("/compare", {
+          state: {
+            courses: compareList.map((c) => ({
+              id: c.id,
+              course_name: c.course_name || "N/A",
+              university_name: c.university_name || "N/A",
+              total_fees: c.total_fees || 0,
+              tenure_months: c.tenure_months || "N/A",
+              monthly_emi: c.monthly_emi || 0,
+              total_interest: c.total_interest || "0%",
+            })),
+          },
+        })
+      }
+      className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full sm:w-auto"
+    >
+      Compare Now
+    </button>
+  </div>
+)}
 
 
 

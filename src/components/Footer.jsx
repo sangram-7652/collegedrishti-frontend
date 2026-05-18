@@ -150,7 +150,7 @@ const Footer = () => {
               {[
                 {
                   label: "About Us",
-                  link: "/AboutUs",
+                  link: "/about-us",
                 },
                 {
                   label: "Refund Policy",

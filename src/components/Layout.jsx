@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import MobileFooterNav from '../components/MobileFooterNav';
 
 
-const Layout = ({ children }) => {
+const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
 

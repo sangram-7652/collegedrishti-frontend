@@ -9,7 +9,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import App from './App';
 import './index.css';
 import { Toaster } from "react-hot-toast";
-
 const queryClient = new QueryClient()
 
 

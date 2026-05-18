@@ -1,90 +1,4 @@
 
-// import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import Jain from "../assets/jain.png";
-// import api from '../api/axios';
-
-
-// const ExploreSection = () => {
-//   const navigate = useNavigate();
-//   const [exploreItems, setExploreItems] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [showAll, setShowAll] = useState(false); // 👈 View All toggle
-
-//   useEffect(() => {
-//     const fetchUniversities = async () => {
-//       try {
-//         const res = await api.get("/explore-universities");
-//          setExploreItems(res.data.data);
-
-//         const result = await res.json();
-//         if (result.success) {
-//           setExploreItems(result.data);
-//         }
-//       } catch (err) {
-//         console.error("Error fetching universities:", err);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchUniversities();
-//   }, []);
-
-//   if (loading) return <div className="text-center py-8">Loading...</div>;
-
-//   const getImage = (item) => {
-//     if (item.image && item.image.startsWith("http")) return item.image;
-//     if (item.image) return `https://api.collegedrishti.com/${item.image}`;
-//     return Jain;
-//   };
-
-//   // 👇 Initially sirf 6 universities show hongi
-//   const visibleItems = showAll ? exploreItems : exploreItems.slice(0, 6);
-
-//   return (
-//     <section id="explore-university"className="bg-white px-4 md:px-12 py-10">
-//       <h2 className="text-center text-xl md:text-2xl font-semibold mb-6">
-//         Explore Universities
-//       </h2>
-
-//       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-//         {exploreItems.map((item) => (
-//           <div
-//             key={item.id}
-//             onClick={() => navigate(`/university/${item.slug}`)}
-//             className="bg-white rounded-lg shadow-md flex items-center justify-center p-4 h-24 cursor-pointer hover:shadow-lg transition"
-//           >
-//             <img
-//               src={getImage(item)}
-//               alt={item.name}
-//               className="object-contain max-h-full w-full"
-//               onError={(e) => (e.target.src = Jain)}
-//             />
-//           </div>
-//         ))}
-//       </div>
-
-//        {/* 👇 View All / View Less Button */}
-//       {exploreItems.length > 6 && (
-//         <div className="mt-6">
-//           <button
-//             onClick={() => setShowAll(!showAll)}
-//             className="bg-[#004aad] text-white px-6 py-2 rounded-full hover:bg-blue-700 transition"
-//           >
-//             {showAll ? "View Less" : "View All"}
-//           </button>
-//         </div>
-//       )}
-
-//     </section>
-//   );
-// };
-
-// export default ExploreSection;
-
-
-
-
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Jain from "../assets/jain.png";
@@ -124,31 +38,36 @@ const ExploreSection = () => {
   }, []);
 
 
-  // //  scroll fucntion
-  // useEffect(() => {
-  //   if (location.state?.scrollTo) {
-  //     const scrollToSection = () => {
-  //       const section = document.getElementById(location.state.scrollTo);
+  //  scroll fucntion
+ useEffect(() => {
+  if (location.state?.scrollTo) {
+    const scrollToSection = () => {
+      const section = document.getElementById(location.state.scrollTo);
 
-  //       if (section) {
-  //         const headerOffset = 150;
-  //         const elementPosition =
-  //           section.getBoundingClientRect().top + window.scrollY;
-  //         const offsetPosition = elementPosition - headerOffset;
+      if (section) {
+        const headerOffset = 150;
 
-  //         window.scrollTo({
-  //           top: offsetPosition,
-  //           behavior: "smooth",
-  //         });
-  //       } else {
-  //         // 🔁 retry until DOM ready
-  //         setTimeout(scrollToSection, 100);
-  //       }
-  //     };
+        const elementPosition =
+          section.getBoundingClientRect().top + window.scrollY;
 
-  //     scrollToSection();
-  //   }
-  // }, [location.pathname, location.state]);
+        const offsetPosition = elementPosition - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+
+        // ✅ clear state after scroll
+        window.history.replaceState({}, document.title);
+      }
+    };
+
+    // ✅ wait until render complete
+    const timer = setTimeout(scrollToSection, 500);
+
+    return () => clearTimeout(timer);
+  }
+}, [location]);
 
 
   // ✅ Memoized visible items

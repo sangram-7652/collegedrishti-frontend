@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { CheckCircle2 } from 'lucide-react';
-import mbaImage from '../course-image/mba-future.png';
 import { Link } from "react-router-dom";
 
 

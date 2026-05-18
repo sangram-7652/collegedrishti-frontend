@@ -364,7 +364,6 @@ const MobileMenu = () => {
                 ))}
           </div>
 
-          {/* CONTACT */}
 
           {/* SOCIAL HANDLES */}
 
@@ -417,63 +416,7 @@ const MobileMenu = () => {
           </div>
         </nav>
 
-        {/* SOCIAL LINKS */}
-
-        <div className="px-4 pb-6 mt-4">
-          <div className="px-4 pb-4 mt-2">
-            <div className="flex items-center gap-3">
-              <a
-                href="https://www.facebook.com/p/College-Drishti-100092356802108/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center"
-              >
-                <img
-                  src={fb}
-                  alt="facebook"
-                  className="w-4 h-4 sm:w-5 sm:h-5 hover:scale-110 transition duration-200"
-                />
-              </a>
-
-              <a
-                href="https://www.youtube.com/@collegedrishti"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 bg-red-600 rounded-md flex items-center justify-center"
-              >
-                <img
-                  src={yt}
-                  alt="youtube"
-                  className="w-4 h-4 sm:w-5 sm:h-5 hover:scale-110 transition duration-200"
-                />
-              </a>
-
-              <a
-                href="https://www.linkedin.com/company/college-drishti-yv/"
-                className="w-8 h-8 bg-blue-800 rounded-md flex items-center justify-center"
-              >
-                <img
-                  src={li}
-                  alt="linkedin"
-                  className="w-4 h-4 sm:w-5 sm:h-5 hover:scale-110 transition duration-200"
-                />
-              </a>
-
-              <a
-                href="https://www.instagram.com/college_drishti/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-md flex items-center justify-center bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600"
-              >
-                <img
-                  src={ig}
-                  alt="instagram"
-                  className="w-4 h-4 sm:w-5 sm:h-5 hover:scale-110 transition duration-200"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
+   
       </div>
 
       {/* LOGOUT */}

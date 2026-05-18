@@ -1,14 +1,7 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
-import join1 from '../uni-image/join1.png';
-import join2 from '../uni-image/join2.png';
-import join3 from '../uni-image/join3.png';
 import mbaImage from '../course-image/mba-future.png';
 
-const specializations = [
-  "Marketing", "Finance", "HR", "Operations",
-  "IT", "International Business", "Healthcare", "Entrepreneurship"
-];
 
 const AdvantagesSection = () => {
   return (
@@ -27,7 +20,7 @@ const AdvantagesSection = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-4">Learn faster. <br />
+            <h2 className="text-2xl md:text-3xl font-semibold mb-4">Learn faster. <br />
               Stay Focused.<br />
               Build your career with the right guidance.</h2>
             <p className="text-gray-600 mb-6">

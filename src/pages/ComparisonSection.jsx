@@ -9,14 +9,12 @@ const ComparisonSection = ({
   onAddUniversity,
   onRemoveUniversity,
   onCompare,
-  courseData,
   compareLoading = false,
 }) => {
 
 
 
   const [subCourses, setSubCourses] = useState([]);
-  const [selectedSubCourse, setSelectedSubCourse] = useState("");
 
   useEffect(() => {
     const fetchSubCourses = async () => {
@@ -87,7 +85,6 @@ const ComparisonSection = ({
             {/* ✅ Subcourse Dropdown */}
             <select
               className="w-full border rounded p-2 mt-2 text-sm bg-gray-50"
-              onChange={(e) => setSelectedSubCourse(e.target.value)}
             >
               <option value="">Select Specialization</option>
 

@@ -1,7 +1,7 @@
 // src/App.jsx
 import { lazy, Suspense } from "react";
 import { Routes, Route , Navigate } from "react-router-dom";
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTop from "./ScrollToTop"
 import MetaPixel from "./components/MetaPixel";
 import Chatbot from "./components/Chatbot";
 import WhatsappButton from "./components/WhatsappButton";
@@ -19,7 +19,7 @@ import GlobalPopup from "./components/GlobalPopup";
 import Login from "./components/Login";
 const Signup = lazy(() => import("./components/Signup"));
 // const Dashboard = lazy(() => import("./components/Dashboard"));
-const UserDashboard = lazy(() => import("./pages/UserDashboard")); //user details
+const UserDashboard = lazy(() => import("./pages/UserDashboard")); 
 const CourseFilter = lazy(() => import("./components/CourseFilter"));
 const CoursePage = lazy(() => import("./components/CoursePage"));
 const UniversityPage = lazy(() => import("./components/UniversityPage"));
@@ -27,7 +27,8 @@ const Comparisonpage = lazy(() => import("./components/Comparisonpage"));
 const RecommendationResults = lazy(() => import("./pages/RecommendationResults"));
 const SuggestedUniversity = lazy(() => import("./components/SuggestedUniversity"));
 const BlogPage = lazy(() => import("./pages/Blogpage"));
-const Blogdetail = lazy(() => import("./pages/Blogdetail"));
+// const Blogdetail = lazy(() => import("./pages/Blogdetail"));
+const BlogDetailWrapper = lazy(() => import("./pages/BlogDetailWrapper"));
 const AboutJainUniversity = lazy(() => import("./pages/AboutJainUniversity"));
 const CollegeSearchPage = lazy(() => import("./pages/CollegeSearchPage"));
 const MentorSlider = lazy(() => import("./pages/MentorSlider"));
@@ -114,7 +115,8 @@ const App = () => {
           <Route path="/recommendations" element={<RecommendationResults />} />
           <Route path="/SuggestedUniversity" element={<SuggestedUniversity />} />
           <Route path="/blogs" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<Blogdetail />} />
+          {/* <Route path="/blog/:slug" element={<Blogdetail />} /> */}
+          <Route path="/blog/:slug" element={<BlogDetailWrapper />}/>
           <Route path="/Aboutjainuniversity" element={<AboutJainUniversity />} />
           <Route path="/ugc-approved-online-universities" element={<AboutJainUniversity />} />
           <Route path="/CollegeSearchPage" element={<CollegeSearchPage />} />
@@ -134,7 +136,7 @@ const App = () => {
             <Route path="/terms" element={<Terms />} />
           </Route>
 
-          {/* 🔥 404 – hamesha last */}
+          {/*  404 – hamesha last */}
           <Route path="*" element={<NotFound />} />
           <Route path="/thank-you" element={<ThankYou />} />
 

@@ -4,7 +4,6 @@ import VideoImg from "../uni-image/video-img.png";
 
 const Section10 = () => {
   const scrollRef1 = useRef(null);
-  const scrollRef2 = useRef(null);
 
   const videos = [
     {

@@ -2,14 +2,11 @@ import React from "react";
 
 const AboutUniversity = ({ data }) => {
 
-  console.log(data);
-  
 
   // ✅ UNIVERSITY OBJECT
   const university = data?.university || {};
 
   // ✅ MAIN HTML CONTENT
-  // IMPORTANT FIX
   const details = data?.details || "";
 
   // ✅ EXTRA DETAILS

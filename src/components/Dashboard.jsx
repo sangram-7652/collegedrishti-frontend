@@ -50,9 +50,7 @@ const Dashboard = () => {
   const [showOnlySearch, setShowOnlySearch] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
 
-  const [search, setSearch] = useState("");
-  const [results, setResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
+
   const [showForm, setShowForm] = useState(false);
   const showOnlySearchRef = useRef(false);
   const navigate = useNavigate();
@@ -94,23 +92,6 @@ const Dashboard = () => {
 
 
 
-  const handleSearch = async (value) => {
-    setSearch(value);
-
-    if (value.length < 2) {
-      setResults([]);
-      setShowResults(false);
-      return;
-    }
-
-    try {
-      const res = await api.get(`/search?q=${value}`);
-      setResults(res.data);
-      setShowResults(true);
-    } catch (error) {
-      console.error("Search error:", error);
-    }
-  };
 
   //  scroll learn-earn section function
   useEffect(() => {
