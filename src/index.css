@@ -7,6 +7,8 @@
 @plugin "@tailwindcss/typography";
 
 /* ===== BASE ===== */
+
+
 html,
 body,
 #root {

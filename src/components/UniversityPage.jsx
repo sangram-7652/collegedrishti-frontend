@@ -125,6 +125,7 @@ const UniversityPage = () => {
     );
   }
 
+
   if (!university?.id) {
     return (
       <div className="w-full font-sans overflow-x-hidden bg-white text-black min-h-screen">
@@ -148,6 +149,7 @@ const UniversityPage = () => {
       </div>
     );
   }
+
 
   return (
     <div className="w-full font-sans overflow-x-hidden bg-white text-black min-h-screen">

@@ -11,6 +11,7 @@ import FAQSection from "../pages/FAQSection";
 import LeadForm from "../components/LeadForm";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import {
   Navigation,
   Pagination,
@@ -23,124 +24,43 @@ import "swiper/css/pagination";
 
 const slugify = (text) => {
   return text
-    .toLowerCase()
-    .replace(/[^\w\s]/gi, "")
+    ?.toLowerCase()
+    .replace(/\u00A0/g, "")
+    .replace(/[^\w\s-]/gi, "")
     .trim()
     .replace(/\s+/g, "-");
-};
-
-const processContent = (html) => {
-  const parser = new DOMParser();
-
-  const doc = parser.parseFromString(html, "text/html");
-
-  const headings = doc.querySelectorAll("h2");
-
-  headings.forEach((heading, index) => {
-    if (!heading.id) {
-      heading.id =
-        slugify(heading.innerText) || `section-${index}`;
-    }
-  });
-
-  return {
-    updatedContent: doc.body.innerHTML,
-    toc: [],
-  };
-};
-
-const makeTOCClickable = (html) => {
-  const parser = new DOMParser();
-
-  const doc = parser.parseFromString(html, "text/html");
-
-  const items = doc.querySelectorAll("li");
-
-  items.forEach((li) => {
-    const text = li.innerText.trim();
-
-    const id = slugify(text);
-
-    li.innerHTML = `<a href="#${id}">${text}</a>`;
-  });
-
-  return doc.body.innerHTML;
 };
 
 function decodeHtml(html) {
   if (!html) return "";
 
-  const txt = document.createElement("textarea");
+  const txt =
+    document.createElement("textarea");
 
   txt.innerHTML = html;
 
   return txt.value;
 }
 
-const TableOfContents = ({ toc }) => {
-  console.log("TOC:", toc);
-  if (!toc.length) return null;
-
-  return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 md:p-6 my-8 shadow-sm">
-      <h2 className="font-semibold text-lg text-gray-800 mb-4">
-        Table of Contents
-      </h2>
-
-      <ul id="toc" className="space-y-2">
-        {toc.map((item, i) => (
-          <li
-            key={i}
-            className={`${
-              item.level === "H3"
-                ? "ml-4 text-sm text-gray-600"
-                : "text-base font-medium text-gray-800"
-            }`}
-          >
-            <a
-              href={`#${item.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-
-                const el = document.getElementById(item.id);
-
-                if (el) {
-                  const yOffset = -110;
-
-                  const y =
-                    el.getBoundingClientRect().top +
-                    window.pageYOffset +
-                    yOffset;
-
-                  window.scrollTo({
-                    top: y,
-                    behavior: "smooth",
-                  });
-                }
-              }}
-              className="hover:text-blue-600 transition"
-            >
-              {item.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-const RecentBlogsSection = ({ recentBlogs }) => {
+const RecentBlogsSection = ({
+  recentBlogs,
+}) => {
   if (!recentBlogs.length) return null;
 
   return (
     <section className="w-full bg-white py-10 md:py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+
         <h2 className="text-xl md:text-2xl font-bold mb-6 text-[#0B3C5D]">
           Recent Blogs
         </h2>
 
         <Swiper
-          modules={[Navigation, Pagination, Autoplay]}
+          modules={[
+            Navigation,
+            Pagination,
+            Autoplay,
+          ]}
           spaceBetween={24}
           slidesPerView={1}
           navigation
@@ -195,34 +115,32 @@ const RecentBlogsSection = ({ recentBlogs }) => {
 const BlogDetail = () => {
   const { slug } = useParams();
 
-  const [blog, setBlog] = useState(null);
-  
+  const [blog, setBlog] =
+    useState(null);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] =
+    useState(true);
 
-  const [toc, setToc] = useState([]);
+  const [recentBlogs, setRecentBlogs] =
+    useState([]);
 
-  const [recentBlogs, setRecentBlogs] = useState([]);
-
-  // Fetch blog
+  // Fetch Blog
   useEffect(() => {
     api
       .get(`/blogs/${slug}`)
       .then((res) => {
         if (res.data.success) {
-          const blogData = res.data.data;
-
-          const { updatedContent, toc: nextToc } =
-            processContent(
-              decodeHtml(blogData.content)
-            );
+          const blogData =
+            res.data.data;
 
           setBlog({
             ...blogData,
-            content: updatedContent,
+            content: decodeHtml(
+              blogData.content
+            ),
           });
 
-          setToc(nextToc);
+          window.scrollTo(0, 0);
         } else {
           setBlog(null);
         }
@@ -231,61 +149,178 @@ const BlogDetail = () => {
         console.error(err);
         setBlog(null);
       })
-      .finally(() => setLoading(false));
+      .finally(() =>
+        setLoading(false)
+      );
   }, [slug]);
 
-  // TOC active highlight
+  // Generate IDs After Render
   useEffect(() => {
-    const handleScroll = () => {
-      let current = "";
+    if (!blog) return;
 
-      document
-        .querySelectorAll("h2, h3")
-        .forEach((section) => {
-          const rect =
-            section.getBoundingClientRect();
+    const timer = setTimeout(() => {
+      const content =
+        document.querySelector(
+          ".blog-content"
+        );
 
-          if (rect.top <= 150) {
-            current = section.id;
-          }
-        });
+      if (!content) return;
 
-      document
-        .querySelectorAll("#toc a")
-        .forEach((a) => {
-          a.classList.remove("text-red-500");
+      const headings =
+        content.querySelectorAll(
+          "h1, h2, h3, h4, h5, h6"
+        );
 
-          if (
-            a.getAttribute("href") === `#${current}`
-          ) {
-            a.classList.add("text-red-500");
-          }
-        });
-    };
+      headings.forEach(
+        (heading, index) => {
+          const text =
+            heading.textContent;
 
-    window.addEventListener("scroll", handleScroll);
+          if (!text) return;
+
+          const cleanText = text
+            .replace(/\u00A0/g, "")
+            .trim();
+
+          const finalId =
+            slugify(cleanText);
+
+          heading.id =
+            finalId ||
+            `section-${index}`;
+        }
+      );
+    }, 500);
 
     return () =>
-      window.removeEventListener(
-        "scroll",
-        handleScroll
+      clearTimeout(timer);
+  }, [blog]);
+
+  // TOC Smooth Scroll
+  useEffect(() => {
+    const handleClick = (e) => {
+      const link = e.target.closest(
+        '.toc-content a[href^="#"]'
       );
+
+      if (!link) return;
+
+      e.preventDefault();
+
+      const href =
+        link.getAttribute("href");
+
+      if (!href) return;
+
+      const id = href
+        .replace("#", "")
+        .replace(/\u00A0/g, "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^\w\s-]/gi, "")
+        .replace(/\s+/g, "-");
+
+      const element =
+        document.querySelector(
+          `.blog-content #${CSS.escape(
+            id
+          )}`
+        );
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        setTimeout(() => {
+          window.scrollBy({
+            top: -100,
+            behavior: "instant",
+          });
+        }, 300);
+
+        window.history.replaceState(
+          null,
+          "",
+          href
+        );
+      }
+    };
+
+    document.addEventListener(
+      "click",
+      handleClick
+    );
+
+    return () => {
+      document.removeEventListener(
+        "click",
+        handleClick
+      );
+    };
   }, []);
 
-  // Fetch recent blogs
+  // Scroll To Hash On Load
+  useEffect(() => {
+    if (!blog) return;
+
+    const timer = setTimeout(() => {
+      const hash =
+        window.location.hash;
+
+      if (!hash) return;
+
+      const id = hash
+        .replace("#", "")
+        .replace(/\u00A0/g, "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^\w\s-]/gi, "")
+        .replace(/\s+/g, "-");
+
+      const element =
+        document.querySelector(
+          `.blog-content #${CSS.escape(
+            id
+          )}`
+        );
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        setTimeout(() => {
+          window.scrollBy({
+            top: -100,
+            behavior: "instant",
+          });
+        }, 300);
+      }
+    }, 800);
+
+    return () =>
+      clearTimeout(timer);
+  }, [blog]);
+
+  // Fetch Recent Blogs
   useEffect(() => {
     api.get("/blogs").then((res) => {
       if (res.data.success) {
         setRecentBlogs(
           res.data.data
-            .filter((item) => item.slug !== slug)
+            .filter(
+              (item) =>
+                item.slug !== slug
+            )
             .slice(0, 6)
         );
       }
     });
   }, [slug]);
 
- 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -293,7 +328,7 @@ const BlogDetail = () => {
           <div className="w-14 h-14 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
 
           <p className="text-lg font-semibold text-gray-700">
-            Loading Course...
+            Loading Blog...
           </p>
         </div>
       </div>
@@ -309,6 +344,7 @@ const BlogDetail = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
+
       {/* Desktop Header */}
       <div className="hidden md:block">
         <Header />
@@ -321,15 +357,18 @@ const BlogDetail = () => {
 
       {/* Main */}
       <main className="flex-grow w-full bg-white py-6 md:py-10">
+
         <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex flex-col lg:flex-row gap-8">
-          
+
           {/* Left Content */}
           <div className="w-full lg:w-2/3">
-            
+
+            {/* Blog Title */}
             <h1 className="course-content text-2xl md:text-4xl font-bold text-[#0B3C5D] leading-snug">
               {blog?.title}
             </h1>
 
+            {/* Date */}
             <p className="course-content text-sm text-[#3B5B7A] mt-2">
               Published on{" "}
               {blog?.created_at
@@ -339,6 +378,7 @@ const BlogDetail = () => {
                 : "N/A"}
             </p>
 
+            {/* Blog Image */}
             {blog.image && (
               <div className="mt-6">
                 <img
@@ -349,55 +389,63 @@ const BlogDetail = () => {
               </div>
             )}
 
+            {/* Meta Description */}
             {blog.meta_dis && (
               <div className="mt-4 md:mt-6 bg-blue-50 border-l-4 border-blue-600 rounded-xl px-4 py-3">
                 <div
                   className="course-content text-gray-800 leading-relaxed font-medium"
                   dangerouslySetInnerHTML={{
-                    __html: blog.meta_dis,
+                    __html:
+                      blog.meta_dis,
                   }}
                 />
               </div>
             )}
 
-            <TableOfContents toc={toc} />
-
+            {/* TOC */}
             {blog.table_con && (
-              <div className="bg-white border border-gray-200 rounded-xl p-5 md:p-6 my-8 shadow-sm">
-                <h2 className="font-semibold text-lg text-gray-800 mb-4">
-                  Table of Contents
+              <div className="border border-gray-300 rounded-2xl p-6 md:p-8 my-8 bg-white shadow-sm">
+
+                <h2 className="text-2xl font-bold text-center mb-6 text-black">
+                  Table of Content
                 </h2>
 
                 <div
-                  className="course-content"
+                  className="course-content toc-content [&_a]:text-blue-600 [&_a]:underline [&_a]:cursor-pointer"
                   dangerouslySetInnerHTML={{
-                    __html: makeTOCClickable(
-                      decodeHtml(blog.table_con)
+                    __html: decodeHtml(
+                      blog.table_con
                     ),
                   }}
                 />
               </div>
             )}
 
+            {/* Blog Content */}
             {blog?.content && (
               <div
-                className="course-content mt-8 md:mt-10"
+                suppressHydrationWarning={
+                  true
+                }
+                className="course-content blog-content mt-8 md:mt-10"
                 dangerouslySetInnerHTML={{
-                  __html: blog.content
-                    .replace(
-                      /<table/g,
-                      '<div class="table-wrapper"><table'
-                    )
-                    .replace(
-                      /<\/table>/g,
-                      "</table></div>"
-                    ),
+                  __html:
+                    blog.content
+                      .replace(
+                        /<table/g,
+                        '<div class="table-wrapper"><table'
+                      )
+                      .replace(
+                        /<\/table>/g,
+                        "</table></div>"
+                      ),
                 }}
               />
             )}
+
           </div>
 
-          {/* Desktop Sticky Lead Form */}
+          {/* Desktop Sticky Form */}
           <div className="hidden lg:block lg:w-1/3">
             <div className="sticky top-24">
               <LeadForm />

@@ -39,6 +39,8 @@ const MentorSlider = () => {
       : [];
   const canLoop = repeatedData.length > 4;
 
+  
+
   const handleFlip = (index) => {
     setFlippedIndex(flippedIndex === index ? null : index);
   };

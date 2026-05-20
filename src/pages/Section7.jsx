@@ -39,7 +39,7 @@ export default function Section7() {
   }, [testimonials.length]);
 
   return (
-    <section className="relative py-14 bg-gradient-to-b from-white to-[#f8fbff] overflow-hidden">
+    <section className="relative py-10 bg-gradient-to-b from-white to-[#f8fbff] overflow-hidden">
 
       {/* Premium Blur Background */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[350px] h-[350px] bg-blue-100 rounded-full blur-3xl opacity-40"></div>
@@ -47,17 +47,12 @@ export default function Section7() {
       {/* Heading */}
       <div className="relative z-10 text-center mb-8 px-4">
 
-        <span className="inline-block px-5 py-2 rounded-full bg-blue-50 text-[#0056D2] text-sm font-semibold border border-blue-100">
-          Student Testimonials
-        </span>
-
-        <h2 className="mt-5 text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
-          Trusted by Thousands <br />
-          of Students Across India
+        <h2 className="mt-5 text-2xl md:text-4xl font-bold text-blue-700 leading-tight">
+          4.5 course rating | 4K ratings
         </h2>
 
-        <p className="mt-4 text-gray-500 max-w-2xl mx-auto text-sm md:text-lg leading-relaxed">
-          Real experiences from students and working professionals who transformed their careers with the right guidance.
+        <p className="mt-4 text-gray-500 max-w-2xl mx-auto text-sm md:text-xl font-[400]">
+         Hear from students and professionals who've transformed their careers and lives through our courses. 
         </p>
       </div>
 
