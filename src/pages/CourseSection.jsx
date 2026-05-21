@@ -20,7 +20,6 @@ const CourseSection = ({ courseData = [] }) => {
 
   /* ================= DEBUG ================= */
 
-
   /* ================= TABS ================= */
 
   const tabs = useMemo(() => {
@@ -38,12 +37,9 @@ const CourseSection = ({ courseData = [] }) => {
         image: sub.image,
         duration: sub.duration,
         category: course.course_name,
-      }))
+      })),
     );
   }, [courseData]);
-
-
-
 
   /* ================= FILTER ================= */
 
@@ -90,7 +86,8 @@ const CourseSection = ({ courseData = [] }) => {
               leading-relaxed
             "
           >
-            In-demand Courses Across multiple Domains Top rated Courses in diverse areas
+            In-demand Courses Across multiple Domains Top rated Courses in
+            diverse areas
           </p>
         </div>
 
@@ -123,14 +120,15 @@ const CourseSection = ({ courseData = [] }) => {
                 duration-300
                 border
 
-                ${activeTab === tab
-                  ? `
+                ${
+                  activeTab === tab
+                    ? `
                       bg-[#0057FF]
                       text-white
                       border-[#0057FF]
                       shadow-lg shadow-blue-100
                     `
-                  : `
+                    : `
                       bg-white
                       text-gray-600
                       border-gray-200
@@ -175,23 +173,24 @@ const CourseSection = ({ courseData = [] }) => {
                     flex flex-col items-center justify-between
                     pt-4 pb-3
                     w-full
+                    md:space-y-2
                     space-y-1
                   "
                 >
                   {course.duration && (
                     <span
                       className="
-          absolute top-0 right-0
-          bg-[#FF6E00]
-          text-white
-          text-[12px]
-          font-semibold
-          h-[22px]
-          px-[10px]
-          flex items-center
-          rounded-tr-[14px]
-          rounded-bl-[14px]
-        "
+                          absolute top-0 right-0
+                          bg-[#FF6E00]
+                          text-white
+                          text-[10px]
+                          font-semibold
+                          h-[22px]
+                          px-[10px]
+                          flex items-center
+                          rounded-tr-[14px]
+                          rounded-bl-[14px]
+                        "
                     >
                       {course.duration}
                     </span>
@@ -201,16 +200,24 @@ const CourseSection = ({ courseData = [] }) => {
                     src={
                       course.image
                         ? `${import.meta.env.VITE_API_BASE_URL}/${course.image
-                          .replace(/^\/+/, "")
-                          .replace(/^api\/*/, "")}`
+                            .replace(/^\/+/, "")
+                            .replace(/^api\/*/, "")}`
                         : "/default-course.png"
                     }
                     alt={course.name}
                     loading="lazy"
-                    className="object-contain h-8 w-8"
+                    className="object-contain h-10 w-10"
                   />
 
-                  <h3 className="text-[12px] font-semibold text-[#1E1E1E] text-center leading-[12px] px-2">
+                  <h3 className="
+                      !text-[12px]
+                      sm:text-[10px]
+                      md:text-[11px]
+                      text-center
+                      leading-tight
+                      px-1
+                      line-clamp-2
+                    ">
                     {course.name || "N/A"}
                   </h3>
 
@@ -224,8 +231,8 @@ const CourseSection = ({ courseData = [] }) => {
         mt-[6px]
         bg-[#0057FF]
         text-white
-        text-[10px]
-        px-5 py-[4px]
+        text-[11px]
+        px-6 py-[3px]
         rounded-full
         hover:bg-[#0046c2]
         transition
@@ -235,10 +242,8 @@ const CourseSection = ({ courseData = [] }) => {
                   </button>
                 </div>
               </div>
-            )
-          }
-
-          )}
+            );
+          })}
         </div>
 
         {/* ================= VIEW ALL ================= */}
