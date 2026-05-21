@@ -179,57 +179,53 @@ export default function Header({ showOnlySearch }) {
 
   /* ================= SEARCH ================= */
 
-  const handleSearch = async (value) => {
-    const query = value.trim();
+const handleSearch = async (value) => {
+  setSearch(value);
 
-    setSearch(query);
+  const query = value.trim();
 
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
+  if (debounceRef.current) {
+    clearTimeout(debounceRef.current);
+  }
 
-    if (query.length < 2) {
+  if (query.length < 2) {
+    setResults([]);
+    setShowResults(false);
+    setLoading(false);
+    return;
+  }
+
+  debounceRef.current = setTimeout(async () => {
+    try {
+      setLoading(true);
+
+      lastQueryRef.current = query;
+
+      const res = await api.get(
+        `/search?q=${encodeURIComponent(query)}`
+      );
+
+      if (lastQueryRef.current !== query) return;
+
+      const data = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data?.data)
+        ? res.data.data
+        : [];
+
+      setResults(data);
+      setShowResults(true);
+      setActiveIndex(-1);
+    } catch (error) {
+      console.log("Search error:", error);
+
       setResults([]);
-      setShowResults(false);
+      setShowResults(true);
+    } finally {
       setLoading(false);
-      return;
     }
-
-    debounceRef.current = setTimeout(async () => {
-      try {
-        setLoading(true);
-
-        lastQueryRef.current = query;
-
-        const res = await api.get(
-          `/search?q=${encodeURIComponent(query)}`
-        );
-
-        if (lastQueryRef.current !== query) return;
-
-        const data = Array.isArray(res.data)
-          ? res.data
-          : Array.isArray(res.data?.data)
-            ? res.data.data
-            : [];
-
-        setResults(data);
-
-        setShowResults(true);
-
-        setActiveIndex(-1);
-      } catch (error) {
-        console.log("Search error:", error);
-
-        setResults([]);
-
-        setShowResults(true);
-      } finally {
-        setLoading(false);
-      }
-    }, 400);
-  };
-
+  }, 400);
+};
   return (
     <>
       <header

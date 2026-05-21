@@ -24,7 +24,7 @@ const CourseCard = ({ course, onView }) => {
           flex flex-col items-center justify-between
           pt-4 pb-3
           w-full max-w-[166px]
-          h-[135px]
+          space-y-2
         "
       >
         {course.duration && (
@@ -56,7 +56,7 @@ const CourseCard = ({ course, onView }) => {
           }
           alt={course.sub_name}
           loading="lazy"
-          className="object-contain h-8 w-8"
+          className="object-contain h-12 w-12"
         />
 
         <h3 className="text-[12px] font-semibold text-[#1E1E1E] text-center leading-[14px] px-2">
@@ -70,7 +70,7 @@ const CourseCard = ({ course, onView }) => {
             bg-[#0057FF]
             text-white
             text-[11px]
-            px-5 py-[4px]
+            px-6 py-[3px]
             rounded-full
             hover:bg-[#0046c2]
             transition

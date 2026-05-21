@@ -42,7 +42,7 @@ const CourseSection = ({ courseData = [] }) => {
     );
   }, [courseData]);
 
-  
+
 
 
   /* ================= FILTER ================= */
@@ -77,7 +77,7 @@ const CourseSection = ({ courseData = [] }) => {
              text-4xl font-semibold mb-6
             "
           >
-             Courses
+            Courses
           </h2>
 
           <p
@@ -90,7 +90,7 @@ const CourseSection = ({ courseData = [] }) => {
               leading-relaxed
             "
           >
-            In-demand Courses Across multiple Domains Top rated Courses in diverse areas 
+            In-demand Courses Across multiple Domains Top rated Courses in diverse areas
           </p>
         </div>
 
@@ -123,15 +123,14 @@ const CourseSection = ({ courseData = [] }) => {
                 duration-300
                 border
 
-                ${
-                  activeTab === tab
-                    ? `
+                ${activeTab === tab
+                  ? `
                       bg-[#0057FF]
                       text-white
                       border-[#0057FF]
                       shadow-lg shadow-blue-100
                     `
-                    : `
+                  : `
                       bg-white
                       text-gray-600
                       border-gray-200
@@ -157,35 +156,35 @@ const CourseSection = ({ courseData = [] }) => {
             md:grid-cols-4
             lg:grid-cols-5
             xl:grid-cols-7
-            gap-4
+            gap-3
             lg:gap-6
           "
         >
-          {displayedCourses.map((course) =>{        
-            return(
-                <div className="flex justify-center">
-  <div
-    key={course.id}
-    className="
-      relative bg-white
-      border border-[#D9D9D9]
-      rounded-[14px]
-      shadow-sm
-      transition-all duration-300
-      hover:shadow-md hover:-translate-y-1
-      flex flex-col items-center justify-between
-      pt-4 pb-3
-      w-full
-      h-[135px]
-    "
-  >
-    {course.duration && (
-      <span
-        className="
+          {displayedCourses.map((course) => {
+            return (
+              <div className="flex justify-center">
+                <div
+                  key={course.id}
+                  className="
+                    relative bg-white
+                    border border-[#D9D9D9]
+                    rounded-[14px]
+                    shadow-sm
+                    transition-all duration-300
+                    hover:shadow-md hover:-translate-y-1
+                    flex flex-col items-center justify-between
+                    pt-4 pb-3
+                    w-full
+                    space-y-1
+                  "
+                >
+                  {course.duration && (
+                    <span
+                      className="
           absolute top-0 right-0
           bg-[#FF6E00]
           text-white
-          text-[10px]
+          text-[12px]
           font-semibold
           h-[22px]
           px-[10px]
@@ -193,65 +192,65 @@ const CourseSection = ({ courseData = [] }) => {
           rounded-tr-[14px]
           rounded-bl-[14px]
         "
-      >
-        {course.duration}
-      </span>
-    )}
+                    >
+                      {course.duration}
+                    </span>
+                  )}
 
-    <img
-  src={
-    course.image
-      ? `${import.meta.env.VITE_API_BASE_URL}/${course.image
-          .replace(/^\/+/, "")
-          .replace(/^api\/*/, "")}`
-      : "/default-course.png"
-  }
-  alt={course.name}
-  loading="lazy"
-  className="object-contain h-8 w-8"
-/>
+                  <img
+                    src={
+                      course.image
+                        ? `${import.meta.env.VITE_API_BASE_URL}/${course.image
+                          .replace(/^\/+/, "")
+                          .replace(/^api\/*/, "")}`
+                        : "/default-course.png"
+                    }
+                    alt={course.name}
+                    loading="lazy"
+                    className="object-contain h-8 w-8"
+                  />
 
-    <h3 className="text-[12px] font-semibold text-[#1E1E1E] text-center leading-[14px] px-2">
-      {course.name || "N/A"}
-    </h3>
+                  <h3 className="text-[12px] font-semibold text-[#1E1E1E] text-center leading-[12px] px-2">
+                    {course.name || "N/A"}
+                  </h3>
 
-    <button
-      onClick={() => {
-        if (course.slug) {
-          navigate(`/coursepage/${course.slug}`);
-        }
-      }}
-      className="
+                  <button
+                    onClick={() => {
+                      if (course.slug) {
+                        navigate(`/coursepage/${course.slug}`);
+                      }
+                    }}
+                    className="
         mt-[6px]
         bg-[#0057FF]
         text-white
-        text-[11px]
+        text-[10px]
         px-5 py-[4px]
         rounded-full
         hover:bg-[#0046c2]
         transition
       "
-    >
-      View
-    </button>
-  </div>
-</div>
+                  >
+                    View
+                  </button>
+                </div>
+              </div>
             )
           }
-           
-           )}
+
+          )}
         </div>
 
         {/* ================= VIEW ALL ================= */}
 
         {filteredCourses.length > LIMIT && (
           <div className="flex justify-center mt-12">
-           <button
-            onClick={() => navigate("/coursefilter")}
-            className="bg-blue-600 text-white text-sm px-6 py-2 rounded-full hover:bg-blue-700 transition"
-          >
-            View All →
-          </button>
+            <button
+              onClick={() => navigate("/coursefilter")}
+              className="bg-blue-600 text-white text-sm px-6 py-2 rounded-full hover:bg-blue-700 transition"
+            >
+              View All →
+            </button>
           </div>
         )}
       </div>

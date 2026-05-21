@@ -456,7 +456,7 @@ const BlogDetail = () => {
       </main>
 
       {/* FAQ */}
-      <FAQSection />
+      {/* <FAQSection /> */}
 
       {/* Recent Blogs */}
       <RecentBlogsSection

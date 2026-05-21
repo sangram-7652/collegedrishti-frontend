@@ -15,6 +15,9 @@ import GlobalPopup from "./components/GlobalPopup";
 
 
 
+
+
+
 /* ===== LAZY IMPORTS (VERY IMPORTANT) ===== */
 import Login from "./components/Login";
 const Signup = lazy(() => import("./components/Signup"));
@@ -62,7 +65,7 @@ const App = () => {
       <FloatingActions />
 
       {/* ✅ GLOBAL POPUP */}
-      <GlobalPopup />
+      {/* <GlobalPopup /> */}
 
 
       <Suspense fallback={null}>
