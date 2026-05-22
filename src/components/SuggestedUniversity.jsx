@@ -401,7 +401,7 @@ const SuggestedUniversity = () => {
               imgUrl = image;
             } else {
               // relative path from API
-              imgUrl = `https://api.collegedrishti.com/${image.replace(/^\/+/, "")}`;
+              imgUrl = `${import.meta.env.VITE_API_BASE_URL}${image.replace(/^\/+/, "")}`;
             }
           }
 

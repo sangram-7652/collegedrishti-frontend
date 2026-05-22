@@ -420,7 +420,7 @@ const CollegeSearchPage = () => {
                           "http"
                         )
                           ? course.image
-                          : `https://api.collegedrishti.com/${course.image || ""}`
+                          : `${import.meta.env.VITE_API_BASE_URL}${course.image || ""}`
                       }
                       alt={course.name}
                       className="object-contain h-10 w-10 mx-auto mb-2"

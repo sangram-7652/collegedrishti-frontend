@@ -79,7 +79,7 @@ const ExploreSection = () => {
   // ✅ Memoized image handler
   const getImage = useCallback((item) => {
     if (item?.image?.startsWith("http")) return item.image;
-    if (item?.image) return `https://api.collegedrishti.com/${item.image}`;
+    if (item?.image) return `${import.meta.env.VITE_API_BASE_URL}${item.image}`;
     return Jain;
   }, []);
 
@@ -172,7 +172,7 @@ export default ExploreSection;
 
 //   const getImage = (item) => {
 //     if (item.image && item.image.startsWith("http")) return item.image;
-//     if (item.image) return `https://api.collegedrishti.com/${item.image}`;
+//     if (item.image) return `${import.meta.env.VITE_API_BASE_URL}${item.image}`;
 //     return Jain;
 //   };
 

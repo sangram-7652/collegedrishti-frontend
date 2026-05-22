@@ -350,7 +350,7 @@ const SpecializationDetails = () => {
                   __html: data.disc
                     ?.replace(
                       /src="(?!https?:\/\/)/g,
-                      'src="https://api.collegedrishti.com/'
+                      'src="${import.meta.env.VITE_API_BASE_URL}'
                     )
 
                     // Remove Inline Sizes

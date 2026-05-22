@@ -18,8 +18,6 @@ const CourseSection = ({ courseData = [] }) => {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  /* ================= DEBUG ================= */
-
   /* ================= TABS ================= */
 
   const tabs = useMemo(() => {
@@ -159,6 +157,7 @@ const CourseSection = ({ courseData = [] }) => {
           "
         >
           {displayedCourses.map((course) => {
+            console.log(course.image);
             return (
               <div className="flex justify-center">
                 <div

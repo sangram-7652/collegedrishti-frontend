@@ -69,7 +69,7 @@ const MentorSlider = () => {
                       <img
                         src={
                           mentor.image
-                            ? `https://api.collegedrishti.com/${mentor.image.replace(/^\/+/, "")}`
+                            ? `${import.meta.env.VITE_API_BASE_URL}${mentor.image.replace(/^\/+/, "")}`
                             : "/default-mentor.png"
                         }
                         className="w-full h-full object-cover rounded-2xl"

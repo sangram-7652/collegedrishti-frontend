@@ -259,7 +259,7 @@ export default ComparisonSection;
 //             {/* Logo */}
 //             {u.image && (
 //               <img
-//                 src={`https://api.collegedrishti.com/${u.image}`}
+//                 src={`${import.meta.env.VITE_API_BASE_URL}${u.image}`}
 //                 className="h-14 mx-auto mb-2 object-contain"
 //                 alt={u.name}
 //               />

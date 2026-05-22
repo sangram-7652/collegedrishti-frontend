@@ -49,7 +49,7 @@ const CourseCard = ({ course, onView }) => {
         <img
           src={
             course.image
-              ? `https://api.collegedrishti.com/${course.image
+              ? `${import.meta.env.VITE_API_BASE_URL}/${course.image
                   .replace(/^\/+/, "")
                   .replace(/^api\/*/, "")}`
               : "/default-course.png"

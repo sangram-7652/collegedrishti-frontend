@@ -49,7 +49,7 @@ const RecentBlogsSection = ({
 
   return (
     <section className="w-full bg-white py-10 md:py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16 ">
 
         <h2 className="text-xl md:text-2xl font-bold mb-6 text-[#0B3C5D]">
           Recent Blogs
@@ -80,7 +80,7 @@ const RecentBlogsSection = ({
               slidesPerView: 3,
             },
           }}
-          className="pb-12"
+          className="recent-blog-swiper pb-14"
         >
           {recentBlogs.map((item) => (
             <SwiperSlide key={item.id}>
@@ -99,9 +99,14 @@ const RecentBlogsSection = ({
                     {item.title}
                   </h3>
 
-                  <span className="mt-2 inline-block text-sm font-medium text-blue-600">
-                    Read More
-                  </span>
+                  <div className="mt-2">
+                  <button
+                    type="button"
+                    className="text-sm font-semibold text-blue-600 hover:text-blue-800 cursor-pointer"
+                  >
+                    Read More →
+                  </button>
+                </div>
                 </div>
               </Link>
             </SwiperSlide>

@@ -177,6 +177,7 @@ const Dashboard = () => {
 
   const [courseData, setCourseData] = useState([]);
 
+
  useEffect(() => {
 
   const fetchDashboardData = async () => {

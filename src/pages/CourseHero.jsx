@@ -15,6 +15,7 @@ export default function CourseHero({ course }) {
 
   if (!course) return null;
 
+  console.log("Course Data in Hero:", course);
 
   const handleDownloadBrochure = () => {
     const doc = new jsPDF();
@@ -144,11 +145,11 @@ export default function CourseHero({ course }) {
     src={
       course.banner_image
 
-        ? `https://api.collegedrishti.com/${course.banner_image}`
+        ? `${import.meta.env.VITE_API_BASE_URL}/${course.banner_image}`
         : "/no-image.webp"
     }
     alt={course.sub_name || "Course"}
-    className="w-full h-full rounded-r-3xl object-cover"
+    className="w-full h-full rounded-r-3xl "
     onError={(e) => {
       console.log("IMAGE FAILED:", e.target.src);
     }}

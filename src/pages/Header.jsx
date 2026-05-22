@@ -50,13 +50,13 @@ export default function Header({ showOnlySearch }) {
 
   const debounceRef = useRef(null);
   const lastQueryRef = useRef("");
-  const lastScrollYRef = useRef(0);
+
 
   const [courseData, setCourseData] = useState([]);
 
   const [userName, setUserName] = useState(null);
 
-  const [showHeader, setShowHeader] = useState(true);
+
 
   const [headerHeight, setHeaderHeight] = useState(110);
 
@@ -103,46 +103,22 @@ export default function Header({ showOnlySearch }) {
     }
   }, []);
 
-  /* ================= HEADER SCROLL ================= */
-
-  useEffect(() => {
-    if (showOnlySearch) {
-      setShowHeader(false);
-      return;
-    }
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      const diff = currentScrollY - lastScrollYRef.current;
-
-      if (Math.abs(diff) < 10) return;
-
-      if (currentScrollY < 100) {
-        setShowHeader(true);
-      } else if (diff > 0 && currentScrollY > 150) {
-        setShowHeader(false);
-      } else if (diff < 0) {
-        setShowHeader(true);
-      }
-
-      lastScrollYRef.current = currentScrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [showOnlySearch]);
-
   /* ================= HEADER HEIGHT ================= */
 
-  useEffect(() => {
+useEffect(() => {
+  const updateHeight = () => {
     if (headerRef.current) {
       setHeaderHeight(headerRef.current.offsetHeight);
     }
-  }, [showOnlySearch]);
+  };
+
+  updateHeight();
+
+  window.addEventListener("resize", updateHeight);
+
+  return () =>
+    window.removeEventListener("resize", updateHeight);
+}, [showOnlySearch]);
 
   /* ================= CLICK OUTSIDE ================= */
 
@@ -229,18 +205,14 @@ const handleSearch = async (value) => {
   return (
     <>
       <header
-        ref={headerRef}
-        className={`
-          fixed top-0 left-0 w-full
-          bg-white z-[9999]
-          transition-transform duration-300
-          transform-gpu
-          will-change-transform
-          border-b border-gray-100
-          shadow-sm
-          ${showHeader ? "translate-y-0" : "-translate-y-full"}
-        `}
-      >
+          ref={headerRef}
+          className="
+            fixed top-0 left-0 w-full
+            bg-white z-[9999]
+            border-b border-gray-100
+            shadow-sm
+          "
+        >
         {!showOnlySearch && (
           <>
             {/* ================= TOP BAR ================= */}
