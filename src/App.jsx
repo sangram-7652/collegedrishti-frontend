@@ -9,6 +9,7 @@ import FloatingActions from "./components/FloatingActions";
 import Dashboard from "./components/Dashboard";
 import ThankYou from "./pages/ThankYou";
 import GlobalPopup from "./components/GlobalPopup";
+import UniversitySearchPage from "./pages/UniversitySearchPage";
 
 
 
@@ -58,7 +59,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const App = () => {
   return (
     <>
-      <ScrollToTop />
       <MetaPixel />
       <Chatbot />
       <WhatsappButton />
@@ -69,6 +69,7 @@ const App = () => {
 
 
       <Suspense fallback={null}>
+      <ScrollToTop />
         <Routes>
 
           <Route
@@ -130,6 +131,10 @@ const App = () => {
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/SuggestMentor" element={<SuggestMentor />} />
           <Route path="/specialization/:slug" element={<SpecializationDetails />} />
+          <Route
+            path="/universities"
+            element={<UniversitySearchPage />}
+          />
 
           {/* Footer links ONLY — wrapped with Layout */}
           <Route element={<Layout />}>

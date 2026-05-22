@@ -5,34 +5,46 @@ import { useNavigate } from "react-router-dom";
 const LeadForm = () => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    student_name: "",
-    email: "",
-    mobile: "",
-    step2name: "",
-    dob: "",
-    gender: "",
-    state: "",
-  });
+ const [formData, setFormData] = useState({
+  student_name: "",
+  email: "",
+  mobile: "+91 ",
+  step2name: "",
+  state: "",
+});
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const res = await api.post("/userregister", formData);
+  try {
+    const payload = {
+      ...formData,
+      mobile: formData.mobile.replace(/\D/g, "").slice(-10),
+    };
 
-      if (res.data.success === 1) {
-        navigate("/thank-you");
-      }
-    } catch (error) {
-      console.log("Error:", error);
+    const res = await api.post("/userregister", payload);
+
+    if (res.data.success === 1) {
+      navigate("/thank-you");
     }
-  };
+  } catch (error) {
+    console.log(error.response?.data || error);
+  }
+};
 
   const handleChange = (e) => {
+    let { name, value } = e.target;
+
+    // Mobile field me +91 fixed rahe
+    if (name === "mobile") {
+      if (!value.startsWith("+91 ")) {
+        value = "+91 " + value.replace("+91 ", "");
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -47,54 +59,55 @@ const LeadForm = () => {
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="text"
-          name="student_name"
-          placeholder="Full Name"
-          onChange={handleChange}
-          className="w-full border rounded-lg px-3 py-2"
-        />
+        {/* Name */}
+        <div>
+          <input
+            type="text"
+            name="student_name"
+            placeholder="Full Name *"
+            required
+            onChange={handleChange}
+            className="w-full border rounded-lg px-3 py-2"
+          />
+        </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-          className="w-full border rounded-lg px-3 py-2"
-        />
+        {/* Email */}
+        <div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email *"
+            required
+            onChange={handleChange}
+            className="w-full border rounded-lg px-3 py-2"
+          />
+        </div>
 
-        <input
-          type="tel"
-          name="mobile"
-          placeholder="Mobile"
-          onChange={handleChange}
-          className="w-full border rounded-lg px-3 py-2"
-        />
+        {/* Mobile */}
+        <div>
+          <input
+            type="tel"
+            name="mobile"
+            required
+            value={formData.mobile}
+            onChange={handleChange}
+            placeholder="+91 9876543210 *"
+            pattern="^\+91\s[0-9]{10}$"
+            className="w-full border rounded-lg px-3 py-2"
+          />
+        </div>
 
-        <input
-          type="date"
-          name="dob"
-          onChange={handleChange}
-          className="w-full border rounded-lg px-3 py-2"
-        />
-
-        <select
-          name="gender"
-          onChange={handleChange}
-          className="w-full border rounded-lg px-3 py-2"
-        >
-          <option value="">Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
+      
 
         <div className="grid grid-cols-2 gap-2">
+          {/* Course */}
           <select
             name="step2name"
+            required
             onChange={handleChange}
             className="border rounded-lg px-2 py-2"
           >
-            <option>Course</option>
+            <option value="">Course *</option>
             <option>Online MCA</option>
             <option>MA</option>
             <option>M.Com</option>
@@ -103,7 +116,6 @@ const LeadForm = () => {
             <option>MBA</option>
             <option>One Year MBA</option>
             <option>Dual MBA</option>
-            <option>One Year MBA</option>
             <option>B.A</option>
             <option>BCA</option>
             <option>B.Sc</option>
@@ -112,6 +124,7 @@ const LeadForm = () => {
             <option>M.B.A in Finance</option>
           </select>
 
+          {/* State */}
           <select
             name="state"
             onChange={handleChange}
@@ -148,7 +161,6 @@ const LeadForm = () => {
             <option value="Uttarakhand">Uttarakhand</option>
             <option value="West Bengal">West Bengal</option>
 
-            {/* Union Territories */}
             <option value="Andaman and Nicobar Islands">
               Andaman and Nicobar Islands
             </option>

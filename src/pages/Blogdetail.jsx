@@ -358,7 +358,7 @@ const BlogDetail = () => {
       {/* Main */}
       <main className="flex-grow w-full bg-white py-6 md:py-10">
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex flex-col lg:flex-row gap-8">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex flex-col lg:flex-row gap-8">
 
           {/* Left Content */}
           <div className="w-full lg:w-2/3">

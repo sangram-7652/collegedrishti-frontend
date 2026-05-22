@@ -15,28 +15,24 @@ html {
 html,
 body,
 #root {
-  height: 100%;
   margin: 0;
   background: #fff !important;
-  overflow-x: hidden;
   color: black;
   font-family: "Inter", sans-serif;
 }
 
+/* CRITICAL FIX: Allow body to scroll naturally, don't constrain with height */
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 h2,
 h3 {
   scroll-margin-top: 120px;
-}
-
-html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
 }
 
 footer {

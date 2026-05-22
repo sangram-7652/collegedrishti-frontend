@@ -50,7 +50,7 @@ export default function InfoWithPodcast({ data }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [data?.id, data?.slug]);
 
-  const uniName = (data?.name && String(data.name).trim()) || "University";
+  // const uniName = (data?.name && String(data.name).trim()) || "University";
 
   return (
     <div className="w-full px-4 md:px-10 py-6">
@@ -99,7 +99,7 @@ export default function InfoWithPodcast({ data }) {
                 }`}
               >
                 <span className="mr-2">{i + 1}.</span>
-                {`${uniName} — ${item.label}`}
+                {`${item.label}`}
               </li>
             ))}
           </ol>

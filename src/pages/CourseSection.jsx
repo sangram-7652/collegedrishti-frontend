@@ -154,7 +154,7 @@ const CourseSection = ({ courseData = [] }) => {
             md:grid-cols-4
             lg:grid-cols-5
             xl:grid-cols-7
-            gap-3
+            gap-2
             lg:gap-6
           "
         >
@@ -174,7 +174,7 @@ const CourseSection = ({ courseData = [] }) => {
                     pt-4 pb-3
                     w-full
                     md:space-y-2
-                    space-y-1
+                    
                   "
                 >
                   {course.duration && (
@@ -206,11 +206,11 @@ const CourseSection = ({ courseData = [] }) => {
                     }
                     alt={course.name}
                     loading="lazy"
-                    className="object-contain h-10 w-10"
+                    className="object-contain h-8 w-10"
                   />
 
                   <h3 className="
-                      !text-[12px]
+                      !text-[10px]
                       sm:text-[10px]
                       md:text-[11px]
                       text-center
@@ -232,7 +232,7 @@ const CourseSection = ({ courseData = [] }) => {
         bg-[#0057FF]
         text-white
         text-[11px]
-        px-6 py-[3px]
+        px-4 py-[3px]
         rounded-full
         hover:bg-[#0046c2]
         transition

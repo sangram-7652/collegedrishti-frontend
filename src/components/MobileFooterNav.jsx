@@ -11,7 +11,7 @@ const navItems = [
   { to: "/", icon: HomeIcon, label: "Home" },
   { to: "/CollegeSearchPage", icon: SearchIcon, label: "Search" },
   {
-    to: "/Aboutjainuniversity",
+    to: "/UniversityPage",
     icon: UniversityIcon,
     label: "University",
     chip: "Find",

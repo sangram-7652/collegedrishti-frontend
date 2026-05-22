@@ -6,20 +6,22 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 
 
-import user33 from '../assets/user33.webp';
-import WERWER from '../assets/WERWER.webp';
+// import user33 from '../assets/user33.webp';
+// import WERWER from '../assets/WERWER.webp';
 // import face3 from '../assets/face 3.png';
 // import face4 from '../assets/face 4.png';
 // import face5 from '../assets/face 5.png';
 
 // Company logo
 import paytmLogo from '../assets/paytm.png';
+import sd from "../assets/sd.jpeg";
+import crm from "../assets/crm.jpeg";
 
 
 const TransactionSlider = () => {
     const users = [
-        { face: user33, logo: paytmLogo },
-        { face: WERWER, logo: paytmLogo },
+        { face: sd, logo: paytmLogo },
+        { face: crm, logo: paytmLogo },
         // { face: face3, logo: paytmLogo },
         // { face: face4, logo: paytmLogo },
         // { face: face5, logo: paytmLogo },
@@ -66,13 +68,13 @@ const TransactionSlider = () => {
                                         alt={`User ${index + 1}`}
                                         className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-blue-500 object-cover"
                                     />
-                                    <div className="absolute -bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md flex items-center justify-center">
+                                    {/* <div className="absolute -bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md flex items-center justify-center">
                                         <img
                                             src={user.logo}
                                             alt="Company Logo"
                                             className="w-16 md:w-16 h-auto object-contain"
                                         />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </SwiperSlide>
                         );
@@ -109,13 +111,13 @@ const TransactionSlider = () => {
                                         alt={`User ${index + 1}`}
                                         className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-blue-500 object-cover"
                                     />
-                                    <div className="absolute -bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md flex items-center justify-center">
+                                    {/* <div className="absolute -bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md flex items-center justify-center">
                                         <img
                                             src={user.logo}
                                             alt="Company Logo"
                                             className="w-16 md:w-16 h-auto object-contain"
                                         />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </SwiperSlide>
                         );
