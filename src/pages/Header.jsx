@@ -41,7 +41,7 @@ const getCookie = (name) => {
   return null;
 };
 
-export default function Header({ showOnlySearch }) {
+export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -118,7 +118,7 @@ useEffect(() => {
 
   return () =>
     window.removeEventListener("resize", updateHeight);
-}, [showOnlySearch]);
+}, []);
 
   /* ================= CLICK OUTSIDE ================= */
 
@@ -205,16 +205,14 @@ const handleSearch = async (value) => {
   return (
     <>
       <header
-          ref={headerRef}
-          className="
-            fixed top-0 left-0 w-full
-            bg-white z-[9999]
-            border-b border-gray-100
-            shadow-sm
-          "
-        >
-        {!showOnlySearch && (
-          <>
+        ref={headerRef}
+        className="
+          fixed top-0 left-0 w-full
+          bg-white z-[9999]
+          border-b border-gray-100
+          shadow-sm
+        "
+      >
             {/* ================= TOP BAR ================= */}
 
             <div className="px-4 py-2 bg-[#F8FAFC] border-b border-gray-100 flex items-center justify-between text-sm">
@@ -719,8 +717,6 @@ const handleSearch = async (value) => {
                 </Link>
               </nav>
             </div>
-          </>
-        )}
       </header>
 
       <div style={{ height: headerHeight }} />

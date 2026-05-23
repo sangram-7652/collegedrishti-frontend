@@ -47,12 +47,10 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const location = useLocation();
   const courseRef = useRef(null);
-  const [showOnlySearch, setShowOnlySearch] = useState(false);
   const [showCourses, setShowCourses] = useState(false);
 
 
   const [showForm, setShowForm] = useState(false);
-  const showOnlySearchRef = useRef(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     student_name: "",
@@ -152,29 +150,6 @@ const Dashboard = () => {
     if (courseRef.current) observer.observe(courseRef.current);
     return () => observer.disconnect();
   }, []);
-
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const y = window.scrollY;
-
-      // 👇 buffer zone (hero ke aas paas flip nahi hoga)
-      if (!showOnlySearchRef.current && y > 340) {
-        showOnlySearchRef.current = true;
-        setShowOnlySearch(true);
-      }
-      else if (showOnlySearchRef.current && y < 220) {
-        showOnlySearchRef.current = false;
-        setShowOnlySearch(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-
-
   const [courseData, setCourseData] = useState([]);
 
 
@@ -201,28 +176,14 @@ const Dashboard = () => {
   return (
     <div className="w-full font-sans overflow-x-hidden">
 
-      <div
-        className={`fixed top-0 left-0 w-full bg-white z-[9999] py-3 shadow-lg flex justify-center transition-all duration-300 ${showOnlySearch ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
-          }`}
-      >
-        <div className="w-full max-w-[560px] relative px-4">
-          <input
-            type="text"
-            placeholder="What would you like to learn?"
-            className="w-full rounded-full border border-[#004aad] px-6 pr-14 py-2.5 text-sm"
-          />
-        </div>
-      </div>
-
       <div className="hidden md:block">
-        <Header showOnlySearch={showOnlySearch} />
+        <Header />
 
         {/* <Header /> */}
       </div>
       <div className="block md:hidden">
         <MobileMenu />
       </div>
-      {showOnlySearch && <div className="h-[70px]" />}
       <HeroSection />
 
       {/* Stats Section */}

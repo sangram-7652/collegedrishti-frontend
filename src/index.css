@@ -13,7 +13,6 @@ html {
 }
 
 
-
 html,
 body,
 #root {
@@ -21,7 +20,9 @@ body,
   background: #fff !important;
   color: black;
   font-family: "Inter", sans-serif;
+  
 }
+
 
 /* CRITICAL FIX: Allow body to scroll naturally, don't constrain with height */
 html {
@@ -37,14 +38,7 @@ h3 {
   scroll-margin-top: 120px;
 }
 
-#header{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: white;
-  z-index: 9999;
-}
+
 footer {
   position: relative;
   z-index: 10;
