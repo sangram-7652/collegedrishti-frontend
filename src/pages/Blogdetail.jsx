@@ -452,7 +452,7 @@ const BlogDetail = () => {
 
           {/* Desktop Sticky Form */}
           <div className="hidden lg:block lg:w-1/3">
-            <div className="sticky top-24">
+            <div className="sticky top-50">
               <LeadForm />
             </div>
           </div>

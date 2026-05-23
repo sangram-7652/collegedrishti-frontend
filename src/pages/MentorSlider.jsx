@@ -39,7 +39,6 @@ const MentorSlider = () => {
       : [];
   const canLoop = repeatedData.length > 4;
 
-  
 
   const handleFlip = (index) => {
     setFlippedIndex(flippedIndex === index ? null : index);
@@ -93,7 +92,7 @@ const MentorSlider = () => {
                     {/* FRONT SIDE */}
                     <div className="absolute inset-0 [backface-visibility:hidden] rounded-2xl overflow-hidden">
                       <img
-                        src={`${import.meta.env.VITE_API_BASE_URL}${mentor.image}`}
+                        src={`${import.meta.env.VITE_API_BASE_URL}/${mentor.image}`}
                         alt={mentor.name}
                         className="w-full h-full object-cover rounded-2xl"
                       />

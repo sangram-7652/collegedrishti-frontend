@@ -157,7 +157,6 @@ const CourseSection = ({ courseData = [] }) => {
           "
         >
           {displayedCourses.map((course) => {
-            console.log(course.image);
             return (
               <div className="flex justify-center">
                 <div

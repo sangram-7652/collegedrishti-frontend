@@ -39,7 +39,7 @@ const NewsSection = () => {
           const imageUrl =
            news.image?.startsWith('http')
              ? news.image
-                 : `${import.meta.env.VITE_API_BASE_URL}${news.image.replace(/^\/+/, '').replace(/^api\/*/, '')}`;
+                 : `${import.meta.env.VITE_API_BASE_URL}/${news.image.replace(/^\/+/, '').replace(/^api\/*/, '')}`;
              
             return (
              <a
