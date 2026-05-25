@@ -74,7 +74,7 @@ const App = () => {
 
           <Route
             path="/courses/btech"
-            element={<Navigate to="/coursepage/B.Tech" replace />}
+            element={<Navigate to="/course/B.Tech" replace />}
           />
 
           <Route
@@ -104,7 +104,7 @@ const App = () => {
 
           <Route path="/webstories" element={<Navigate to="/" replace />} />
 
-          <Route path="/CoursePage" element={<Navigate to="/" replace />} />
+          <Route path="/course" element={<Navigate to="/" replace />} />
 
           <Route path="/courses/1" element={<Navigate to="/" replace />} />
 
@@ -113,7 +113,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/CourseFilter" element={<CourseFilter />} />
-          <Route path="/coursepage/:slug" element={<CoursePage />} />
+          <Route path="/course/:slug" element={<CoursePage />} />
           <Route path="/university/:slug" element={<UniversityPage />} />
           <Route path="/Comparisonpage" element={<Comparisonpage />} />
           <Route path="/recommendations" element={<RecommendationResults />} />

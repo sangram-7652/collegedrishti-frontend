@@ -85,7 +85,7 @@ const Footer = () => {
                   <li
                     key={sub.id}
                     onClick={() =>
-                      navigate(`/coursepage/${sub.slug}`)
+                      navigate(`/course/${sub.slug}`)
                     }
                     className="
                       text-gray-400

@@ -101,7 +101,7 @@ const CoursesDropdown = ({ courseData = [] }) => {
 
               <Link
                 key={sub.id || `sub-${idx}`}
-                to={`/coursepage/${sub.slug}`}
+                to={`/course/${sub.slug}`}
                 className="p-2 rounded-md hover:bg-blue-50 transition flex flex-col cursor-pointer"
                 onClick={() => setOpen(false)}
               >

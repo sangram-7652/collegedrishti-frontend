@@ -337,7 +337,7 @@ const MobileMenu = () => {
                           course.sub_courses.slice(0, 10).map((sub) => (
                             <Link
                               key={sub.id}
-                              to={`/coursepage/${sub.slug || sub.id}`}
+                              to={`/course/${sub.slug || sub.id}`}
                               onClick={closeMenu}
                               className="block text-sm text-gray-600 hover:text-blue-600"
                             >

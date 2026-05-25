@@ -154,7 +154,6 @@ useEffect(() => {
   };
 
   /* ================= SEARCH ================= */
-
 const handleSearch = async (value) => {
   setSearch(value);
 
@@ -164,6 +163,7 @@ const handleSearch = async (value) => {
     clearTimeout(debounceRef.current);
   }
 
+  // Reset if less than 2 chars
   if (query.length < 2) {
     setResults([]);
     setShowResults(false);
@@ -181,21 +181,54 @@ const handleSearch = async (value) => {
         `/search?q=${encodeURIComponent(query)}`
       );
 
+      // Prevent old response overwrite
       if (lastQueryRef.current !== query) return;
 
-      const data = Array.isArray(res.data)
-        ? res.data
-        : Array.isArray(res.data?.data)
-        ? res.data.data
+      /*
+        Backend Response:
+        {
+          data: {
+            courses: [],
+            universities: []
+          }
+        }
+      */
+
+      const responseData = res.data?.data || {};
+
+      // Courses
+      const courses = Array.isArray(
+        responseData.courses
+      )
+        ? responseData.courses.map((item) => ({
+            ...item,
+            type: "course",
+          }))
         : [];
 
+      // Universities
+      const universities = Array.isArray(
+        responseData.universities
+      )
+        ? responseData.universities.map((item) => ({
+            ...item,
+            type: "university",
+          }))
+        : [];
+
+      // Merge both
+      const data = [...courses, ...universities];
+
       setResults(data);
+
       setShowResults(true);
+
       setActiveIndex(-1);
     } catch (error) {
       console.log("Search error:", error);
 
       setResults([]);
+
       setShowResults(true);
     } finally {
       setLoading(false);
@@ -354,7 +387,7 @@ const handleSearch = async (value) => {
                             item.type === "course"
                           ) {
                             navigate(
-                              `/coursepage/${item.slug}`
+                              `/course/${item.slug}`
                             );
                           }
 
@@ -497,7 +530,7 @@ const handleSearch = async (value) => {
                                 item.type === "course"
                               ) {
                                 navigate(
-                                  `/coursepage/${item.slug}`
+                                  `/course/${item.slug}`
                                 );
                               }
                             }}

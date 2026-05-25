@@ -222,7 +222,7 @@ const CourseSection = ({ courseData = [] }) => {
                   <button
                     onClick={() => {
                       if (course.slug) {
-                        navigate(`/coursepage/${course.slug}`);
+                        navigate(`/course/${course.slug}`);
                       }
                     }}
                     className="

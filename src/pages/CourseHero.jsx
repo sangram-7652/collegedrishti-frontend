@@ -55,9 +55,9 @@ export default function CourseHero({ course }) {
   };
 
   return (
-    <section className="bg-white p-6 md:p-10 flex flex-col md:flex-row items-center md:items-start gap-10">
+    <section className="bg-white p-6 lg:p-10 flex flex-col lg:flex-row items-center lg:items-start gap-10">
       {/* Left */}
-      <div className="w-full md:w-1/2 space-y-4">
+      <div className="w-full lg:w-1/2 space-y-4 order-2 lg:order-1">
         <p className="text-sm text-orange-500 font-semibold">
           {course.study_mode || "Popular Course"}
         </p>
@@ -138,13 +138,11 @@ export default function CourseHero({ course }) {
         </div>
       </div>
 
-      {/* Right: Image */}
    {/* Right: Image */}
-<div className="w-full md:w-1/2 relative h-[350px] md:h-[450px]">
+<div className="w-full lg:w-1/2 relative order-1 lg:order-2">
   <img
     src={
       course.banner_image
-
         ? `${import.meta.env.VITE_API_BASE_URL}/${course.banner_image}`
         : "/no-image.webp"
     }

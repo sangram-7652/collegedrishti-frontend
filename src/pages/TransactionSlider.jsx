@@ -16,17 +16,18 @@ import 'swiper/css';
 import paytmLogo from '../assets/paytm.png';
 import sd from "../assets/sd.jpeg";
 import crm from "../assets/crm.jpeg";
+import hdb_logo from "../assets/hdb_logo.webp";
 
 
 const TransactionSlider = () => {
     const users = [
         { face: sd, logo: paytmLogo },
-        { face: crm, logo: paytmLogo },
+        { face: crm, logo: hdb_logo },
         // { face: face3, logo: paytmLogo },
         // { face: face4, logo: paytmLogo },
         // { face: face5, logo: paytmLogo },
     ];
-
+    
 
 
 
@@ -68,13 +69,13 @@ const TransactionSlider = () => {
                                         alt={`User ${index + 1}`}
                                         className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-blue-500 object-cover"
                                     />
-                                    {/* <div className="absolute -bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md flex items-center justify-center">
+                                     <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 w-18 h-6 rounded-md shadow-md flex items-center justify-center">
                                         <img
                                             src={user.logo}
                                             alt="Company Logo"
-                                            className="w-16 md:w-16 h-auto object-contain"
+                                            className="w-full h-auto object-contain"
                                         />
-                                    </div> */}
+                                    </div>
                                 </div>
                             </SwiperSlide>
                         );
@@ -111,13 +112,13 @@ const TransactionSlider = () => {
                                         alt={`User ${index + 1}`}
                                         className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-blue-500 object-cover"
                                     />
-                                    {/* <div className="absolute -bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded-md shadow-md flex items-center justify-center">
+                                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 w-18 h-6 rounded-md shadow-md flex items-center justify-center">
                                         <img
                                             src={user.logo}
                                             alt="Company Logo"
-                                            className="w-16 md:w-16 h-auto object-contain"
+                                            className="w-full h-auto object-contain"
                                         />
-                                    </div> */}
+                                    </div>
                                 </div>
                             </SwiperSlide>
                         );

@@ -39,6 +39,7 @@ const ComparisonSection = ({
     (u) => !selectedUniversities.some((x) => x.id === u.id)
   );
 
+
   return (
     <section className="px-4 md:px-16 py-10 text-center">
 

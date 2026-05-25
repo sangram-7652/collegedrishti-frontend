@@ -383,7 +383,7 @@ const CoursePage = () => {
 
   const handleViewClick = (course) => {    
     if (!course.slug) return;
-    navigate(`/coursepage/${course.slug.toLowerCase()}`);
+    navigate(`/course/${course.slug.toLowerCase()}`);
   };
 
   const handleFilterChange = (type, value) => {

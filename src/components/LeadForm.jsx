@@ -1,46 +1,51 @@
 import React, { useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const LeadForm = () => {
   const navigate = useNavigate();
 
- const [formData, setFormData] = useState({
-  student_name: "",
-  email: "",
-  mobile: "+91 ",
-  step2name: "",
-  state: "",
-});
+  const [formData, setFormData] = useState({
+    student_name: "",
+    email: "",
+    mobile: "",
+    step2name: "",
+    state: "",
+    consent: false,
+  });
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const payload = {
-      ...formData,
-      mobile: formData.mobile.replace(/\D/g, "").slice(-10),
-    };
-
-    const res = await api.post("/userregister", payload);
-
-    if (res.data.success === 1) {
-      navigate("/thank-you");
+    if (formData.mobile.length !== 10) {
+      alert("Please enter valid 10 digit mobile number");
+      return;
     }
-  } catch (error) {
-    console.log(error.response?.data || error);
-  }
-};
+    if (!formData.consent) {
+      alert("Please accept the consent checkbox");
+      return;
+    }
+
+    try {
+      const payload = {
+        ...formData,
+        mobile: formData.mobile,
+      };
+
+      const res = await api.post("/userregister", payload);
+
+      if (res.data.success === 1) {
+        navigate("/thank-you");
+      }
+    } catch (error) {
+      console.log(error.response?.data || error);
+    }
+  };
 
   const handleChange = (e) => {
     let { name, value } = e.target;
-
-    // Mobile field me +91 fixed rahe
-    if (name === "mobile") {
-      if (!value.startsWith("+91 ")) {
-        value = "+91 " + value.replace("+91 ", "");
-      }
-    }
 
     setFormData({
       ...formData,
@@ -84,20 +89,37 @@ const handleSubmit = async (e) => {
         </div>
 
         {/* Mobile */}
-        <div>
+        <div className="flex items-center border bg-white border-black rounded-lg overflow-hidden h-11">
+          {/* Flag + Code */}
+          <div className="flex items-center gap-2 px-2 border-r h-full">
+            <img
+              src="https://flagcdn.com/w40/in.png"
+              alt="India"
+              className="w-5 h-4 object-cover rounded-sm"
+            />
+            <span className="text-sm font-medium pr-2">+91</span>
+          </div>
+
+          {/* Mobile Input */}
           <input
             type="tel"
             name="mobile"
-            required
+            placeholder="Enter Mobile Number"
             value={formData.mobile}
-            onChange={handleChange}
-            placeholder="+91 9876543210 *"
-            pattern="^\+91\s[0-9]{10}$"
-            className="w-full border rounded-lg px-3 py-2"
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+
+              setFormData({
+                ...formData,
+                mobile: value,
+              });
+            }}
+            required
+            maxLength={10}
+            inputMode="numeric"
+            className="w-full h-full px-3 outline-none bg-white"
           />
         </div>
-
-      
 
         <div className="grid grid-cols-2 gap-2">
           {/* Course */}
@@ -174,6 +196,30 @@ const handleSubmit = async (e) => {
             <option value="Lakshadweep">Lakshadweep</option>
             <option value="Puducherry">Puducherry</option>
           </select>
+        </div>
+
+        {/* Consent Checkbox */}
+        <div className="flex items-start gap-2 text-xs text-gray-600">
+          <input
+            type="checkbox"
+            name="consent"
+            checked={formData.consent}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                consent: e.target.checked,
+              })
+            }
+            className="mt-1"
+            required
+          />
+
+          <p>
+            I authorize <span className="font-semibold">College Drishti</span>{" "}
+            to contact me with updates and notifications through email, SMS,
+            WhatsApp, and phone calls. This consent overrides any DNC / NDNC
+            registration.
+          </p>
         </div>
 
         <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold">

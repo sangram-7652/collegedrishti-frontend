@@ -73,6 +73,131 @@ const BlogPage = () => {
       .finally(() => setLoading(false));
   }, []);
 
+
+  useEffect(() => {
+
+  // Title
+  document.title =
+    "Latest Blogs & Videos | CollegeDrishti";
+
+  // Helper Function
+  const updateMetaTag = (
+    selector,
+    attribute,
+    value
+  ) => {
+
+    let element =
+      document.querySelector(
+        selector
+      );
+
+    if (!element) {
+
+      element =
+        document.createElement(
+          "meta"
+        );
+
+      element.setAttribute(
+        attribute,
+        selector.includes(
+          "property="
+        )
+          ? selector.match(
+              /property="([^"]+)"/
+            )[1]
+          : selector.match(
+              /name="([^"]+)"/
+            )[1]
+      );
+
+      document.head.appendChild(
+        element
+      );
+    }
+
+    element.content = value;
+  };
+
+  // Description
+  updateMetaTag(
+    'meta[name="description"]',
+    "name",
+    "Explore latest online university blogs, admission updates, fees, placements, career guides and educational videos on CollegeDrishti."
+  );
+
+  // Keywords
+  updateMetaTag(
+    'meta[name="keywords"]',
+    "name",
+    "online universities, online MBA, online BBA, blogs, education news"
+  );
+
+  // Open Graph
+  updateMetaTag(
+    'meta[property="og:title"]',
+    "property",
+    "Latest Blogs & Videos | CollegeDrishti"
+  );
+
+  updateMetaTag(
+    'meta[property="og:description"]',
+    "property",
+    "Explore latest online university blogs and educational videos."
+  );
+
+  updateMetaTag(
+    'meta[property="og:type"]',
+    "property",
+    "website"
+  );
+
+  // Twitter
+  updateMetaTag(
+    'meta[name="twitter:card"]',
+    "name",
+    "summary_large_image"
+  );
+
+  updateMetaTag(
+    'meta[name="twitter:title"]',
+    "name",
+    "Latest Blogs & Videos | CollegeDrishti"
+  );
+
+  updateMetaTag(
+    'meta[name="twitter:description"]',
+    "name",
+    "Explore latest online university blogs and educational videos."
+  );
+
+  // Canonical
+  let canonical =
+    document.querySelector(
+      'link[rel="canonical"]'
+    );
+
+  if (!canonical) {
+
+    canonical =
+      document.createElement(
+        "link"
+      );
+
+    canonical.rel =
+      "canonical";
+
+    document.head.appendChild(
+      canonical
+    );
+  }
+
+  canonical.href =
+    window.location.href;
+
+}, []); 
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* ✅ Desktop Header */}

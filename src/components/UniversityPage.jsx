@@ -33,7 +33,6 @@ const UniversityPage = () => {
       ? universityData.university ?? universityData
       : {};
 
-  console.log("University Data:", university);
 
   useEffect(() => {
     if (!slug) return;
