@@ -227,7 +227,7 @@ const BlogPage = () => {
                 <img
                   src={blog.image}
                   alt={blog.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full  object-cover"
                 />
                 <div className="p-5">
                   <h2 className="text-xl font-semibold text-gray-800 mb-2">

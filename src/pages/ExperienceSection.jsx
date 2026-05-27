@@ -97,12 +97,12 @@ const SuccessStories = () => {
         <Slider {...settings}>
           {slides.map((item) => (
             <div key={item.id} className="slide-item">
-              <div className="slide-card">
+              <div className="slide-card w-full h-40 md:h-100">
 
                 <img
                   src={item.image}
                   alt="success story"
-                  className="story-image"
+                  className="story-image  w-full h-full "
                 />
 
                 <button
