@@ -82,7 +82,7 @@ const RecentBlogsSection = ({ recentBlogs }) => {
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="h-40 w-full object-cover"
+                  className=" w-full object-cover"
                 />
 
                 <div className="p-4">
@@ -446,8 +446,6 @@ useEffect(() => {
 
   return (
     <>
-
-
       <div className="flex flex-col min-h-screen bg-white">
         {/* Desktop Header */}
         <div className="hidden md:block">
@@ -461,7 +459,7 @@ useEffect(() => {
 
         {/* Main */}
         <main className="flex-grow w-full bg-white py-6 md:py-10">
-          <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex flex-col lg:flex-row gap-8">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 flex flex-col lg:flex-row gap-10">
             {/* Left Content */}
             <div className="w-full lg:w-2/3">
               {/* Blog Title */}
@@ -531,8 +529,8 @@ useEffect(() => {
             </div>
 
             {/* Desktop Sticky Form */}
-            <div className="hidden lg:block lg:w-1/3">
-              <div className="sticky top-50">
+            <div className="hidden lg:block lg:w-1/4">
+              <div className="sticky top-30">
                 <LeadForm />
               </div>
             </div>

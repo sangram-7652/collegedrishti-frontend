@@ -56,7 +56,7 @@ const NewsSection = () => {
                     <img
                       src={imageUrl}
                       alt={news.title || `News ${index + 1}`}
-                      className="w-full h-[180px] object-cover transition-transform duration-300 group-hover:scale-105"                    />
+                      className="w-full object-cover transition-transform duration-300 group-hover:scale-105"                    />
 
                     {/* Content */}
                     <div className="p-4">

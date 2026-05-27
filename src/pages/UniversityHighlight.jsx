@@ -185,7 +185,7 @@ const UniversityHighlight = ({ university: apiUniversity, slug: slugProp }) => {
             <img
               src={banner}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full h-full"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = defaultBanner;

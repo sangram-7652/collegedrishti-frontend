@@ -243,7 +243,7 @@ const UniversityFee = ({ slug: slugProp }) => {
                     ].map((item, i) => (
                       <div
                         key={i}
-                        className="border-r border-gray-200 last:border-r-0 border-b border-gray-200 p-4 text-center"
+                        className=" last:border-r-0 border-b border-gray-200 p-4 text-center"
                       >
                         <p className="text-xs text-gray-500 font-medium mb-1">
                           {item.label}

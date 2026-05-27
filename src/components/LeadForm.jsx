@@ -54,7 +54,7 @@ const LeadForm = () => {
   };
 
   return (
-    <div className="bg-white border rounded-2xl shadow-xl p-5 sticky top-[120px]">
+    <div className="bg-white border rounded-2xl shadow-xl p-4 sticky top-[120px]">
       <h2 className="text-xl font-bold text-center mb-1">
         Get Free Counselling 🎓
       </h2>

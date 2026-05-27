@@ -46,6 +46,7 @@ export default function Header() {
   const location = useLocation();
 
   const headerRef = useRef(null);
+  const navRef = useRef(null);
   const searchRef = useRef(null);
 
   const debounceRef = useRef(null);
@@ -56,9 +57,12 @@ export default function Header() {
 
   const [userName, setUserName] = useState(null);
 
+  const [isNavFixed, setIsNavFixed] = useState(false);
+  const [navHeight, setNavHeight] = useState(0);
 
 
-  const [headerHeight, setHeaderHeight] = useState(110);
+
+  // const [headerHeight, setHeaderHeight] = useState(110);
 
   const [search, setSearch] = useState("");
 
@@ -105,20 +109,39 @@ export default function Header() {
 
   /* ================= HEADER HEIGHT ================= */
 
-useEffect(() => {
-  const updateHeight = () => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-  };
+// useEffect(() => {
+//   const updateHeight = () => {
+//     if (headerRef.current) {
+//       setHeaderHeight(headerRef.current.offsetHeight);
+//     }
+//   };
 
-  updateHeight();
+//   updateHeight();
 
-  window.addEventListener("resize", updateHeight);
+//   window.addEventListener("resize", updateHeight);
 
-  return () =>
-    window.removeEventListener("resize", updateHeight);
-}, []);
+//   return () =>
+//     window.removeEventListener("resize", updateHeight);
+// }, []);
+
+  useEffect(() => {
+    const updateNavPosition = () => {
+      if (!headerRef.current || !navRef.current) return;
+
+      setNavHeight(navRef.current.offsetHeight);
+      setIsNavFixed(headerRef.current.getBoundingClientRect().bottom <= 0);
+    };
+
+    updateNavPosition();
+
+    window.addEventListener("scroll", updateNavPosition, { passive: true });
+    window.addEventListener("resize", updateNavPosition);
+
+    return () => {
+      window.removeEventListener("scroll", updateNavPosition);
+      window.removeEventListener("resize", updateNavPosition);
+    };
+  }, []);
 
   /* ================= CLICK OUTSIDE ================= */
 
@@ -240,8 +263,8 @@ const handleSearch = async (value) => {
       <header
         ref={headerRef}
         className="
-          fixed top-0 left-0 w-full
-          bg-white z-[9999]
+        relative
+          bg-white 
           border-b border-gray-100
           shadow-sm
         "
@@ -695,9 +718,25 @@ const handleSearch = async (value) => {
               </div>
             </div>
 
+      </header>
             {/* ================= NAV ================= */}
 
-            <div className="bg-[#F8FAFC] border-t border-gray-200">
+            {isNavFixed && <div style={{ height: navHeight }} />}
+
+            <div
+              ref={navRef}
+              style={
+                isNavFixed
+                  ? {
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                    }
+                  : undefined
+              }
+              className="bg-[#F8FAFC] border-b border-gray-100 sticky top-0 left-0 z-[9999] w-full"
+            >
               <nav
                 className="
                   flex justify-center items-center
@@ -750,9 +789,8 @@ const handleSearch = async (value) => {
                 </Link>
               </nav>
             </div>
-      </header>
 
-      <div style={{ height: headerHeight }} />
+
     </>
   );
 }

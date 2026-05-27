@@ -178,8 +178,6 @@ const Dashboard = () => {
 
       <div className="hidden md:block">
         <Header />
-
-        {/* <Header /> */}
       </div>
       <div className="block md:hidden">
         <MobileMenu />
@@ -338,7 +336,7 @@ const Dashboard = () => {
 
 
       {/* section 5 */}
-      <section id="learn-earn-section" className="bg-[#0c1126] text-white py-10 md:py-16 px-4 md:px-6">
+      <section id="learn-earn-section" className="bg-[#0c1126] text-white py-6 md:py-8 px-4 md:px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
 
           {/* Left Image */}
