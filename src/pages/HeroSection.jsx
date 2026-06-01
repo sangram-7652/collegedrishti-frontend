@@ -8,6 +8,9 @@ import banner1 from "../course-image/banner1.webp";
 import banner2 from "../course-image/banner2.webp";
 import banner3 from "../course-image/banner3.webp";
 import banner4 from "../course-image/banner4.webp";
+import banner5 from "../course-image/banner5.webp";
+import banner6 from "../course-image/banner6.webp";
+import banner7 from "../course-image/banner7.webp";
 
 import banner1Mobile from "../course-image/Banner-Mobile1.webp";
 import banner2Mobile from "../course-image/Banner-Mobile2.webp";
@@ -20,6 +23,9 @@ const HeroSection = () => {
     { desktop: banner2, mobile: banner2Mobile },
     { desktop: banner3, mobile: banner3Mobile },
     { desktop: banner4, mobile: banner4Mobile },
+    { desktop: banner5, mobile: banner4Mobile },
+    { desktop: banner6, mobile: banner4Mobile },
+    { desktop: banner7, mobile: banner4Mobile },
   ];
 
   return (

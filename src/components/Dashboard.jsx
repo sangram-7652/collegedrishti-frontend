@@ -16,6 +16,7 @@ import MobileMenu from "../pages/MobileMenu";
 import TransactionSlider from "../pages/TransactionSlider";
 import HiringSection from "../pages/HiringSection";
 import CourseSection from "../pages/CourseSection";
+import WebStoriesSection from "../pages//WebStoriesSection";
 import earnImage from '../assets/earn.webp';
 // import amazonLogo from '../assets/amazon.png';
 import CourseIcon from '../assets/course-icon.png';
@@ -48,6 +49,7 @@ const Dashboard = () => {
   const location = useLocation();
   const courseRef = useRef(null);
   const [showCourses, setShowCourses] = useState(false);
+  const [stories, setStories] = useState([]);
 
 
   const [showForm, setShowForm] = useState(false);
@@ -70,11 +72,9 @@ const Dashboard = () => {
     try {
       const res = await api.post("/userregister", formData);
 
-      console.log(res.data);
-
       if (res.data.success === 1) {
         setShowForm(false);
-        navigate("/thank-you"); // ✅ redirect
+        navigate("/thank-you"); 
       }
     } catch (error) {
       console.log("Error:", error);
@@ -153,24 +153,42 @@ const Dashboard = () => {
   const [courseData, setCourseData] = useState([]);
 
 
- useEffect(() => {
+  useEffect(() => {
 
-  const fetchDashboardData = async () => {
+    const fetchDashboardData = async () => {
 
-    try {
-      const dashboardRes = await api.get('/dashboard');
+      try {
+        const dashboardRes = await api.get('/dashboard');
 
-      if (dashboardRes.data.success) {
-        setCourseData(dashboardRes.data.data);
+        if (dashboardRes.data.success) {
+          setCourseData(dashboardRes.data.data);
+        }
+
+      } catch (error) {
+        console.error("Dashboard API Error:", error);
       }
-      
+    };
+
+    fetchDashboardData();
+
+  }, []);
+
+ useEffect(() => {
+  const fetchStories = async () => {
+    try {
+      const res = await api.get("/web-stories");
+
+      console.log("Web Stories API Response:", res.data);
+
+      if (res.data.success) {
+        setStories(res.data.data || []);
+      }
     } catch (error) {
-      console.error("Dashboard API Error:", error);
+      console.error("Web Stories API Error:", error);
     }
   };
 
-  fetchDashboardData();
-
+  fetchStories();
 }, []);
 
   return (
@@ -360,7 +378,7 @@ const Dashboard = () => {
             <p className="text-sm md:text-lg mb-4 md:mb-6">
               And unlock all the answers you’ve been waiting for.
             </p>
-         
+
 
             <button
               onClick={() => setShowForm(true)}
@@ -383,6 +401,8 @@ const Dashboard = () => {
       <MentorSlider />
 
       <ExploreSection />
+
+      <WebStoriesSection stories={stories} />
 
       <TransactionSlider />
 

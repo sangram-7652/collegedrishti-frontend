@@ -107,23 +107,7 @@ export default function Header() {
     }
   }, []);
 
-  /* ================= HEADER HEIGHT ================= */
-
-// useEffect(() => {
-//   const updateHeight = () => {
-//     if (headerRef.current) {
-//       setHeaderHeight(headerRef.current.offsetHeight);
-//     }
-//   };
-
-//   updateHeight();
-
-//   window.addEventListener("resize", updateHeight);
-
-//   return () =>
-//     window.removeEventListener("resize", updateHeight);
-// }, []);
-
+ 
   useEffect(() => {
     const updateNavPosition = () => {
       if (!headerRef.current || !navRef.current) return;

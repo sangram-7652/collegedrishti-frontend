@@ -1,6 +1,6 @@
 // src/App.jsx
 import { lazy, Suspense } from "react";
-import { Routes, Route , Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop"
 import MetaPixel from "./components/MetaPixel";
 import Chatbot from "./components/Chatbot";
@@ -12,18 +12,11 @@ import GlobalPopup from "./components/GlobalPopup";
 import UniversitySearchPage from "./pages/UniversitySearchPage";
 
 
-
-
-
-
-
-
-
 /* ===== LAZY IMPORTS (VERY IMPORTANT) ===== */
 import Login from "./components/Login";
 const Signup = lazy(() => import("./components/Signup"));
 // const Dashboard = lazy(() => import("./components/Dashboard"));
-const UserDashboard = lazy(() => import("./pages/UserDashboard")); 
+const UserDashboard = lazy(() => import("./pages/UserDashboard"));
 const CourseFilter = lazy(() => import("./components/CourseFilter"));
 const CoursePage = lazy(() => import("./components/CoursePage"));
 const UniversityPage = lazy(() => import("./components/UniversityPage"));
@@ -42,6 +35,8 @@ const CompareFee = lazy(() => import("./pages/CompareFee"));
 const ContactUs = lazy(() => import("./components/ContactUs"));
 const SuggestMentor = lazy(() => import("./pages/SuggestMentor"));
 const SpecializationDetails = lazy(() => import("./pages/SpecializationDetails"));
+const WebStoriesSection = lazy(() => import("./pages/WebStoriesSection"));
+const WebStoryDetail = lazy(() => import("./pages/WebStoryDetail"));
 
 
 
@@ -69,7 +64,7 @@ const App = () => {
 
 
       <Suspense fallback={null}>
-      <ScrollToTop />
+        <ScrollToTop />
         <Routes>
 
           <Route
@@ -82,11 +77,21 @@ const App = () => {
             element={<Navigate to="/CollegeSearchPage" replace />}
           />
 
-         <Route
-          path="/blog/Best High-Paying Degrees After 12th in India"
+          <Route
+            path="/blog/Best High-Paying Degrees After 12th in India"
             element={
               <Navigate
                 to="/blog/best-high-paying-degrees-after-12th-in-india"
+                replace
+              />
+            }
+          />
+
+          <Route
+            path="/Aboutjainuniversity"
+            element={
+              <Navigate
+                to="/ugc-approved-online-universities"
                 replace
               />
             }
@@ -120,7 +125,9 @@ const App = () => {
           <Route path="/SuggestedUniversity" element={<SuggestedUniversity />} />
           <Route path="/blogs" element={<BlogPage />} />
           {/* <Route path="/blog/:slug" element={<Blogdetail />} /> */}
-          <Route path="/blog/:slug" element={<BlogDetailWrapper />}/>
+          <Route path="/web-stories" element={<WebStoriesSection />} />
+          <Route path="/web-stories/:slug" element={<WebStoryDetail />} />
+          <Route path="/blog/:slug" element={<BlogDetailWrapper />} />
           <Route path="/Aboutjainuniversity" element={<AboutJainUniversity />} />
           <Route path="/ugc-approved-online-universities" element={<AboutJainUniversity />} />
           <Route path="/CollegeSearchPage" element={<CollegeSearchPage />} />
