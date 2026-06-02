@@ -5,27 +5,23 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import banner1 from "../course-image/banner1.webp";
-import banner2 from "../course-image/banner2.webp";
-import banner3 from "../course-image/banner3.webp";
-import banner4 from "../course-image/banner4.webp";
 import banner5 from "../course-image/banner5.webp";
 import banner6 from "../course-image/banner6.webp";
 import banner7 from "../course-image/banner7.webp";
 
 import banner1Mobile from "../course-image/Banner-Mobile1.webp";
-import banner2Mobile from "../course-image/Banner-Mobile2.webp";
-import banner3Mobile from "../course-image/Banner-Mobile3.webp";
-import banner4Mobile from "../course-image/Banner-Mobile4.webp";
+import banner5Mobile from "../course-image/banner5mobile.webp";
+import banner6Mobile from "../course-image/banner6mobile.webp";
+import banner7Mobile from "../course-image/banner7mobile.webp";
+
+
 
 const HeroSection = () => {
   const banners = [
     { desktop: banner1, mobile: banner1Mobile },
-    { desktop: banner2, mobile: banner2Mobile },
-    { desktop: banner3, mobile: banner3Mobile },
-    { desktop: banner4, mobile: banner4Mobile },
-    { desktop: banner5, mobile: banner4Mobile },
-    { desktop: banner6, mobile: banner4Mobile },
-    { desktop: banner7, mobile: banner4Mobile },
+    { desktop: banner5, mobile: banner5Mobile },
+    { desktop: banner6, mobile: banner6Mobile },
+    { desktop: banner7, mobile: banner7Mobile },
   ];
 
   return (

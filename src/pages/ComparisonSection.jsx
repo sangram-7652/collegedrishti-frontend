@@ -40,6 +40,7 @@ const ComparisonSection = ({
   );
 
 
+  console.log(selectedUniversities);
   return (
     <section className="px-4 md:px-16 py-10 text-center">
 

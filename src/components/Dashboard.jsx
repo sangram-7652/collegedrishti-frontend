@@ -49,7 +49,7 @@ const Dashboard = () => {
   const location = useLocation();
   const courseRef = useRef(null);
   const [showCourses, setShowCourses] = useState(false);
-  const [stories, setStories] = useState([]);
+
 
 
   const [showForm, setShowForm] = useState(false);
@@ -173,25 +173,7 @@ const Dashboard = () => {
 
   }, []);
 
- useEffect(() => {
-  const fetchStories = async () => {
-    try {
-      const res = await api.get("/web-stories");
-
-      console.log("Web Stories API Response:", res.data);
-
-      if (res.data.success) {
-        setStories(res.data.data || []);
-      }
-    } catch (error) {
-      console.error("Web Stories API Error:", error);
-    }
-  };
-
-  fetchStories();
-}, []);
-
-  return (
+   return (
     <div className="w-full font-sans overflow-x-hidden">
 
       <div className="hidden md:block">
@@ -402,7 +384,7 @@ const Dashboard = () => {
 
       <ExploreSection />
 
-      <WebStoriesSection stories={stories} />
+      <WebStoriesSection />
 
       <TransactionSlider />
 

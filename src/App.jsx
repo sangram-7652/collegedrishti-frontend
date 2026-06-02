@@ -51,6 +51,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 
 
+
 const App = () => {
   return (
     <>
@@ -108,11 +109,8 @@ const App = () => {
           />
 
           <Route path="/webstories" element={<Navigate to="/" replace />} />
-
           <Route path="/course" element={<Navigate to="/" replace />} />
-
           <Route path="/courses/1" element={<Navigate to="/" replace />} />
-
           <Route path="/" element={<Dashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/signup" element={<Signup />} />
@@ -135,16 +133,14 @@ const App = () => {
           <Route path="/AboutCourses" element={<AboutCourses />} />
           <Route path="/university/:id/about" element={<AboutPage />} />
           <Route path="/compare" element={<CompareFee />} />
-          <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/SuggestMentor" element={<SuggestMentor />} />
           <Route path="/specialization/:slug" element={<SpecializationDetails />} />
-          <Route
-            path="/universities"
-            element={<UniversitySearchPage />}
-          />
+          <Route path="/universities" element={<UniversitySearchPage />} />
 
           {/* Footer links ONLY — wrapped with Layout */}
           <Route element={<Layout />}>
+            <Route path="/about-us" element={<AboutPage />} />
             <Route path="/refund" element={<Refund />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

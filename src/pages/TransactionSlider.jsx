@@ -13,15 +13,15 @@ import 'swiper/css';
 // import face5 from '../assets/face 5.png';
 
 // Company logo
-import paytmLogo from '../assets/paytm.png';
 import sd from "../assets/sd.jpeg";
 import crm from "../assets/crm.jpeg";
 import hdb_logo from "../assets/hdb_logo.webp";
+import sd_logo from "../assets/sd_logo.jpeg";
 
 
 const TransactionSlider = () => {
     const users = [
-        { face: sd, logo: paytmLogo },
+        { face: sd, logo: sd_logo },
         { face: crm, logo: hdb_logo },
         // { face: face3, logo: paytmLogo },
         // { face: face4, logo: paytmLogo },
