@@ -70,23 +70,6 @@ const SuggestedUniversity = () => {
     fetchStepTitles();
   }, []);
 
-  // const stepDetails = [
-  //   { step_id: 1, title_name: "Select your degree", title_disc: "" },
-  //   { step_id: 2, title_name: "Select your course", title_disc: "" },
-  //   { step_id: 3, title_name: "Select your specialization", title_disc: "" },
-  //   { step_id: 4, title_name: "Are you currently working?", title_disc: "" },
-  //   { step_id: 5, title_name: "Select course fees range", title_disc: "" },
-  //   { step_id: 6, title_name: "Would you like to convert to EMI?", title_disc: "" },
-  //   { step_id: 7, title_name: "Select your preferred study mode", title_disc: "" },
-  //   { step_id: 8, title_name: "Select your preferred university type", title_disc: "" },
-  //   { step_id: 9, title_name: "Select your preferred university location", title_disc: "" }
-  // ];
-
-  // useEffect(() => {
-  //   // Load initial data (courses)
-  //   fetchStepData();
-  // }, []);
-
   const extractStepItems = (res) => {
     const body = res?.data;
     if (!body) return [];
