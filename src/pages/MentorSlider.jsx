@@ -44,6 +44,17 @@ const MentorSlider = () => {
     setFlippedIndex(flippedIndex === index ? null : index);
   };
 
+  const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+
+};
+
   return (
     <div className="relative py-16 px-4 w-full overflow-hidden bg-[#F4F7FB]">
       <div className="max-w-7xl mx-auto">
@@ -92,7 +103,7 @@ const MentorSlider = () => {
                     {/* FRONT SIDE */}
                     <div className="absolute inset-0 [backface-visibility:hidden] rounded-2xl overflow-hidden">
                       <img
-                        src={`${import.meta.env.VITE_API_BASE_URL}/${mentor.image}`}
+                        src={getImageUrl(mentor.image)}
                         alt={mentor.name}
                         className="w-full h-full object-cover rounded-2xl"
                       />

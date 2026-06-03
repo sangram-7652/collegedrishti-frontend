@@ -8,6 +8,17 @@ import { useNavigate } from "react-router-dom";
 
 const INITIAL_LIMIT = 50;
 
+const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+
+};
+
 // ================= COURSE CARD =================
 
 const CourseCard = ({ course, onView }) => {
@@ -49,9 +60,7 @@ const CourseCard = ({ course, onView }) => {
         <img
           src={
             course.image
-              ? `${import.meta.env.VITE_API_BASE_URL}/${course.image
-                  .replace(/^\/+/, "")
-                  .replace(/^api\/*/, "")}`
+              ? getImageUrl(course.image)
               : "/default-course.png"
           }
           alt={course.sub_name}

@@ -20,9 +20,12 @@ const Section11 = lazy(() => import("../pages/Section11"));
 const CTASection = lazy(() => import("../pages/CTASection"));
 const FAQSection = lazy(() => import("../pages/FAQSection"));
 
+
 import Footer from "./Footer";
 import MobileFooterNav from "./MobileFooterNav";
 import { LogIn } from "lucide-react";
+import SEO from "./SEO";
+
 
 const CoursePage = () => {
   const { slug } = useParams();
@@ -110,7 +113,16 @@ const CoursePage = () => {
   /* ================= PAGE ================= */
 
   return (
+
+    
     <main className="bg-white text-gray-900 animate-fadeIn">
+            <SEO
+  title={course.sub_name}
+  description={course.short_desc?.replace(/<[^>]+>/g, "").slice(0, 160)}
+  keywords={course.sub_name}
+  canonical={`https://collegedrishti.com/course/${slug}`}
+  image={`https://api.collegedrishti.com/${course.image}`}
+/>
       {/* ================= HEADER ================= */}
 
       <div className="hidden md:block">

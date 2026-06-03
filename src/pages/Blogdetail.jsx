@@ -14,6 +14,7 @@ import LeadForm from "../components/LeadForm";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import SEO from "../components/SEO";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -270,163 +271,6 @@ const BlogDetail = () => {
     });
   }, [slug]);
 
-useEffect(() => {
-
-  if (!blog) return;
-
-  // Remove HTML Tags
-  const cleanTitle =
-    blog?.title
-      ?.replace(/<[^>]*>/g, "")
-      ?.trim();
-
-  const cleanDescription =
-    blog?.meta_dis
-      ?.replace(/<[^>]*>/g, "")
-      ?.trim();
-
-  const cleanKeywords =
-    blog?.meta_keywords
-      ?.replace(/<[^>]*>/g, "")
-      ?.trim();
-
-  // Dynamic Title
-  document.title =
-    `${cleanTitle} | CollegeDrishti`;
-
-  // Helper Function
-  const updateMetaTag = (
-    selector,
-    attribute,
-    value
-  ) => {
-
-    if (!value) return;
-
-    let element =
-      document.querySelector(
-        selector
-      );
-
-    if (!element) {
-
-      element =
-        document.createElement(
-          "meta"
-        );
-
-      element.setAttribute(
-        attribute,
-        selector.includes(
-          "property="
-        )
-          ? selector.match(
-              /property="([^"]+)"/
-            )[1]
-          : selector.match(
-              /name="([^"]+)"/
-            )[1]
-      );
-
-      document.head.appendChild(
-        element
-      );
-    }
-
-    element.content = value;
-  };
-
-  // Meta Description
-  updateMetaTag(
-    'meta[name="description"]',
-    "name",
-    cleanDescription ||
-      "Explore top online universities."
-  );
-
-  // Keywords
-  updateMetaTag(
-    'meta[name="keywords"]',
-    "name",
-    cleanKeywords ||
-      "online universities"
-  );
-
-  // Open Graph
-  updateMetaTag(
-    'meta[property="og:title"]',
-    "property",
-    cleanTitle
-  );
-
-  updateMetaTag(
-    'meta[property="og:description"]',
-    "property",
-    cleanDescription
-  );
-
-  updateMetaTag(
-    'meta[property="og:image"]',
-    "property",
-    blog?.image
-  );
-
-  updateMetaTag(
-    'meta[property="og:type"]',
-    "property",
-    "article"
-  );
-
-  // Twitter
-  updateMetaTag(
-    'meta[name="twitter:card"]',
-    "name",
-    "summary_large_image"
-  );
-
-  updateMetaTag(
-    'meta[name="twitter:title"]',
-    "name",
-    cleanTitle
-  );
-
-  updateMetaTag(
-    'meta[name="twitter:description"]',
-    "name",
-    cleanDescription
-  );
-
-  updateMetaTag(
-    'meta[name="twitter:image"]',
-    "name",
-    blog?.image
-  );
-
-  // Canonical URL
-  let canonical =
-    document.querySelector(
-      'link[rel="canonical"]'
-    );
-
-  if (!canonical) {
-
-    canonical =
-      document.createElement(
-        "link"
-      );
-
-    canonical.rel =
-      "canonical";
-
-    document.head.appendChild(
-      canonical
-    );
-  }
-
-  canonical.href =
-    window.location.href;
-
-}, [blog]);
 
   if (loading) {
     return (
@@ -442,10 +286,17 @@ useEffect(() => {
 
   if (!blog) return <p className="text-center py-20">Blog not found</p>;
 
-  
+
 
   return (
     <>
+      <SEO
+  title={blog.title}
+  description={blog.meta_dis?.replace(/<[^>]*>/g, "")}
+  keywords={blog.tags?.replace(/\n/g, ",")}
+  canonical={`https://collegedrishti.com/blog/${blog.slug}`}
+  image={blog.image}
+/>
       <div className="flex flex-col min-h-screen bg-white">
         {/* Desktop Header */}
         <div className="hidden md:block">

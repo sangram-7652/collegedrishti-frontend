@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const CourseSection = ({ courseData = [] }) => {
   const navigate = useNavigate();
 
@@ -54,6 +53,19 @@ const CourseSection = ({ courseData = [] }) => {
   const displayedCourses = showAll
     ? filteredCourses
     : filteredCourses.slice(0, LIMIT);
+
+  // image url 
+const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+
+};
+
 
   /* ================= UI ================= */
 
@@ -156,7 +168,8 @@ const CourseSection = ({ courseData = [] }) => {
             lg:gap-6
           "
         >
-          {displayedCourses.map((course) => {
+          {displayedCourses.map((course) =>  {
+
             return (
               <div className="flex justify-center">
                 <div
@@ -194,12 +207,11 @@ const CourseSection = ({ courseData = [] }) => {
                     </span>
                   )}
 
+                    
                   <img
                     src={
                       course.image
-                        ? `${import.meta.env.VITE_API_BASE_URL}/${course.image
-                            .replace(/^\/+/, "")
-                            .replace(/^api\/*/, "")}`
+                        ? getImageUrl(course.image)
                         : "/default-course.png"
                     }
                     alt={course.name}

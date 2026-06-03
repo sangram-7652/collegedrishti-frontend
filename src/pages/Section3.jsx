@@ -1,5 +1,6 @@
 import { FaCheckCircle } from "react-icons/fa";
 import LeadForm from "../components/LeadForm";
+import SEO from "../components/SEO";
 
 // ✅ HTML decode function
 function decodeHtml(html) {
@@ -15,8 +16,12 @@ function decodeHtml(html) {
 export default function Section3({ course }) {
   if (!course) return null;
 
+
   return (
+
+    
     <section className="w-full px-4 sm:px-8 lg:px-16 py-10">
+
 
       <div className="max-w-7xl mx-auto">
         

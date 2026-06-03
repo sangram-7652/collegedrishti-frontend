@@ -54,6 +54,17 @@ export default function CourseHero({ course }) {
     doc.save(`${course.sub_name || "course"}_brochure.pdf`);
   };
 
+  const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+
+};
+
   return (
     <section className="bg-white p-6 lg:p-10 flex flex-col lg:flex-row items-center lg:items-start gap-10">
       {/* Left */}
@@ -143,7 +154,7 @@ export default function CourseHero({ course }) {
   <img
     src={
       course.banner_image
-        ? `${import.meta.env.VITE_API_BASE_URL}/${course.banner_image}`
+        ? getImageUrl(course.banner_image)
         : "/no-image.webp"
     }
     alt={course.sub_name || "Course"}

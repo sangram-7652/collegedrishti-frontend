@@ -24,6 +24,17 @@ const MentorSlider = () => {
     setFlippedIndex(flippedIndex === i ? null : i);
   };
 
+  const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+
+};
+
   return (
     <div className="bg-white min-h-screen flex flex-col">
 
@@ -69,7 +80,7 @@ const MentorSlider = () => {
                       <img
                         src={
                           mentor.image
-                            ? `${import.meta.env.VITE_API_BASE_URL}${mentor.image.replace(/^\/+/, "")}`
+                            ? getImageUrl(mentor.image)
                             : "/default-mentor.png"
                         }
                         className="w-full h-full object-cover rounded-2xl"

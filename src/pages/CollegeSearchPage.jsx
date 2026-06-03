@@ -225,6 +225,17 @@ const CollegeSearchPage = () => {
     navigate(`/coursepage/${course.slug}`);
   };
 
+  const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+
+};
+
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col">
       {/* ================= HEADER ================= */}
@@ -415,13 +426,7 @@ const CollegeSearchPage = () => {
                     className="bg-white border rounded-xl shadow-sm p-4 hover:shadow-md transition cursor-pointer"
                   >
                     <img
-                      src={
-                        course.image?.startsWith(
-                          "http"
-                        )
-                          ? course.image
-                          : `${import.meta.env.VITE_API_BASE_URL}/${course.image || ""}`
-                      }
+                      src={getImageUrl(course.image)}
                       alt={course.name}
                       className="object-contain h-10 w-10 mx-auto mb-2"
                     />

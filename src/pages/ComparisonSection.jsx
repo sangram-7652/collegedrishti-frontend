@@ -39,16 +39,17 @@ const ComparisonSection = ({
     (u) => !selectedUniversities.some((x) => x.id === u.id)
   );
 
-  const getImageUrl = (img) => {
+const API_BASE = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+
+const getImageUrl = (img) => {
   if (!img) return "";
 
   if (img.startsWith("http")) {
     return img;
   }
 
-  return `https://api.collegedrishti.com/${img}`;
+  return `${API_BASE}/${img}`;
 };
-
   console.log(selectedUniversities);
   return (
     <section className="px-4 md:px-16 py-10 text-center">

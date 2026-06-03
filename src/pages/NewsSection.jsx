@@ -27,6 +27,19 @@ const NewsSection = () => {
   if (loading) return <ShadeWaveLoader label="Loading latest news..." cards={3} />;
   if (!newsData.length) return <p className="text-center py-10">No news available.</p>;
 
+    // image url 
+const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+
+};
+
+
   return (
     <section className="py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4 text-center">
@@ -35,12 +48,7 @@ const NewsSection = () => {
 
         <div className="news-scroll md:grid md:grid-cols-3 md:gap-6 flex gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth hide-scrollbar">
           {newsData.map((news, index) => {
-          
-          const imageUrl =
-           news.image?.startsWith('http')
-             ? news.image
-                 : `${import.meta.env.VITE_API_BASE_URL}/${news.image.replace(/^\/+/, '').replace(/^api\/*/, '')}`;
-             
+        
             return (
              <a
                     key={news.id || index}
@@ -54,7 +62,7 @@ const NewsSection = () => {
                   >
                     {/* Image */}
                     <img
-                      src={imageUrl}
+                      src={getImageUrl(news.image) || "/default-news.png"}
                       alt={news.title || `News ${index + 1}`}
                       className="w-full object-cover transition-transform duration-300 group-hover:scale-105"                    />
 
@@ -141,92 +149,3 @@ export default NewsSection;
 
 
 
-
-
-// import { useEffect, useState } from 'react';
-// import { CalendarIcon } from '@heroicons/react/24/outline';
-// import api from '../api/axios';
-
-
-// const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL; 
-
-
-// const NewsSection = () => {
-//   const [newsData, setNewsData] = useState([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     api
-//       .get('/news')
-//       .then((res) => {
-//         const data = res.data;
-//         if (data.success && Array.isArray(data.data)) {
-//           setNewsData(data.data);
-//         } else {
-//           console.warn('Unexpected API data format:', data);
-//         }
-//       })
-//       .catch((err) => {
-//         console.error('Failed to fetch news:', err);
-//       })
-//       .finally(() => setLoading(false));
-//   }, []);
-
-//   if (loading) {
-//     return <p className="text-center py-10">Loading news...</p>;
-//   }
-
-//   if (!newsData.length) {
-//     return <p className="text-center py-10">No news available.</p>;
-//   }
-
-//   return (
-//     <section className="py-16 bg-white">
-//       <div className="max-w-6xl mx-auto px-4 text-center">
-//         <h3 className="text-lg font-semibold mb-2">We have been On News</h3>
-//         <p className="text-sm text-gray-700 mb-10">Find us in the News</p>
-
-//         <div className="md:grid md:grid-cols-3 md:gap-6 flex gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth hide-scrollbar">
-//           {newsData.map((news, index) => {
-          
-//           const imageUrl =
-//             news.image?.startsWith('http')
-//               ? news.image
-//                  : `${import.meta.env.VITE_API_BASE_URL}${news.image.replace(/^\/+/, '').replace(/^api\/*/, '')}`;
-             
-
-
-
-
-//             return (
-//               <a
-//                 key={news.id || index}
-//                 href={news.link || '#'}
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//                 className="flex-shrink-0 w-72 md:w-auto transform transition-all duration-300 hover:scale-105 hover:opacity-90 block shadow-lg rounded-xl p-6 text-left snap-start"
-//               >
-//                 <img
-//                   src={imageUrl}
-//                   alt={news.title || `News ${index + 1}`}
-//                   className="mb-4 w-full h-52 object-cover rounded-lg"
-//                   loading="lazy"
-//                 />
-//                 <h3 className="text-lg font-semibold mb-1">{news.title}</h3>
-//                 <div className="flex items-center text-xs text-gray-400 mb-2">
-//                   <CalendarIcon className="w-4 h-4 mr-2 text-gray-500" />
-//                   <span>{news.created_at ? new Date(news.created_at).toLocaleDateString() : ''}</span>
-//                 </div>
-//                 <p className="text-sm text-gray-600">
-//                   {news.link?.includes('outlook') ? 'Featured on Outlook India' : 'Featured in the media'}
-//                 </p>
-//               </a>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default NewsSection;

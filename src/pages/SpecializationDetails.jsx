@@ -312,6 +312,18 @@ const SpecializationDetails = () => {
     );
   }
 
+
+  const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+
+};
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* DESKTOP HEADER */}
@@ -344,10 +356,7 @@ const SpecializationDetails = () => {
             {data.image && (
               <div className="w-full mb-8">
                 <img
-                  src={`${BASE_URL}/${data.image.replace(
-                    /^\/+/,
-                    ""
-                  )}`}
+                  src={getImageUrl(data.image)}
                   alt={
                     data.specialize_name
                   }

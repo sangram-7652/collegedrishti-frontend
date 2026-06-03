@@ -19,6 +19,7 @@ import FAQSection from "../pages/FAQSection";
 import Footer from "./Footer";
 import MobileFooterNav from "./MobileFooterNav";
 import MobileMenu from "../pages/MobileMenu";
+import SEO from "./SEO";
 
 import api from "../api/axios";
 
@@ -150,8 +151,19 @@ const UniversityPage = () => {
   }
 
 
+  console.log("University Data:", universityData);
+
   return (
     <div className="w-full font-sans overflow-x-hidden bg-white text-black min-h-screen">
+      <SEO
+      title={university.name}
+      description={
+        university.details_plain?.replace(/<[^>]+>/g, "").slice(0, 160)
+      }
+      keywords={`${university.name}, Online University`}
+      canonical={`https://collegedrishti.com/university/${university.slug}`}
+      image={university.image}
+    />
       <div className="hidden md:block">
         <Header />
       </div>
