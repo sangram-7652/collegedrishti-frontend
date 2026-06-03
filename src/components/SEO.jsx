@@ -8,7 +8,7 @@ const SEO = ({
   image,
 }) => {
 
-    console.log("SEO Props:", { title, description, keywords, canonical, image });
+   
       
   return (
     <Helmet>

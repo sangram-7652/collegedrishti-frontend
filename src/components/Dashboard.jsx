@@ -41,6 +41,7 @@ import MobileFooterNav from './MobileFooterNav';
 import { FaFacebookF, FaYoutube, FaInstagram, FaTwitter } from 'react-icons/fa';
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import SEO from "./SEO";
 
 
 
@@ -175,6 +176,13 @@ const Dashboard = () => {
 
    return (
     <div className="w-full font-sans overflow-x-hidden">
+       <SEO
+  title="CollegeDrishti - Top Online & Distance Education Guide | UGC-Approved Universities"
+  description="Find the best online and distance education programs from UGC-approved universities. Get information on courses, fees, admission process, and career opportunities."
+  keywords="Online Education, Distance Education, UGC-Approved Universities, CollegeDrishti"
+  canonical={`https://collegedrishti.com/course`}
+  image={"https://api.collegedrishti.com"}
+/>
 
       <div className="hidden md:block">
         <Header />

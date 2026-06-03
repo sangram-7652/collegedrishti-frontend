@@ -133,7 +133,7 @@ const App = () => {
           <Route path="/AboutCourses" element={<AboutCourses />} />
           <Route path="/university/:id/about" element={<AboutPage />} />
           <Route path="/compare" element={<CompareFee />} />
-          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/SuggestMentor" element={<SuggestMentor />} />
           <Route path="/specialization/:slug" element={<SpecializationDetails />} />
           <Route path="/universities" element={<UniversitySearchPage />} />

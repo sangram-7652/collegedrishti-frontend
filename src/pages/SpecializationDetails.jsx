@@ -12,6 +12,7 @@ import MobileMenu from "../pages/MobileMenu";
 import Footer from "../components/Footer";
 import MobileFooterNav from "../components/MobileFooterNav";
 import LeadForm from "../components/LeadForm";
+import SEO from "../components/SEO";
 
 import api from "../api/axios";
 
@@ -324,8 +325,23 @@ const SpecializationDetails = () => {
 
 };
 
+console.log(data);
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
+      <SEO
+  title={data?.specialize_name}
+  description={
+    data?.disc
+      ?.replace(/<[^>]+>/g, "")
+      ?.replace(/\s+/g, " ")
+      ?.trim()
+      ?.slice(0, 160)
+  }
+  keywords={data?.specialize_name}
+  canonical={`https://collegedrishti.com/specialization/${data?.slug}`}
+  image={getImageUrl(data?.image)}
+/>
       {/* DESKTOP HEADER */}
       <div className="hidden md:block">
         <Header />
