@@ -39,6 +39,15 @@ const ComparisonSection = ({
     (u) => !selectedUniversities.some((x) => x.id === u.id)
   );
 
+  const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  return `https://api.collegedrishti.com/${img}`;
+};
 
   console.log(selectedUniversities);
   return (
@@ -74,7 +83,8 @@ const ComparisonSection = ({
             {/* ✅ Logo */}
             {u.image && (
               <img
-                src={u.image}
+                 src={getImageUrl(u.image)}
+                alt={u.name}
                 className="h-14 object-contain mb-2"
               />
             )}

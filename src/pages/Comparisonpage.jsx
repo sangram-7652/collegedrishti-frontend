@@ -79,6 +79,7 @@ const ComparisonPage = () => {
     setComparisonData(selected);
   };
 
+
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-8">
 
@@ -109,99 +110,3 @@ export default ComparisonPage;
 
 
 
-
-
-// import React, { useEffect, useState } from "react";
-// import api from "../api/axios";
-// import Cookies from "js-cookie";
-
-// import Header from "../pages/Header";
-// import MobileMenu from "../pages/MobileMenu";
-
-// import ComparisonSection from "../pages/ComparisonSection";
-// import ComparisonTable from "../pages/ComparisonTable";
-
-// import CTASection from "../pages/CTASection";
-// import FAQSection from "../pages/FAQSection";
-// import Footer from "./Footer";
-// import MobileFooterNav from "./MobileFooterNav";
-
-// const ComparisonPage = () => {
-//   const [allUniversities, setAllUniversities] = useState([]);
-//   const [selected, setSelected] = useState([]);
-//   const [comparisonData, setComparisonData] = useState(null);
-
-//   const fetchUniversities = async () => {
-//     try {
-//       const name = Cookies.get("name");
-//       const mobile = Cookies.get("mobile");
-
-//       const res = await api.post("/findsuggests", { name, mobile });
-
-//       if (!res.data.success) return;
-
-//       const list = res.data.data.universities;
-
-//       // Fetch full details for each university
-//       const fullData = await Promise.all(
-//         list.map(async (u) => {
-//           try {
-//             const detail = await api.get(`/api-university/${u.slug}`);
-//             return { ...u, ...detail.data.data };
-//           } catch {
-//             return u;
-//           }
-//         })
-//       );
-
-//       setAllUniversities(fullData);
-//       setSelected(fullData.slice(0, 3));
-//     } catch (err) {
-//       console.error("Error loading universities:", err);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchUniversities();
-//   }, []);
-
-//   const onAdd = (u) => {
-//     if (selected.find((x) => x.id === u.id)) return;
-//     setSelected([...selected, u]);
-//   };
-
-//   const onRemove = (u) => {
-//     setSelected(selected.filter((x) => x.id !== u.id));
-//   };
-
-//   const onCompare = () => {
-//     setComparisonData(selected);
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-50 px-4 py-8">
-
-//       <div className="hidden md:block"><Header /></div>
-//       <div className="block md:hidden"><MobileMenu /></div>
-
-//       <ComparisonSection
-//         allUniversities={allUniversities}
-//         selectedUniversities={selected}
-//         onAddUniversity={onAdd}
-//         onRemoveUniversity={onRemove}
-//         onCompare={onCompare}
-//       />
-
-//       {comparisonData && (
-//         <ComparisonTable universities={comparisonData} />
-//       )}
-
-//       <CTASection />
-//       <FAQSection />
-//       <Footer />
-//       <MobileFooterNav />
-//     </div>
-//   );
-// };
-
-// export default ComparisonPage;
