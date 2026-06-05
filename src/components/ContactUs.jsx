@@ -71,13 +71,15 @@ export default function ContactHero() {
           src={touch}
           alt="Contact Banner"
           className="
-      hidden md:block
-      w-full
-      h-[380px]
-      lg:h-[420px]
-      object-cover
-      object-center
-    "
+                    hidden md:block
+                    w-full
+                    h-[380px]
+                    lg:h-[420px]
+                    object-cover
+                    object-center
+                  "
+                  loading="lazy"
+        
         />
 
         {/* ✅ Mobile Banner */}
@@ -90,6 +92,7 @@ export default function ContactHero() {
       h-auto
       object-contain
     "
+    loading="lazy"
         />
       </div>
       {/* <div className="w-full mt-2">

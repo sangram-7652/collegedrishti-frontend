@@ -66,6 +66,7 @@ const CourseCard = ({ course, onView }) => {
           alt={course.sub_name}
           loading="lazy"
           className="object-contain h-12 w-12"
+          
         />
 
         <h3 className="text-[12px] font-semibold text-[#1E1E1E] text-center leading-[14px] px-2">

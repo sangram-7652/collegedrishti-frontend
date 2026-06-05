@@ -1,27 +1,30 @@
 // UniversityPage.jsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useParams } from "react-router-dom";
 
 import Header from "../pages/Header";
-import UniversityHighlight from "../pages/UniversityHighlight";
-import InfoWithPodcast from "../pages/InfoWithPodcast";
-import AboutUniversity from "../pages/AboutUniversity";
-import UniversityFee from "../pages/UniversityFee";
-import AdvantageSection from "../pages/AdvantageSection";
-import Section7 from "../pages/Section7";
-import Section8 from "../pages/Section8";
-import Section9 from "../pages/Section9";
-import Section10 from "../pages/Section10";
-import Section11 from "../pages/Section11";
-import CTASection from "../pages/CTASection";
-import FAQSection from "../pages/FAQSection";
 import Footer from "./Footer";
 import MobileFooterNav from "./MobileFooterNav";
 import MobileMenu from "../pages/MobileMenu";
 import SEO from "./SEO";
-
 import api from "../api/axios";
+
+
+const UniversityHighlight = lazy(() => import("../pages/UniversityHighlight"));
+const InfoWithPodcast = lazy(() => import("../pages/InfoWithPodcast"));
+const AboutUniversity = lazy(() => import("../pages/AboutUniversity"));
+const UniversityFee = lazy(() => import("../pages/UniversityFee"));
+const AdvantageSection = lazy(() => import("../pages/AdvantageSection"));
+const Section7 = lazy(() => import("../pages/Section7"));
+const Section8 = lazy(() => import("../pages/Section8"));
+const Section9 = lazy(() => import("../pages/Section9"));
+const Section10 = lazy(() => import("../pages/Section10"));
+const Section11 = lazy(() => import("../pages/Section11"));
+const CTASection = lazy(() => import("../pages/CTASection"));
+const FAQSection = lazy(() => import("../pages/FAQSection"));
+
+
 
 const UniversityPage = () => {
   const { slug } = useParams();
@@ -156,14 +159,14 @@ const UniversityPage = () => {
   return (
     <div className="w-full font-sans overflow-x-hidden bg-white text-black min-h-screen">
       <SEO
-      title={university.name}
-      description={
-        university.details_plain?.replace(/<[^>]+>/g, "").slice(0, 160)
-      }
-      keywords={`${university.name}, Online University`}
-      canonical={`https://collegedrishti.com/university/${university.slug}`}
-      image={university.image}
-    />
+        title={university.name}
+        description={
+          university.details_plain?.replace(/<[^>]+>/g, "").slice(0, 160)
+        }
+        keywords={`${university.name}, Online University`}
+        canonical={`https://collegedrishti.com/university/${university.slug}`}
+        image={university.image}
+      />
       <div className="hidden md:block">
         <Header />
       </div>
@@ -172,43 +175,45 @@ const UniversityPage = () => {
         <MobileMenu />
       </div>
 
-      <div className="scroll-mt-24">
-        <UniversityHighlight university={university} slug={slug} />
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className="scroll-mt-24">
+          <UniversityHighlight university={university} slug={slug} />
+        </div>
 
-      <InfoWithPodcast className="bg-white" data={university} />
+        <InfoWithPodcast className="bg-white" data={university} />
 
-      <div id="about" className="scroll-mt-24">
-        <AboutUniversity className="bg-white" data={university} />
-      </div>
+        <div id="about" className="scroll-mt-24">
+          <AboutUniversity className="bg-white" data={university} />
+        </div>
 
-      <div id="courses" className="scroll-mt-24">
-        <UniversityFee className="bg-white" slug={slug} />
-      </div>
+        <div id="courses" className="scroll-mt-24">
+          <UniversityFee className="bg-white" slug={slug} />
+        </div>
 
-      <div id="placements" className="scroll-mt-24">
-        <AdvantageSection className="bg-white" data={universityData} />
-      </div>
+        <div id="placements" className="scroll-mt-24">
+          <AdvantageSection className="bg-white" data={universityData} />
+        </div>
 
-      <div id="reviews" className="scroll-mt-24">
-        <Section7 className="bg-white" data={universityData} />
-      </div>
+        <div id="reviews" className="scroll-mt-24">
+          <Section7 className="bg-white" data={universityData} />
+        </div>
 
-      <div id="admissions" className="scroll-mt-24">
-        <Section8 className="bg-white" data={universityData} />
-      </div>
+        <div id="admissions" className="scroll-mt-24">
+          <Section8 className="bg-white" data={universityData} />
+        </div>
 
-      <div id="approvals" className="scroll-mt-24">
-        <Section9 data={university} />
-      </div>
+        <div id="approvals" className="scroll-mt-24">
+          <Section9 data={university} />
+        </div>
 
-      <Section10 className="bg-white" data={universityData} />
+        <Section10 className="bg-white" data={universityData} />
 
-      <Section11 className="bg-white" data={universityData} />
+        <Section11 className="bg-white" data={universityData} />
 
-      <CTASection className="bg-white" data={universityData} />
+        <CTASection className="bg-white" data={universityData} />
 
-      <FAQSection className="bg-white" universityId={university.id} />
+        <FAQSection className="bg-white" universityId={university.id} />
+      </Suspense>
 
       <Footer />
 

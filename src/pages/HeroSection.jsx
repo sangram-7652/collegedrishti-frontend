@@ -47,12 +47,16 @@ const HeroSection = () => {
               <img
                 src={banner.desktop}
                 alt={`Hero ${index + 1}`}
+                loading="eager"
+                fetchPriority="high"
                 className="hidden md:block w-full h-auto object-cover will-change-transform" />
 
               {/* MOBILE */}
               <img
                 src={banner.mobile}
                 alt={`Hero Mobile ${index + 1}`}
+                loading="eager"
+                fetchPriority="high"
                 className="block md:hidden w-full h-[170px] object-cover will-change-transform" />
             </SwiperSlide>
           ))}

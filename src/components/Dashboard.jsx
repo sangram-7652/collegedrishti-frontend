@@ -1,22 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import api from '../api/axios';
 import { Link } from 'react-router-dom';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { FiSearch } from 'react-icons/fi';
-import CounsellingSlider from "../pages/CounsellingSlider";
-import MentorSlider from "../pages/MentorSlider";
-import ExploreSection from "../pages/ExploreSection";
-import NewsSection from "../pages/NewsSection";
-import ExperienceSection from "../pages/ExperienceSection";
-import FAQSection from "../pages/FAQSection";
-import CTASection from "../pages/CTASection";
 import HeroSection from "../pages/HeroSection";
 import Header from "../pages/Header";
 import MobileMenu from "../pages/MobileMenu";
-import TransactionSlider from "../pages/TransactionSlider";
-import HiringSection from "../pages/HiringSection";
-import CourseSection from "../pages/CourseSection";
-import WebStoriesSection from "../pages//WebStoriesSection";
 import earnImage from '../assets/earn.webp';
 // import amazonLogo from '../assets/amazon.png';
 import CourseIcon from '../assets/course-icon.png';
@@ -43,6 +32,17 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SEO from "./SEO";
 
+const CounsellingSlider = lazy(() => import("../pages/CounsellingSlider"));
+const MentorSlider = lazy(() => import("../pages/MentorSlider"));
+const ExploreSection = lazy(() => import("../pages/ExploreSection"));
+const NewsSection = lazy(() => import("../pages/NewsSection"));
+const ExperienceSection = lazy(() => import("../pages/ExperienceSection"));
+const FAQSection = lazy(() => import("../pages/FAQSection"));
+const CTASection = lazy(() => import("../pages/CTASection"));
+const TransactionSlider = lazy(() => import("../pages/TransactionSlider"));
+const HiringSection = lazy(() => import("../pages/HiringSection"));
+const CourseSection = lazy(() => import("../pages/CourseSection"));
+const WebStoriesSection = lazy(() => import("../pages/WebStoriesSection"));
 
 
 
@@ -75,7 +75,7 @@ const Dashboard = () => {
 
       if (res.data.success === 1) {
         setShowForm(false);
-        navigate("/thank-you"); 
+        navigate("/thank-you");
       }
     } catch (error) {
       console.log("Error:", error);
@@ -174,15 +174,15 @@ const Dashboard = () => {
 
   }, []);
 
-   return (
+  return (
     <div className="w-full font-sans overflow-x-hidden">
-       <SEO
-  title="CollegeDrishti - Top Online & Distance Education Guide | UGC-Approved Universities"
-  description="Find the best online and distance education programs from UGC-approved universities. Get information on courses, fees, admission process, and career opportunities."
-  keywords="Online Education, Distance Education, UGC-Approved Universities, CollegeDrishti"
-  canonical={`https://collegedrishti.com/course`}
-  image={"https://api.collegedrishti.com"}
-/>
+      <SEO
+        title="CollegeDrishti - Top Online & Distance Education Guide | UGC-Approved Universities"
+        description="Find the best online and distance education programs from UGC-approved universities. Get information on courses, fees, admission process, and career opportunities."
+        keywords="Online Education, Distance Education, UGC-Approved Universities, CollegeDrishti"
+        canonical={`https://collegedrishti.com/course`}
+        image={"https://api.collegedrishti.com"}
+      />
 
       <div className="hidden md:block">
         <Header />
@@ -383,26 +383,29 @@ const Dashboard = () => {
       </section>
 
 
+      <Suspense fallback={<div>Loading...</div>}>
 
-      <HiringSection />
+        <HiringSection />
 
-      <CounsellingSlider />
+        <CounsellingSlider />
 
-      <MentorSlider />
+        <MentorSlider />
 
-      <ExploreSection />
+        <ExploreSection />
 
-      <WebStoriesSection />
+        <WebStoriesSection />
 
-      <TransactionSlider />
+        <TransactionSlider />
 
-      <NewsSection />
+        <NewsSection />
 
-      <ExperienceSection />
+        <ExperienceSection />
 
-      <CTASection />
+        <CTASection />
 
-      <FAQSection />
+        <FAQSection />
+
+      </Suspense>
 
       {showForm && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
