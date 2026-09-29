@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import api from '../api/axios'
 
-import SEO from '@/components/common/SEO'
-import { courseMetadata } from '@/data/courseMetaData'
+import SEO from '../components/SEO'
+import { seoMeta } from '../data/seoMeta'
 
 import Header from '../pages/Header'
 import MobileMenu from '../pages/MobileMenu'
@@ -30,18 +30,18 @@ const CoursePage = () => {
   const { slug } = useParams()
 
   /* ================= SEO METADATA ================= */
+  console.log('seoMeta', seoMeta)
 
-  const metadata = courseMetadata[slug]
+  const metadata = seoMeta
+  console.log('metadata', metadata)
 
   /* ================= FETCH COURSE ================= */
-
   const fetchCourse = async () => {
     const response = await api.get(`/course/${slug}`)
     return response.data
   }
 
   /* ================= QUERY ================= */
-
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['coursepage', slug],
     queryFn: fetchCourse,
@@ -51,7 +51,6 @@ const CoursePage = () => {
   })
 
   /* ================= DATA ================= */
-
   const course = data?.data || null
 
   const specializations =
@@ -109,20 +108,7 @@ const CoursePage = () => {
     <main className='bg-white text-gray-900 animate-fadeIn'>
       {/* ================= SEO ================= */}
 
-      {metadata && (
-        <SEO
-          title={metadata.title}
-          description={metadata.description}
-          keywords={metadata.title}
-          canonical={`https://collegedrishti.com/course/${slug}`}
-          image={
-            course.image
-              ? `https://api.collegedrishti.com/${course.image}`
-              : 'https://collegedrishti.com/default-og-image.jpg'
-          }
-        />
-      )}
-
+      {metadata && <SEO type='course' metadata={metadata} />}
       {/* ================= HEADER ================= */}
 
       <div className='hidden md:block'>
