@@ -420,6 +420,15 @@ console.log(data);
                   [&_*]:max-w-full
                   [&_*]:break-words
 
+                  [&_a[href]]:text-blue-600
+                  [&_a[href]]:underline
+                  [&_a[href]]:underline-offset-2
+                  [&_a[href]]:cursor-pointer
+                  [&_a[href]:hover]:text-blue-800
+                  [&_a[href]:focus-visible]:outline-2
+                  [&_a[href]:focus-visible]:outline-offset-2
+                  [&_a[href]:focus-visible]:outline-blue-600
+
                   /* IMAGE */
                   [&_img]:w-full
                   [&_img]:h-auto
