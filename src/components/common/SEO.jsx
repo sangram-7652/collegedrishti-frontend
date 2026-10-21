@@ -2,14 +2,16 @@ import { Helmet } from 'react-helmet-async'
 
 const SEO = ({ title, description, canonical, type = 'website' }) => {
   return (
-    <Helmet>
+    <>
+      {canonical && <link rel='canonical' href={canonical} />}
+      <Helmet>
       <title>{title}</title>
 
       <meta name='description' content={description} />
 
       <meta name='robots' content='index, follow' />
 
-      <link rel='canonical' href={canonical} />
+
 
       <meta property='og:title' content={title} />
 
@@ -26,7 +28,8 @@ const SEO = ({ title, description, canonical, type = 'website' }) => {
       <meta name='twitter:title' content={title} />
 
       <meta name='twitter:description' content={description} />
-    </Helmet>
+      </Helmet>
+    </>
   )
 }
 
