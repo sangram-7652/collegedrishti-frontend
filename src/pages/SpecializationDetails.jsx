@@ -1,8 +1,4 @@
-
-import React, {
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 
 import { useParams } from "react-router-dom";
 
@@ -16,11 +12,7 @@ import SEO from "../components/SEO";
 
 import api from "../api/axios";
 
-const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL.replace(
-    /\/$/,
-    ""
-  );
+const BASE_URL = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "");
 
 const slugify = (text) => {
   return text
@@ -34,11 +26,9 @@ const slugify = (text) => {
 const SpecializationDetails = () => {
   const { slug } = useParams();
 
-  const [data, setData] =
-    useState(null);
+  const [data, setData] = useState(null);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
   // FETCH DATA
   useEffect(() => {
@@ -54,10 +44,7 @@ const SpecializationDetails = () => {
         window.scrollTo(0, 0);
       })
       .catch((err) => {
-        console.error(
-          "API Error:",
-          err
-        );
+        console.error("API Error:", err);
       })
       .finally(() => {
         setLoading(false);
@@ -69,56 +56,38 @@ const SpecializationDetails = () => {
     if (!data) return;
 
     const timer = setTimeout(() => {
-      const content =
-        document.querySelector(
-          ".specialization-content"
-        );
+      const content = document.querySelector(".specialization-content");
 
       if (!content) return;
 
-      const headings =
-        content.querySelectorAll(
-          "h1,h2,h3,h4,h5,h6"
-        );
+      const headings = content.querySelectorAll("h1,h2,h3,h4,h5,h6");
 
-      headings.forEach(
-        (heading, index) => {
-          const text =
-            heading.textContent;
+      headings.forEach((heading, index) => {
+        const text = heading.textContent;
 
-          if (!text) return;
+        if (!text) return;
 
-          const cleanText = text
-            .replace(/\u00A0/g, "")
-            .trim();
+        const cleanText = text.replace(/\u00A0/g, "").trim();
 
-          const finalId =
-            slugify(cleanText);
+        const finalId = slugify(cleanText);
 
-          heading.id =
-            finalId ||
-            `section-${index}`;
-        }
-      );
+        heading.id = finalId || `section-${index}`;
+      });
     }, 500);
 
-    return () =>
-      clearTimeout(timer);
+    return () => clearTimeout(timer);
   }, [data]);
 
   // TOC SCROLL
   useEffect(() => {
     const handleClick = (e) => {
-      const link = e.target.closest(
-        '.toc-content a[href^="#"]'
-      );
+      const link = e.target.closest('.toc-content a[href^="#"]');
 
       if (!link) return;
 
       e.preventDefault();
 
-      const href =
-        link.getAttribute("href");
+      const href = link.getAttribute("href");
 
       if (!href) return;
 
@@ -130,12 +99,9 @@ const SpecializationDetails = () => {
         .replace(/[^\w\s-]/gi, "")
         .replace(/\s+/g, "-");
 
-      const element =
-        document.querySelector(
-          `.specialization-content #${CSS.escape(
-            id
-          )}`
-        );
+      const element = document.querySelector(
+        `.specialization-content #${CSS.escape(id)}`,
+      );
 
       if (element) {
         element.scrollIntoView({
@@ -150,24 +116,14 @@ const SpecializationDetails = () => {
           });
         }, 300);
 
-        window.history.replaceState(
-          null,
-          "",
-          href
-        );
+        window.history.replaceState(null, "", href);
       }
     };
 
-    document.addEventListener(
-      "click",
-      handleClick
-    );
+    document.addEventListener("click", handleClick);
 
     return () => {
-      document.removeEventListener(
-        "click",
-        handleClick
-      );
+      document.removeEventListener("click", handleClick);
     };
   }, []);
 
@@ -176,8 +132,7 @@ const SpecializationDetails = () => {
     if (!data) return;
 
     const timer = setTimeout(() => {
-      const hash =
-        window.location.hash;
+      const hash = window.location.hash;
 
       if (!hash) return;
 
@@ -189,12 +144,9 @@ const SpecializationDetails = () => {
         .replace(/[^\w\s-]/gi, "")
         .replace(/\s+/g, "-");
 
-      const element =
-        document.querySelector(
-          `.specialization-content #${CSS.escape(
-            id
-          )}`
-        );
+      const element = document.querySelector(
+        `.specialization-content #${CSS.escape(id)}`,
+      );
 
       if (element) {
         element.scrollIntoView({
@@ -211,83 +163,47 @@ const SpecializationDetails = () => {
       }
     }, 800);
 
-    return () =>
-      clearTimeout(timer);
+    return () => clearTimeout(timer);
   }, [data]);
 
   // FORMAT CONTENT
-  const formattedContent =
-    data?.disc
+  const formattedContent = data?.disc
 
-      // IMAGE FIX
-      ?.replace(
-        /src="(?!https?:\/\/|data:|blob:)(.*?)"/g,
-        (match, path) => {
-          const cleanPath =
-            path.replace(
-              /^\/+/,
-              ""
-            );
+    // IMAGE FIX
+    ?.replace(/src="(?!https?:\/\/|data:|blob:)(.*?)"/g, (match, path) => {
+      const cleanPath = path.replace(/^\/+/, "");
 
-          return `src="${BASE_URL}/${cleanPath}"`;
-        }
-      )
+      return `src="${BASE_URL}/${cleanPath}"`;
+    })
 
-      // REMOVE WIDTH HEIGHT
-      .replace(
-        /width="[^"]*"/g,
-        ""
-      )
+    // REMOVE WIDTH HEIGHT
+    .replace(/width="[^"]*"/g, "")
 
-      .replace(
-        /height="[^"]*"/g,
-        ""
-      )
+    .replace(/height="[^"]*"/g, "")
 
-      // REMOVE EMPTY PARAGRAPHS
-      .replace(
-        /<p>\s*<\/p>/g,
-        ""
-      )
+    // REMOVE EMPTY PARAGRAPHS
+    .replace(/<p>\s*<\/p>/g, "")
 
-      // FAQ FIX — question + answer both inside one <li>, keeps number inline
-      .replace(
-        /<li>\s*<p>([\s\S]*?)<\/p>\s*<p>([\s\S]*?)<\/p>/gi,
-        "<li><strong>$1</strong><span>$2</span>"
-      )
+    // FAQ FIX — question + answer both inside one <li>, keeps number inline
+    .replace(
+      /<li>\s*<p>([\s\S]*?)<\/p>\s*<p>([\s\S]*?)<\/p>/gi,
+      "<li><strong>$1</strong><span>$2</span>",
+    )
 
-      // FAQ FIX — single <p> inside <li>
-      .replace(
-        /<li>\s*<p>(.*?)<\/p>/gis,
-        "<li><span>$1</span>"
-      )
+    // FAQ FIX — single <p> inside <li>
+    .replace(/<li>\s*<p>(.*?)<\/p>/gis, "<li><span>$1</span>")
 
-      // Remaining <p> → <span>
-      .replace(
-        /<p>(.*?)<\/p>/gis,
-        "<span>$1</span>"
-      )
+    // Remaining <p> → <span>
+    .replace(/<p>(.*?)<\/p>/gis, "<span>$1</span>")
 
-      .replace(
-        /<\/span>\s*<span>/g,
-        " "
-      )
+    .replace(/<\/span>\s*<span>/g, " ")
 
-      .replace(
-        /<li>\s*<br\s*\/?>/g,
-        "<li>"
-      )
+    .replace(/<li>\s*<br\s*\/?>/g, "<li>")
 
-      // RESPONSIVE TABLE
-      .replace(
-        /<table/g,
-        '<div class="overflow-x-auto"><table'
-      )
+    // RESPONSIVE TABLE
+    .replace(/<table/g, '<div class="overflow-x-auto"><table')
 
-      .replace(
-        /<\/table>/g,
-        "</table></div>"
-      );
+    .replace(/<\/table>/g, "</table></div>");
 
   // LOADING
   if (loading) {
@@ -296,9 +212,7 @@ const SpecializationDetails = () => {
         <div className="text-center">
           <div className="w-14 h-14 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
 
-          <p className="text-lg font-semibold text-gray-700">
-            Loading...
-          </p>
+          <p className="text-lg font-semibold text-gray-700">Loading...</p>
         </div>
       </div>
     );
@@ -307,41 +221,34 @@ const SpecializationDetails = () => {
   // NO DATA
   if (!data) {
     return (
-      <p className="text-center py-20 text-lg font-semibold">
-        Data not found
-      </p>
+      <p className="text-center py-20 text-lg font-semibold">Data not found</p>
     );
   }
 
-
   const getImageUrl = (img) => {
-  if (!img) return "";
+    if (!img) return "";
 
-  if (img.startsWith("http")) {
-    return img;
-  }
+    if (img.startsWith("http")) {
+      return img;
+    }
 
-  return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+    return `${import.meta.env.VITE_FILE_BASE_URL}/${img}`;
+  };
 
-};
-
-console.log(data);
+  console.log(data);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <SEO
-  title={data?.specialize_name}
-  description={
-    data?.disc
-      ?.replace(/<[^>]+>/g, "")
-      ?.replace(/\s+/g, " ")
-      ?.trim()
-      ?.slice(0, 160)
-  }
-  keywords={data?.specialize_name}
-  canonical={`https://collegedrishti.com/specialization/${data?.slug}`}
-  image={getImageUrl(data?.image)}
-/>
+        type="specialization"
+        fallbackTitle={data?.specialize_name}
+        fallbackDescription={data?.disc
+          ?.replace(/<[^>]+>/g, "")
+          ?.replace(/\s+/g, " ")
+          ?.trim()
+          ?.slice(0, 160)}
+        image={getImageUrl(data?.image)}
+      />
       {/* DESKTOP HEADER */}
       <div className="hidden md:block">
         <Header />
@@ -360,9 +267,7 @@ console.log(data);
             {/* TITLE */}
             <div className="mb-8">
               <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold leading-tight bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                {
-                  data.specialize_name
-                }
+                {data.specialize_name}
               </h1>
 
               <div className="w-20 h-1 bg-blue-600 mt-4 rounded-full"></div>
@@ -373,9 +278,7 @@ console.log(data);
               <div className="w-full mb-8">
                 <img
                   src={getImageUrl(data.image)}
-                  alt={
-                    data.specialize_name
-                  }
+                  alt={data.specialize_name}
                   className="w-full h-auto rounded-xl object-cover shadow-sm"
                   loading="lazy"
                 />
@@ -392,8 +295,7 @@ console.log(data);
                 <div
                   className="toc-content [&_a]:text-blue-600 [&_a]:underline [&_a]:cursor-pointer"
                   dangerouslySetInnerHTML={{
-                    __html:
-                      data.table_con,
+                    __html: data.table_con,
                   }}
                 />
               </div>
@@ -402,9 +304,7 @@ console.log(data);
             {/* DESCRIPTION */}
             {formattedContent && (
               <div
-                suppressHydrationWarning={
-                  true
-                }
+                suppressHydrationWarning={true}
                 className="
                   specialization-content
                   mt-8 md:mt-10
@@ -505,8 +405,7 @@ console.log(data);
                   [&_td]:p-3
                 "
                 dangerouslySetInnerHTML={{
-                  __html:
-                    formattedContent,
+                  __html: formattedContent,
                 }}
               />
             )}

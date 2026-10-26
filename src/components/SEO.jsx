@@ -73,7 +73,8 @@ function getSeoMeta (type, rawSlug) {
 export default function SEO ({
   type,
   fallbackTitle = 'College Drishti',
-  fallbackDescription = ''
+  fallbackDescription = '',
+  image
 }) {
   const { slug } = useParams()
 
@@ -89,23 +90,7 @@ export default function SEO ({
    *
    * type + URL slug
    */
-  const entry = getSeoMeta(type, slug)
-
-  /**
-   * If metadata does not exist,
-   * render fallback SEO.
-   */
-  if (!entry) {
-    return (
-      <Helmet>
-        <title>{fallbackTitle}</title>
-
-        {fallbackDescription && (
-          <meta name='description' content={fallbackDescription} />
-        )}
-      </Helmet>
-    )
-  }
+  const entry = getSeoMeta(type, slug) || {}
 
   /**
    * Build canonical URL.
@@ -117,7 +102,7 @@ export default function SEO ({
    *
    * https://collegedrishti.com/specialization/mba-in-finance
    */
-  const url = `${SITE_URL}/${type}/${entry.slug}`
+  const url = entry.canonical || `${SITE_URL}/${type}/${entry.slug || encodeURIComponent(slug || '')}`
 
   /**
    * Use fallback values if a particular
@@ -127,7 +112,7 @@ export default function SEO ({
 
   const description = entry.description || fallbackDescription
 
-  console.log('SEO entry', type, slug, entry)
+  const seoImage = entry.image || image
 
   return (
     <Helmet>
@@ -156,7 +141,7 @@ export default function SEO ({
       <meta property='og:url' content={url} />
 
       {/* Optional image */}
-      {entry.image && <meta property='og:image' content={entry.image} />}
+      {seoImage && <meta property='og:image' content={seoImage} />}
 
       {/* =========================
           TWITTER / X
@@ -168,7 +153,7 @@ export default function SEO ({
 
       {description && <meta name='twitter:description' content={description} />}
 
-      {entry.image && <meta name='twitter:image' content={entry.image} />}
+      {seoImage && <meta name='twitter:image' content={seoImage} />}
     </Helmet>
   )
 }

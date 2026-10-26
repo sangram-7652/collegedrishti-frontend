@@ -3,6 +3,8 @@
 // Keys are the URL slugs exactly as they appear in the sheet.
 // Lookup is case-insensitive (see src/components/Seo.jsx), so /course/bca and /course/BCA both work.
 
+import { specializationSeo } from "./specializationSeo";
+
 export const SITE_URL = "https://collegedrishti.com";
 
 export const seoMeta = {
@@ -49,7 +51,8 @@ export const seoMeta = {
         "Explore B.Tech courses including WILP programs for working professionals. Compare fees, eligibility, specializations & top AICTE-approved colleges for 2026.",
     },
     "diploma-civil-engineering": {
-      title: "Diploma in Civil Engineering (CE) Course | Fees, Eligibility & Admission",
+      title:
+        "Diploma in Civil Engineering (CE) Course | Fees, Eligibility & Admission",
       description:
         "Check Diploma in Civil Engineering course details: eligibility after 10th, fees, duration, syllabus & top polytechnic colleges in India. Admission open 2026!",
     },
@@ -114,7 +117,8 @@ export const seoMeta = {
         "Explore M.Des courses: eligibility, fees, entrance exams & specializations in UX, product & communication design. Compare top design colleges in India for 2026.",
     },
     bba: {
-      title: "Online BBA Degree Courses in 2026: Eligibility, Fees, & Admission",
+      title:
+        "Online BBA Degree Courses in 2026: Eligibility, Fees, & Admission",
       description:
         "Compare Online BBA courses from UGC-entitled universities. Check fees (from ₹25K/year), eligibility, specializations & career scope. Admission open for 2026!",
     },
@@ -129,7 +133,8 @@ export const seoMeta = {
         "Compare one year MBA programs online from top universities. Check fees, eligibility, salary outlook & admission 2026. Fast-track your career – apply now!",
     },
     MTech: {
-      title: "Master of Technology (M.Tech.) 2026 | Fees, Duration & Eligibility",
+      title:
+        "Master of Technology (M.Tech.) 2026 | Fees, Duration & Eligibility",
       description:
         "Explore WILP M.Tech programs for working professionals: weekend/online classes, fees, specializations & AICTE-approved universities. Apply for admission 2026!",
     },
@@ -439,4 +444,7 @@ export const seoMeta = {
 
 // Keep the default export at the BOTTOM: exporting `seoMeta` before the const is
 // declared causes "ReferenceError: Cannot access 'seoMeta' before initialization".
+// Apply the current sheet while retaining specialization pages absent from it.
+Object.assign(seoMeta.specialization, specializationSeo);
+
 export default seoMeta;
