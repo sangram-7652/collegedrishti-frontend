@@ -124,10 +124,10 @@ export default function ContactHero() {
             </p>
 
             <a
-              href="tel:+919205780885"
+              href="tel:+919217310430"
               className="text-blue-600 font-semibold text-[20px] hover:underline"
             >
-              +91 92057 80885
+              +91 92173 10430
             </a>
 
             <p className="text-gray-500 mt-3 text-[15px]">
