@@ -72,6 +72,10 @@ function getSeoMeta (type, rawSlug) {
  */
 export default function SEO ({
   type,
+  title: pageTitle,
+  description: pageDescription,
+  keywords,
+  canonical: pageCanonical,
   fallbackTitle = 'College Drishti',
   fallbackDescription = '',
   image
@@ -81,7 +85,9 @@ export default function SEO ({
   /**
    * Only allow supported SEO types.
    */
-  if (type !== 'course' && type !== 'specialization') {
+  const isDynamicPage = Boolean(pageTitle || pageDescription || pageCanonical)
+
+  if (!isDynamicPage && type !== 'course' && type !== 'specialization') {
     return null
   }
 
@@ -102,15 +108,17 @@ export default function SEO ({
    *
    * https://collegedrishti.com/specialization/mba-in-finance
    */
-  const url = entry.canonical || `${SITE_URL}/${type}/${entry.slug || encodeURIComponent(slug || '')}`
+  const url = pageCanonical || entry.canonical || (type
+    ? `${SITE_URL}/${type}/${entry.slug || encodeURIComponent(slug || '')}`
+    : undefined)
 
   /**
    * Use fallback values if a particular
    * metadata field is missing.
    */
-  const title = entry.title || fallbackTitle
+  const title = pageTitle || entry.title || fallbackTitle
 
-  const description = entry.description || fallbackDescription
+  const description = pageDescription || entry.description || fallbackDescription
 
   const seoImage = entry.image || image
 
@@ -124,13 +132,15 @@ export default function SEO ({
 
       {description && <meta name='description' content={description} />}
 
+      {keywords && <meta name='keywords' content={keywords} />}
+
       <link rel='canonical' href={url} />
 
       {/* =========================
           OPEN GRAPH
       ========================= */}
 
-      <meta property='og:type' content='website' />
+      <meta property='og:type' content={type === 'blog' ? 'article' : 'website'} />
 
       <meta property='og:site_name' content='College Drishti' />
 
@@ -138,10 +148,11 @@ export default function SEO ({
 
       {description && <meta property='og:description' content={description} />}
 
-      <meta property='og:url' content={url} />
+      {url && <meta property='og:url' content={url} />}
 
       {/* Optional image */}
       {seoImage && <meta property='og:image' content={seoImage} />}
+      {seoImage && <meta property='og:image:alt' content={title} />}
 
       {/* =========================
           TWITTER / X

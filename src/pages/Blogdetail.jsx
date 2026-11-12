@@ -291,6 +291,7 @@ const BlogDetail = () => {
   return (
     <>
       <SEO
+  type="blog"
   title={blog.title}
   description={blog.meta_dis?.replace(/<[^>]*>/g, "")}
   keywords={blog.tags?.replace(/\n/g, ",")}
