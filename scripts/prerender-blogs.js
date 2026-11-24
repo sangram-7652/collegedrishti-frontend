@@ -5,6 +5,10 @@ const apiBaseUrl = "https://api.collegedrishti.com/api";
 const siteUrl = "https://collegedrishti.com";
 const distDirectory = path.resolve("dist");
 const templatePath = path.join(distDirectory, "index.html");
+const collegeSearchTitle =
+  "College Search – Find the Best Colleges & Universities | College Drishti";
+const collegeSearchDescription =
+  "Explore and compare colleges in India with College Drishti. Find colleges based on courses, fees, location, eligibility, and admission details.";
 
 function escapeHtml(value = "") {
   return String(value).replace(
@@ -54,6 +58,24 @@ if (!result.success || !Array.isArray(result.data)) {
     "Blog API returned an invalid response; metadata pages were not generated.",
   );
 }
+
+const collegeSearchHtml = template
+  .replace(/<title>.*?<\/title>/is, "")
+  .replace(
+    "</head>",
+    `    <title>${escapeHtml(collegeSearchTitle)}</title>\n` +
+      `    ${metaTag("name", "description", collegeSearchDescription)}\n` +
+      `    <link rel="canonical" href="${siteUrl}/CollegeSearchPage">\n` +
+      `    ${metaTag("property", "og:title", collegeSearchTitle)}\n` +
+      `    ${metaTag("property", "og:description", collegeSearchDescription)}\n` +
+      `    ${metaTag("property", "og:url", `${siteUrl}/CollegeSearchPage`)}\n` +
+      `    ${metaTag("name", "twitter:title", collegeSearchTitle)}\n` +
+      `    ${metaTag("name", "twitter:description", collegeSearchDescription)}\n` +
+      "  </head>",
+  );
+const collegeSearchDirectory = path.join(distDirectory, "CollegeSearchPage");
+await mkdir(collegeSearchDirectory, { recursive: true });
+await writeFile(path.join(collegeSearchDirectory, "index.html"), collegeSearchHtml);
 
 for (const blog of result.data) {
   if (

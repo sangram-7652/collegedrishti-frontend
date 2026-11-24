@@ -55,7 +55,7 @@ const getImageUrl = (img) => {
                     href={news.link || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                   className={`flex-shrink-0 w-[85%] md:w-auto bg-white rounded-xl overflow-hidden border border-gray-200 
+                   className={`shrink-0 w-[85%] md:w-auto bg-white rounded-xl overflow-hidden border border-gray-200 
                       transition-all duration-300 ease-in-out text-left block
                       ${index === 1 ? "shadow-2xl scale-[1.02]" : "shadow-md"}
                       hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.02]`}
@@ -76,16 +76,16 @@ const getImageUrl = (img) => {
                         <CalendarIcon className="w-4 h-4 mr-1" />
                         <span>
                           {news.created_at
-                            ? new Date(news.created_at).toLocaleDateString()
+                            ? new Date(news.created_at).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              })
                             : ""}
                         </span>
                       </div>
 
-                      <p className="text-[13px] text-gray-500 leading-snug">
-                        {news.link?.includes("outlook")
-                          ? "Featured on Outlook India"
-                          : "Looking for an amazing & well-functional LearnPress WordPress Theme?..."}
-                      </p>
+                    
                     </div>
                   </a>
             );
